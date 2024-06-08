@@ -4216,16 +4216,16 @@
 
 
     let chatsetup = 0
-    let HOST = location.origin.replace(/^https/, 'ws')
+    let HOST = location.origin.replace(/^http/, 'ws')
 
     // Check if the page is served over HTTP or HTTPS
-    // if (location.protocol === 'http:' || location.protocol === 'https:') {
-    //   // If served over HTTP or HTTPS, replace the protocol with 'ws'
-    //   HOST = location.origin.replace(/^http/, 'ws');
-    // } else {
-    //   // If served over any other protocol (e.g., 'file'), use a default WebSocket URL
-    //   HOST = 'ws://example.com'; // Replace 'example.com' with your WebSocket server URL
-    // }
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      // If served over HTTP or HTTPS, replace the protocol with 'ws'
+      HOST = location.origin.replace(/^http/, 'ws');
+    } else {
+      // If served over any other protocol (e.g., 'file'), use a default WebSocket URL
+      HOST = 'ws://example.com'; // Replace 'example.com' with your WebSocket server URL
+    }
 
 
     ws = new WebSocket(HOST);
