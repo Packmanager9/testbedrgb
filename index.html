@@ -4468,6 +4468,7 @@
     guy2.body.y = 1970 * 2
     let players = [missileaneous]
     champids.push(missileaneous.id)
+    champtimes.push(20)
     // champids.push(guy.id)
     // champids.push(guy2.id)
     let walls = []
@@ -4743,6 +4744,8 @@
             // guy2z.body.x += k
             guyz.body.x += k
             players.push(guyz)
+            champids.push(guyz.id)
+            champtimes.push(20)
             // players.push(guy2z)
           }
         }
@@ -4759,6 +4762,8 @@
             // guyz.body.x += k
             // players.push(guyz)
             players.push(guy2z)
+            champids.push(guy2z.id)
+            champtimes.push(20)
           }
         }
       }
