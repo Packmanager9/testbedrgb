@@ -4246,6 +4246,8 @@
                 if (!guy.activeArts) {
                   guy.activeArts = []
                 }
+              }else{
+                return
               }
               let junk = [...guy.activeArts]
               // //////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
@@ -4549,7 +4551,7 @@
 
 
      missileaneous = new Champ(Math.floor(Math.random() * 4), teams[0])
-     
+
     if (wet == 1) {
       missileaneous.body.x += 850 * 2
       missileaneous.body.y += 1050 * 2
