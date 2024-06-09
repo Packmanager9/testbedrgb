@@ -4101,108 +4101,7 @@
       return 50
     }
 
-    let topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "blue") }
-    let botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
-    let wet = 0
-    let spawner = 2
-    if (Math.random() < .5) {
-      spawner = 1
-      wet = 1
-    }
-
-    topTeam.health = 100
-    botTeam.health = 100
-    botTeam.reward = genericReward
-    topTeam.maxhealth = topTeam.health
-    botTeam.maxhealth = botTeam.health
-    topTeam.reward = genericReward
-
-    let teams = [topTeam, botTeam]
-    if (wet == 1) {
-      teams = [botTeam, topTeam]
-    }
-
-
-    let missileaneous = new Champ(Math.floor(Math.random() * 4), teams[0])
-    if (wet == 1) {
-      missileaneous.body.x += 850 * 2
-      missileaneous.body.y += 1050 * 2
-      canvas_context.translate(-850 * 2, -1050 * 2)
-      translator.x -= 850 * 2
-      translator.y -= 1050 * 2
-      // missileaneous.team.top = 0
-      // missileaneous.team.bot = 1
-      // missileaneous.team.top = 1
-      // missileaneous.team.bot = 0
-    }
-
-    let sluggernaut = new Champ(1, topTeam)
-    let psybean = new Champ(0, topTeam)
-    let pomao = new Champ(2, topTeam)
-    let guy = new Champ(-1, topTeam)
-    let guy2 = new Champ(-1, botTeam)
-    guy2.body.x = 1920 * 2
-    guy2.body.y = 1970 * 2
-    let players = [missileaneous]
-    champids.push(missileaneous.id)
-    // champids.push(guy.id)
-    // champids.push(guy2.id)
-    let walls = []
-    let xWallRight1 = new WallSpike(new Point(1358, 858), 200, 0, "red")
-    let xWallLeft1 = new WallSpike(new Point(1358, 858), 200, Math.PI, "red")
-    walls.push(xWallRight1)
-    walls.push(xWallLeft1)
-    let xWallRight2 = new WallSpike(new Point(816, 1340), 200, 0, "red")
-    let xWallLeft2 = new WallSpike(new Point(816, 1340), 200, Math.PI, "red")
-    walls.push(xWallRight2)
-    walls.push(xWallLeft2)
-    let xWallRight3 = new WallSpike(new Point(1832, 1388), 200, 0, "red")
-    let xWallLeft3 = new WallSpike(new Point(1832, 1388), 200, Math.PI, "red")
-    walls.push(xWallRight3)
-    walls.push(xWallLeft3)
-    let xWallRight4 = new WallSpike(new Point(1288, 1872), 200, 0, "red")
-    let xWallLeft4 = new WallSpike(new Point(1288, 1872), 200, Math.PI, "red")
-    walls.push(xWallRight4)
-    walls.push(xWallLeft4)
-
-
-    let zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
-    walls.push(zWallTop1)
-    let zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
-    walls.push(zWallTop2)
-    let zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
-    walls.push(zWallTop3)
-
-
-    let yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "red")
-    walls.push(yWallBottom1)
-    let yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "red")
-    walls.push(yWallBottom2)
-    let yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .075, "red")
-    walls.push(yWallBottom3)
-
-
-
-    let wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .075, "red")
-    walls.push(wWallRight1)
-    let wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "red")
-    walls.push(wWallRight2)
-    let wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "red")
-    walls.push(wWallRight3)
-
-
-    let qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
-    walls.push(qWallRight1)
-    let qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
-    walls.push(qWallRight2)
-    let qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
-    walls.push(qWallRight3)
-
-    for (let t = 0; t < walls.length; t++) {
-      walls[t].track.x *= 2
-      walls[t].track.y *= 2
-      walls[t].radius *= 2
-    }
+    let teamMaker = -1
 
     let wodmap = new Image()
     wodmap.src = "https://ditzbitz.com/wodmap3.png"
@@ -4504,10 +4403,266 @@
 
     }
 
-    // })
 
+
+
+    let topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "blue") }
+    let  botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
+     let wet = 0
+     let spawner = 2
+    if (Math.random() < 0) {
+      spawner = 1
+      wet = 1
+    }
+
+    topTeam.health = 100
+    botTeam.health = 100
+    botTeam.reward = genericReward
+    topTeam.maxhealth = topTeam.health
+    botTeam.maxhealth = botTeam.health
+    topTeam.reward = genericReward
+
+     teams = [topTeam, botTeam]
+    if (wet == 1) {
+      teams = [botTeam, topTeam]
+    }
+
+
+    let missileaneous = new Champ(Math.floor(Math.random() * 4), teams[0])
+    if (wet == 1) {
+      missileaneous.body.x += 850 * 2
+      missileaneous.body.y += 1050 * 2
+      canvas_context.translate(-850 * 2, -1050 * 2)
+      translator.x -= 850 * 2
+      translator.y -= 1050 * 2
+      // missileaneous.team.top = 0
+      // missileaneous.team.bot = 1
+      // missileaneous.team.top = 1
+      // missileaneous.team.bot = 0
+    }
+
+    let sluggernaut = new Champ(1, topTeam)
+     let psybean = new Champ(0, topTeam)
+     let pomao = new Champ(2, topTeam)
+     let guy = new Champ(-1, topTeam)
+     let guy2 = new Champ(-1, botTeam)
+    guy2.body.x = 1920 * 2
+    guy2.body.y = 1970 * 2
+    let players = [missileaneous]
+    champids.push(missileaneous.id)
+    // champids.push(guy.id)
+    // champids.push(guy2.id)
+    let walls = []
+     let  xWallRight1 = new WallSpike(new Point(1358, 858), 200, 0, "red")
+     let  xWallLeft1 = new WallSpike(new Point(1358, 858), 200, Math.PI, "red")
+    walls.push(xWallRight1)
+    walls.push(xWallLeft1)
+    let  xWallRight2 = new WallSpike(new Point(816, 1340), 200, 0, "red")
+     let xWallLeft2 = new WallSpike(new Point(816, 1340), 200, Math.PI, "red")
+    walls.push(xWallRight2)
+    walls.push(xWallLeft2)
+    let    xWallRight3 = new WallSpike(new Point(1832, 1388), 200, 0, "red")
+     let    xWallLeft3 = new WallSpike(new Point(1832, 1388), 200, Math.PI, "red")
+    walls.push(xWallRight3)
+    walls.push(xWallLeft3)
+    let    xWallRight4 = new WallSpike(new Point(1288, 1872), 200, 0, "red")
+     let     xWallLeft4 = new WallSpike(new Point(1288, 1872), 200, Math.PI, "red")
+    walls.push(xWallRight4)
+    walls.push(xWallLeft4)
+
+
+    let   zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    walls.push(zWallTop1)
+    let   zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    walls.push(zWallTop2)
+    let   zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    walls.push(zWallTop3)
+
+
+    let   yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "red")
+    walls.push(yWallBottom1)
+    let   yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "red")
+    walls.push(yWallBottom2)
+    let   yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .075, "red")
+    walls.push(yWallBottom3)
+
+
+
+    let   wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .075, "red")
+    walls.push(wWallRight1)
+    let   wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "red")
+    walls.push(wWallRight2)
+    let   wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "red")
+    walls.push(wWallRight3)
+
+
+    let  qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    walls.push(qWallRight1)
+    let  qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    walls.push(qWallRight2)
+    let qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    walls.push(qWallRight3)
+
+    for ( t = 0; t < walls.length; t++) {
+      walls[t].track.x *= 2
+      walls[t].track.y *= 2
+      walls[t].radius *= 2
+    }
+
+
+
+
+    // })
+   function remakeWorld(teammakerDrop){
+
+
+     topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "blue") }
+     botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
+     wet = 0
+     spawner = 2
+    if (Math.random() < teammakerDrop) {
+      spawner = 1
+      wet = 1
+    }
+
+    topTeam.health = 100
+    botTeam.health = 100
+    botTeam.reward = genericReward
+    topTeam.maxhealth = topTeam.health
+    botTeam.maxhealth = botTeam.health
+    topTeam.reward = genericReward
+
+     teams = [topTeam, botTeam]
+    if (wet == 1) {
+      teams = [botTeam, topTeam]
+    }
+
+
+     missileaneous = new Champ(Math.floor(Math.random() * 4), teams[0])
+    if (wet == 1) {
+      missileaneous.body.x += 850 * 2
+      missileaneous.body.y += 1050 * 2
+      canvas_context.translate(-850 * 2, -1050 * 2)
+      translator.x -= 850 * 2
+      translator.y -= 1050 * 2
+      // missileaneous.team.top = 0
+      // missileaneous.team.bot = 1
+      // missileaneous.team.top = 1
+      // missileaneous.team.bot = 0
+    }
+
+     sluggernaut = new Champ(1, topTeam)
+     psybean = new Champ(0, topTeam)
+     pomao = new Champ(2, topTeam)
+     guy = new Champ(-1, topTeam)
+     guy2 = new Champ(-1, botTeam)
+    guy2.body.x = 1920 * 2
+    guy2.body.y = 1970 * 2
+     players = [missileaneous]
+    champids.push(missileaneous.id)
+    // champids.push(guy.id)
+    // champids.push(guy2.id)
+     walls = []
+     xWallRight1 = new WallSpike(new Point(1358, 858), 200, 0, "red")
+     xWallLeft1 = new WallSpike(new Point(1358, 858), 200, Math.PI, "red")
+    walls.push(xWallRight1)
+    walls.push(xWallLeft1)
+     xWallRight2 = new WallSpike(new Point(816, 1340), 200, 0, "red")
+     xWallLeft2 = new WallSpike(new Point(816, 1340), 200, Math.PI, "red")
+    walls.push(xWallRight2)
+    walls.push(xWallLeft2)
+     xWallRight3 = new WallSpike(new Point(1832, 1388), 200, 0, "red")
+     xWallLeft3 = new WallSpike(new Point(1832, 1388), 200, Math.PI, "red")
+    walls.push(xWallRight3)
+    walls.push(xWallLeft3)
+     xWallRight4 = new WallSpike(new Point(1288, 1872), 200, 0, "red")
+     xWallLeft4 = new WallSpike(new Point(1288, 1872), 200, Math.PI, "red")
+    walls.push(xWallRight4)
+    walls.push(xWallLeft4)
+
+
+     zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    walls.push(zWallTop1)
+     zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    walls.push(zWallTop2)
+     zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    walls.push(zWallTop3)
+
+
+     yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "red")
+    walls.push(yWallBottom1)
+     yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "red")
+    walls.push(yWallBottom2)
+     yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .075, "red")
+    walls.push(yWallBottom3)
+
+
+
+     wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .075, "red")
+    walls.push(wWallRight1)
+     wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "red")
+    walls.push(wWallRight2)
+     wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "red")
+    walls.push(wWallRight3)
+
+
+     qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    walls.push(qWallRight1)
+     qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    walls.push(qWallRight2)
+     qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    walls.push(qWallRight3)
+
+    for ( t = 0; t < walls.length; t++) {
+      walls[t].track.x *= 2
+      walls[t].track.y *= 2
+      walls[t].radius *= 2
+    }
+    }
+
+    let team0 = new Rectangle(0,0, 500,100, "red")
+    let team1 = new Rectangle(1280-500,0, 500,100, "blue")
+    let teammaker = -1
     function main() {
       canvas_context.clearRect(-1000, -1000, canvas.width * 10, canvas.height * 10)  // refreshes the image
+
+      if(teammaker == -1){
+        canvas_context.resetTransform()
+        translator.x = 0
+        translator.y = 0
+        team0.draw()
+        team1.draw()
+        canvas_context.fillStyle = "black"
+        canvas_context.font = "30px comic sans ms"
+        canvas_context.fillText("red team", 50,50)
+        canvas_context.fillText("blue team", 1280-450,50)
+        if(team0.isPointInside(TIP_engine)){
+          teammaker = 0
+        }
+        if(team1.isPointInside(TIP_engine)){
+          teammaker = 1
+        }
+        return
+      }else if(teammaker == 1){ 
+        canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+        translator.x = 0
+        translator.y = 0
+        translator.x += -360 - (1280 - (640 - 360))
+        translator.y += -360 - 720
+        remakeWorld(teammaker)
+        teammaker = 2
+      }else if(teammaker == 0){ 
+        canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+        translator.x = 0
+        translator.y = 0
+        translator.x += -360 - (1280 - (640 - 360))
+        translator.y += -360 - 720
+        remakeWorld(teammaker)
+        teammaker = 2
+      }
+
+
+
       canvas_context.drawImage(wodmap, 0, 0)
 
       // for (let t = players.length-1; t>=0; t--) {
