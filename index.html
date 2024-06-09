@@ -2830,6 +2830,7 @@
                 }
               json.packet = JSON.stringify(this.activeArts[t])
               this.activeArts[t].life = lum
+
               if (this.activeArts[t].root) {
                 if (this.activeArts[t].root.body) {
                   this.activeArts[t].root.body = sto
@@ -2883,7 +2884,7 @@
         for (let t = this.activeArts.length - 1; t >= 0; t--) {
 
           if (this.activeArts[t]) { } else { continue }
-          if (this.activeArts[t].life < 0) {
+          if (this.activeArts[t].life <= 0) {
             this.activeArts.splice(t, 1)
           }
         }
@@ -4471,7 +4472,7 @@
     guy2.body.y = 1970 * 2
     let players = [missileaneous]
     champids.push(missileaneous.id)
-    champtimes.push(20)
+    champtimes.push(2000000000)
     // champids.push(guy.id)
     // champids.push(guy2.id)
     let walls = []
@@ -4584,7 +4585,7 @@
     guy2.body.y = 1970 * 2
      players = [missileaneous]
     champids.push(missileaneous.id)
-    champtimes.push(20)
+    champtimes.push(2000000000)
     
     // champids.push(guy.id)
     // champids.push(guy2.id)
@@ -4748,7 +4749,7 @@
             guyz.body.x += k
             players.push(guyz)
             champids.push(guyz.id)
-            champtimes.push(20)
+            champtimes.push(2000000000)
             // players.push(guy2z)
           }
         }
@@ -4766,7 +4767,7 @@
             // players.push(guyz)
             players.push(guy2z)
             champids.push(guy2z.id)
-            champtimes.push(20)
+            champtimes.push(2000000000)
           }
         }
       }
