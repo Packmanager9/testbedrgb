@@ -2985,7 +2985,7 @@
             if (players[t].team.top != this.team.top) {
               let link = new LineOP(this.body, players[t].body)
               let h = link.hypotenuse()
-              if (h < min) {
+              if (h < min && h < 500) {
                 min = h
                 target = players[t]
                 wet = 1
@@ -3000,31 +3000,32 @@
               if (players[t].type != -1 && players[t].team.top != this.team.top) {
                 let link = new LineOP(this.body, players[t].body)
                 let h = link.hypotenuse()
-                if (h < min) {
+                if (h < min && h < 500) {
                   min = h
                   target = players[t]
                   wet = 1
                 }
               }
             }
+
+            for (let t = 0; t < teams.length; t++) {
+              if (teams[t].top != this.team.top) {
+                let link = new LineOP(this.body, teams[t].body)
+                let h = link.hypotenuse()
+                if (h < min ) {
+                  min = h
+                  target = teams[t]
+                  wet = 1
+                }
+              }
+            }
+            if (wet == 1) {
+              this.goal = target.body
+            }
             if (wet == 1) {
               this.goal = target.body
             } else {
 
-              for (let t = 0; t < teams.length; t++) {
-                if (teams[t].top != this.team.top) {
-                  let link = new LineOP(this.body, teams[t].body)
-                  let h = link.hypotenuse()
-                  if (h < min) {
-                    min = h
-                    target = teams[t]
-                    wet = 1
-                  }
-                }
-              }
-              if (wet == 1) {
-                this.goal = target.body
-              }
             }
           }
 
@@ -4690,23 +4691,23 @@
         translator.y = 0
         team0.draw()
         team1.draw()
-        if(guymaker == 0){
-        butguy1.draw()
+        if (guymaker == 0) {
+          butguy1.draw()
         }
-        if(guymaker == 1){
+        if (guymaker == 1) {
           butguy2.draw()
         }
-        if(guymaker == 2){
-        butguy3.draw()
+        if (guymaker == 2) {
+          butguy3.draw()
         }
-        if(guymaker == 3){
-        butguy4.draw()
+        if (guymaker == 3) {
+          butguy4.draw()
         }
 
-        canvas_context.drawImage(i1, 0,0,64,64,butguy1.x, butguy1.y, butguy1.width, butguy1.height)
-        canvas_context.drawImage(i2, 0,0,64,64,butguy2.x, butguy2.y, butguy2.width, butguy2.height)
-        canvas_context.drawImage(i3, 0,0,64,64,butguy3.x, butguy3.y, butguy3.width, butguy3.height)
-        canvas_context.drawImage(i4, 0,0,64,64,butguy4.x, butguy4.y, butguy4.width, butguy4.height)
+        canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
+        canvas_context.drawImage(i2, 0, 0, 64, 64, butguy2.x, butguy2.y, butguy2.width, butguy2.height)
+        canvas_context.drawImage(i3, 0, 0, 64, 64, butguy3.x, butguy3.y, butguy3.width, butguy3.height)
+        canvas_context.drawImage(i4, 0, 0, 64, 64, butguy4.x, butguy4.y, butguy4.width, butguy4.height)
 
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
@@ -4955,13 +4956,13 @@
           } else {
             let id = players[t].id
             players[t] = new Champ(guymaker, players[t].team)
-            if(teammakerz == 1){
+            if (teammakerz == 1) {
               canvas_context.resetTransform()
-        canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-        translator.x = 0
-        translator.y = 0
-        translator.x += -360 - (1280 - (640 - 360))
-        translator.y += -360 - 720
+              canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+              translator.x = 0
+              translator.y = 0
+              translator.x += -360 - (1280 - (640 - 360))
+              translator.y += -360 - 720
               players[t].body.x += 850 * 2
               players[t].body.y += 1050 * 2
               canvas_context.translate(-850 * 2, -1050 * 2)
