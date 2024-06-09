@@ -2107,12 +2107,12 @@
             if (trapper == 0) {
               if (pc1.length > 0) {
                 let l = new LineOP(pc1[0], circle)
-                circle.x -= Math.cos(l.angle()) * 2
-                circle.y -= Math.sin(l.angle()) * 2
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
               } else if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
-                circle.x -= Math.cos(l.angle()) * 2
-                circle.y -= Math.sin(l.angle()) * 2
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
               }
 
             } else {
@@ -2120,19 +2120,19 @@
               if (pc1.length > 0) {
                 let l = new LineOP(pc1[0], circle)
                 let a = l.angle()
-                circle.x -= Math.cos(a) * 2
-                circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                translator.x += Math.cos(a) * 3
+                translator.y += Math.sin(a) * 3
               } else if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
-                circle.x -= Math.cos(a) * 2
-                circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                translator.x += Math.cos(a) * 3
+                translator.y += Math.sin(a) * 3
               }
             }
             // }else  if(pc3.length > 0){
@@ -3520,7 +3520,7 @@
           d.growth = 1.3
           d.root = self.body
           d.maxDis = self.meleeRange
-          d.damage = 34
+          d.damage = 60
           d.collide = 1
           d.emptyOut = 1
           d.update = 1
@@ -3582,7 +3582,7 @@
         d.growth = 1.3
         d.root = self.body
         d.maxDis = 100
-        d.damage = 2
+        d.damage = 5
         d.update = 1
         d.name = "BoomSpike"
         self.activeArts.push(d)
@@ -3611,9 +3611,9 @@
           d.update = 1
           d.slow = .9
           d.collide = 1
-          d.damage = 5
+          d.damage = 15
           d.pop = 1
-          d.popdam = 1
+          d.popdam = 5
           d.poprays = 9
           d.poprate = 10
           d.popradius = 5
@@ -3645,10 +3645,10 @@
         shocher.life = lifeLength
         shocher.slow = .5
         shocher.collide = 1
-        shocher.damage = 55
+        shocher.damage = 255
         shocher.update = 1
         shocher.pop = 1
-        shocher.popdam = 5
+        shocher.popdam = 25
         shocher.poprays = 9
         shocher.poprate = 10
         shocher.popradius = 5
@@ -3674,10 +3674,10 @@
         shocher.life = lifeLength
         shocher.slow = .5
         shocher.collide = 1
-        shocher.damage = 75
+        shocher.damage = 175
         shocher.update = 1
         shocher.pop = 1
-        shocher.popdam = 4
+        shocher.popdam = 14
         shocher.poprays = 17
         shocher.poprate = 10
         shocher.popradius = 5
@@ -3704,7 +3704,7 @@
         d.grab = 1
         d.maxDis = 300
         d.follow = 1
-        d.damage = 7
+        d.damage = 8
         d.update = 1
         // d.tip = 1
         d.name = "TongueSpike"
@@ -3732,7 +3732,7 @@
           d.maxDis = 3000
           d.update = 1
           d.slow = .9
-          d.damage = .1
+          d.damage = .2
           distance += 3 - (t / 30)
           angle += (Math.PI + (Math.PI / 60))
           d.name = "Circle"
@@ -3742,7 +3742,7 @@
       }
       dropSlime(self) {
         self.slimeTime++
-        if (self.slimeTime % 4 == 0) {
+        if (self.slimeTime % 10 == 0) {
           let manaCost = 5
           if (self.mana < manaCost) {
             return
@@ -3755,8 +3755,8 @@
           // shocher.root = self.body
           shocher.life = lifeLength
           shocher.poison = 1
-          shocher.damage = .5
-          shocher.slow = .95
+          shocher.damage = 1.4
+          shocher.slow = .9
           shocher.update = 1
           self.activeArts.push(shocher)
         }
@@ -3795,7 +3795,7 @@
         let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FF000022")
         shocher2.growth = 1
         // shocher2.root = self.body
-        shocher2.damage = 2
+        shocher2.damage = 4
         shocher2.life = lifeLength
         shocher2.update = 1
         self.activeArts.push(shocher2)
@@ -3905,7 +3905,7 @@
           let shocher = new Circle(self.body.x, self.body.y, 85, "#FF000033")
           shocher.growth = 1
           shocher.root = self.body
-          shocher.damage = 2
+          shocher.damage = 3
           shocher.life = lifeLength
           shocher.update = 1
           shocher.bod = 1
@@ -3913,7 +3913,7 @@
           let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FFffFF22")
           shocher2.growth = 1
           shocher2.root = self.body
-          shocher2.damage = 2
+          shocher2.damage = 3
           shocher2.life = lifeLength
           shocher2.update = 1
           shocher2.bod = 1
@@ -3933,13 +3933,13 @@
           shocher.life = lifeLength
           shocher.update = 1
           shocher.bod = 1
-          shocher.damage = 2.5
+          shocher.damage = 3.5
           self.activeArts.push(shocher)
           let shocher2 = new Circle(self.body.x, self.body.y, 28, "#FFffFF22")
           shocher2.growth = 1.055
           shocher2.root = self.body
           shocher2.life = lifeLength
-          shocher2.damage = 2.5
+          shocher2.damage = 3.5
           shocher2.update = 1
           shocher2.bod = 1
           self.activeArts.push(shocher2)
@@ -3959,7 +3959,7 @@
         shocher.root = self.body
         shocher.life = lifeLength
         shocher.update = 1
-        shocher.damage = 20
+        shocher.damage = 25
         shocher.slow = .05
         shocher.bod = 1
         self.activeArts.push(shocher)
@@ -4077,7 +4077,7 @@
         d.growth = 1.25
         d.root = self.body
         d.maxDis = 150
-        d.damage = 3
+        d.damage = 5
         d.update = 1
         self.activeArts.push(d)
         self.cooldowns[1] = 40 * 10
