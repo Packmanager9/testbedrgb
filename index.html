@@ -4651,6 +4651,7 @@
         translator.y += -360 - 720
         remakeWorld(teammaker)
         teammaker = 2
+        return
       }else if(teammaker == 0){ 
         canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
         translator.x = 0
@@ -4659,18 +4660,20 @@
         translator.y += -360 - 720
         remakeWorld(teammaker)
         teammaker = 2
+        return
       }
 
 
 
       canvas_context.drawImage(wodmap, 0, 0)
 
-      // for (let t = players.length-1; t>=0; t--) {
-      //   if(players[t].type == -1){
-      //     players.splice(t,1)
-      //     champids.splice(t,1)
-      //   }
-      // }
+      for (let t = players.length-1; t>=0; t--) {
+        if(!players[t]){
+          players.splice(t,1)
+          champids.splice(t,1)
+          champtimes.splice(t,1)
+        }
+      }
 
       botTeam.body.draw()
       topTeam.body.draw()
