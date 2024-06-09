@@ -4170,6 +4170,9 @@
               box.id = JSON.parse(data).aid
 
               let guy = players[champids.indexOf(JSON.parse(data).champid)]
+              if(!guy){
+                return
+              }
               ////////console.log(guy, champids, JSON.parse(data).champid, champids.indexOf(JSON.parse(data).champid), players, box)
 
               //////////////console.log(JSON.parse(JSON.parse(data).packet).rootflag)
@@ -4182,6 +4185,7 @@
               //////////////console.log("d")
               // box.track.body = guy.body
               // }
+
               let list = []
               for (let s = 0; s < guy.activeArts.length; s++) {
                 if (guy.activeArts[s]) { } else { continue }
