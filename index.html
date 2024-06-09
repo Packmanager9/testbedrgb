@@ -4956,11 +4956,17 @@
             let id = players[t].id
             players[t] = new Champ(guymaker, players[t].team)
             if(teammakerz == 1){
+              canvas_context.resetTransform()
+        canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+        translator.x = 0
+        translator.y = 0
+        translator.x += -360 - (1280 - (640 - 360))
+        translator.y += -360 - 720
               players[t].body.x += 850 * 2
               players[t].body.y += 1050 * 2
               canvas_context.translate(-850 * 2, -1050 * 2)
-              translator.x -= 850 * 2
-              translator.y -= 1050 * 2
+              translator.x = 850 * 2
+              translator.y = 1050 * 2
             }
 
 
