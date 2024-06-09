@@ -3075,6 +3075,7 @@
               this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
               json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
               json.top = this.team.top
+              json.sleep = this.sleep
               json.packet = JSON.stringify(this) // pack message
               this.team.players = [...k] // recyclize team
               this.team = t// recyclize team
@@ -4328,6 +4329,7 @@
               guy.team = {}
               guy.team.players = []
               guy.team.top = JSON.parse(data).top
+              guy.sleep = JSON.parse(data).sleep
             if (guy) {
               if (!guy.activeArts) {
                 guy.activeArts = []
@@ -4365,6 +4367,7 @@
               guy.team = {}
               guy.team.players = []
               guy.team.top = JSON.parse(data).top
+              guy.sleep = JSON.parse(data).sleep
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
               for (let t = 0; t < k.length; t++) {
                 if ([k[t]] == "activeArts") {
