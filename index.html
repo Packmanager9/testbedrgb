@@ -4889,6 +4889,7 @@
             // players[t].body.y = 0
             players.splice(t, 1)
             champids.splice(t, 1)
+            champtimes.splice(t, 1)
           } else {
             let id = players[t].id
             players[t] = new Champ((players[t].type + 1) % 4, players[t].team)
