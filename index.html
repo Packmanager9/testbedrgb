@@ -3163,7 +3163,7 @@
               if (player.activeArts[t].slow <= 1) {
                 this.slowedByFloor *= player.activeArts[t].slow
               }
-              if(this.team.top == players[0].team.top){
+              if(this.team.top != player.team.top){
               this.health -= player.activeArts[t].damage
               }
 
