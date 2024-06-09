@@ -3062,6 +3062,7 @@
               json.y = this.body.y //positional y
               json.shield = this.shield //positional y
               json.id = this.id //id for lookup hits
+              json.top = this.team.top //id for lookup hits
               ws.send(JSON.stringify(json)) //send object to other players
             } else {
               json.champ = 1 //flag for character
@@ -3073,6 +3074,7 @@
               let t = this.team//decircularize team
               this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
               json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
+              json.top = this.team.top
               json.packet = JSON.stringify(this) // pack message
               this.team.players = [...k] // recyclize team
               this.team = t// recyclize team
@@ -3163,7 +3165,7 @@
               if (player.activeArts[t].slow <= 1) {
                 this.slowedByFloor *= player.activeArts[t].slow
               }
-              if(this.team.top != player.team.top){
+              if(this.team.top!= player.team.top){
               this.health -= player.activeArts[t].damage
               }
 
@@ -4317,6 +4319,9 @@
             // if (champids.indexOf(JSON.parse(data).id) > 0) {
             // ////////console.log(JSON.parse(data).id, players, champids)
             let guy = new Champ(-1, teams[1])
+              guy.team = {}
+              guy.team.players = []
+              guy.team.top = JSON.parse(data).top
             if (guy) {
               if (!guy.activeArts) {
                 guy.activeArts = []
@@ -4349,6 +4354,9 @@
               // //////////////////////console.log(teams[0], (JSON.parse(data)))
               //////////////////console.log(teams[0], ((JSON.parse(data).team*1)+0))
               let guy = new Champ(JSON.parse(JSON.parse(data).packet).type, teams[1])
+              guy.team = {}
+              guy.team.players = []
+              guy.team.top = JSON.parse(data).top
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
               for (let t = 0; t < k.length; t++) {
                 if ([k[t]] == "activeArts") {
@@ -4541,6 +4549,7 @@
 
 
      missileaneous = new Champ(Math.floor(Math.random() * 4), teams[0])
+     
     if (wet == 1) {
       missileaneous.body.x += 850 * 2
       missileaneous.body.y += 1050 * 2
