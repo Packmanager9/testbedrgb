@@ -1142,6 +1142,19 @@
         TIP_engine.y = YS_engine - translator.y
         TIP_engine.body = TIP_engine
 
+        if(storeUI1.shop == 1){
+          for(let t= 0;t<players[0].gear.length;t++){
+            players[0].gear[t].check(TIP_engine)
+          }
+          storeUI1.check(TIP_engine)
+        }
+        if(storeUI2.shop == 1){
+          for(let t= 0;t<players[0].gear.length;t++){
+            players[0].gear[t].check(TIP_engine)
+          }
+          storeUI2.check(TIP_engine)
+        }
+
 
         if (teammaker == -1) {
           if (butguy1.isPointInside(TIP_engine)) {
@@ -2419,17 +2432,119 @@
 
 
 
+    class StoreUI{
+      constructor(team){
+        this.root = team.body
+        this.shell = new Rectangle(this.root.x, this.root.y, 100,100, "gray")
+        this.buttons = [new Rectangle(this.shell.x, this.shell.y, 50,50, "white"), new Rectangle(this.shell.x+50, this.shell.y, 50,50, "tan"), new Rectangle(this.shell.x, this.shell.y, 50,50, "red"), new Rectangle(this.shell.x+50, this.shell.y+50, 50,50, "green")]
+      }
+      draw(){
+        this.shell.draw()
+        for(let t= 0;t<this.buttons.length;t++){
+          this.buttons[t].draw()
+        }
+      }
+      check(point){
+        for(let t= 0;t<this.buttons.length;t++){
+          if(this.buttons[t].isPointInside(point)){
+            if(players[0].gold >= 500){
+              if(players[0].gear[0].type == -1){
+              players[0].gear[0] = new Gear(t,players[0], 0)
+              players[0].gold-=500
+              continue
+            }else  if(players[0].gear[1].type == -1){
+              players[0].gear[1] = new Gear(t,players[0], 1)
+              players[0].gold-=500
+              continue
+            }else   if(players[0].gear[2].type == -1){
+              players[0].gear[2] = new Gear(t,players[0], 2)
+              players[0].gold-=500
+              continue
+            }else  if(players[0].gear[3].type == -1){
+              players[0].gear[3] = new Gear(t,players[0], 3)
+              players[0].gold-=500
+              continue
+            }
+            }
+          }
+      }
+      }
+    }
+
     class Gear {
       constructor(type, guy, index) {
         this.guy = guy
         this.type = type
         this.index = index
+          this.damage = 1
+          this.armor = 1
+          this.speed = 1
+          this.manaregen = 1
+          this.healthregen = 1
         if (this.type == -1) {
+          this.name = "Empty"
           return
         }
         if (this.type == 0) {
-          return
+          this.name = "Whumpump Tooth"
+          this.damage = 1.35
         }
+        if (this.type == 1) {
+          this.name = "Wrench Toast"
+          this.damage = 1.15
+          this.healthregen = 1.4
+        }
+        if (this.type == 2) {
+          this.name = "Wire Cutter"
+          this.damage = 1.25
+          this.armor = 1.25
+          this.speed = 1.025
+        }
+        if (this.type == 3) {
+          this.name = "Vitality Vestments"
+          this.healthregen = 1.5
+          this.speed = 1.025
+          this.manaregen = 1.2
+        }
+        // this.reset()
+        this.balance()
+      }
+        reset(){
+          this.guy.gaerboosts = {}
+          this.guy.gaerboosts.damage = 1
+          this.guy.gaerboosts.armor = 1
+          this.guy.gaerboosts.speed = 1
+          this.guy.gaerboosts.healthregen = 1
+          this.guy.gaerboosts.manaregen = 1
+        }
+        balance(){
+          this.guy.gaerboosts.damage *= this.damage
+          this.guy.gaerboosts.armor *= this.armor
+          this.guy.gaerboosts.speed *= this.speed
+          this.guy.gaerboosts.manaregen *= this.manaregen
+          this.guy.gaerboosts.healthregen *= this.healthregen
+        }
+      check(point){
+        this.x = (-translator.x) + (60 * this.index)
+        this.y = (-translator.y) + 660
+        this.box = new Rectangle(this.x, this.y, 60, 60, "gray")
+          if(this.type != -1){
+            if(this.box.isPointInside(point)){
+              if(storeUI1.shop == 1 || storeUI2.shop == 1){
+                this.type = -1
+                this.damage = 1
+                this.armor = 1
+                this.speed = 1
+                this.manaregen = 1
+                this.healthregen = 1
+                this.guy.gold += 500
+                if (this.type == -1) {
+                  this.name = "Empty"
+                  return
+                }
+              }
+            }
+          }
       }
       draw() {
         this.x = (-translator.x) + (60 * this.index)
@@ -2453,6 +2568,14 @@
 
     class Champ {
       constructor(type, team) {
+
+          this.gaerboosts = {}
+          this.gaerboosts.damage = 1
+          this.gaerboosts.armor = 1
+          this.gaerboosts.speed = 1
+          this.gaerboosts.healthregen = 1
+          this.gaerboosts.manaregen = 1
+
         this.activeArts = []
         this.id = Math.floor(Math.random() * 9000000)
         this.meleeRange = this.meleeRangeMaker(type)
@@ -2474,7 +2597,7 @@
           team.players.push(this)
         }
         this.type = type
-        this.gear = [new Gear(0, this, 0), new Gear(1, this, 1), new Gear(2, this, 2), new Gear(3, this, 3)]
+        this.gear = [new Gear(-1, this, 0), new Gear(-1, this, 1), new Gear(-1, this, 2), new Gear(-1, this, 3)]
         this.abilities = [this.power1(this.type), this.power2(this.type), this.power3(this.type), this.power4(this.type)]
         this.body = new Circle((1280 - (640 - 360)) * 2, 720 * 2, 32, "red")
         this.basicAttack = this.makeBasic()
@@ -2720,8 +2843,17 @@
         if (!champids.includes(this.id)) {
           champids.push(this.id)
         }
-        this.health += this.healthRegen
-        this.mana += this.manaRegen
+        for (let t = 0; t < this.gear.length; t++) {
+          this.gear[t].reset()
+        }
+        for (let t = 0; t < this.gear.length; t++) {
+          this.gear[t].balance()
+        }
+        if(this == players[0]){
+          console.log(this)
+        }
+        this.health += this.healthRegen*this.gaerboosts.healthregen
+        this.mana += this.manaRegen*this.gaerboosts.manaregen
 
         for (let t = 0; t < this.drops.length; t++) {
           if (this.drops[t].dirLock > 0) {
@@ -3149,7 +3281,7 @@
 
           } else {
             if (Math.abs(this.goal.x - this.body.x) + Math.abs(this.goal.y - this.body.y) > 2) {
-              for (let t = 0; t < ((this.speed + this.tempSpeed) * 2) * this.slowedByFloor; t++) {
+              for (let t = 0; t < ((((this.speed + this.tempSpeed) * 2) * this.slowedByFloor)*this.gaerboosts.speed); t++) {
                 let as = (new LineOP(this.goal, this.body)).angle()
                 this.body.x += Math.sign(this.goal.x - this.body.x) * .5 + ((Math.cos(as) / 5))
                 this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 5))
@@ -3291,7 +3423,7 @@
                 this.slowedByFloor *= player.activeArts[t].slow
               }
               if (this.team.top != player.team.top) {
-                this.health -= player.activeArts[t].damage
+                this.health -= (player.activeArts[t].damage*player.gaerboosts.damage)/this.gaerboosts.armor
               }
 
               if (this.health <= 0) {
@@ -4798,6 +4930,8 @@
     }
 
 
+    let  storeUI1 = new StoreUI(topTeam)
+    let  storeUI2 = new StoreUI(botTeam)
 
 
     // })
@@ -4806,6 +4940,12 @@
 
       topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "blue") }
       botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
+
+      storeUI1 = new StoreUI(topTeam)
+      storeUI2 = new StoreUI(botTeam)
+
+
+
       wet = 0
       spawner = 2
       if (Math.random() < teammakerDrop) {
@@ -4990,6 +5130,22 @@
 
       botTeam.body.draw()
       topTeam.body.draw()
+          storeUI1.shop = 0
+      if(players[0]){
+        let l = new LineOP(topTeam.body, players[0].body)
+        if(l.hypotenuse()< 250){
+          storeUI1.shop = 1
+          
+          storeUI1.draw()
+        }
+      }
+      if(players[0]){
+        let l = new LineOP(botTeam.body, players[0].body)
+        if(l.hypotenuse()< 250){
+          storeUI2.shop = 1
+          storeUI2.draw()
+        }
+      }
 
 
       if (topTeam.health < 0) {
