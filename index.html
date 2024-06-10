@@ -1764,14 +1764,14 @@
         let k2 = new Circle(this.x - (Math.cos(this.angle + .75) * this.radius), this.y - (Math.sin(this.angle + .75) * this.radius), 3, "white")
 
 
-        let l1 = new LineOP(p, k, "gray", 6)
+        let l1 = new LineOP(p, k, this.color, 6)
         l1.draw()
-        let l2 = new LineOP(m, k, "gray", 6)
+        let l2 = new LineOP(m, k, this.color, 6)
         l2.draw()
 
-        let f1 = new LineOP(p2, k2, "gray", 6)
+        let f1 = new LineOP(p2, k2, this.color, 6)
         f1.draw()
-        let f2 = new LineOP(m2, k2, "gray", 6)
+        let f2 = new LineOP(m2, k2, this.color, 6)
         f2.draw()
 
         k2.draw()
@@ -5043,36 +5043,36 @@
     walls.push(xWallLeft4)
 
 
-    let zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    let zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "pink")
     walls.push(zWallTop1)
-    let zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    let zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "magenta")
     walls.push(zWallTop2)
-    let zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
+    let zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "gray")
     walls.push(zWallTop3)
 
 
-    let yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "red")
+    let yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "green")
     walls.push(yWallBottom1)
-    let yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "red")
+    let yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "yellow")
     walls.push(yWallBottom2)
-    let yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .075, "red")
+    let yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .015, "purple")
     walls.push(yWallBottom3)
 
 
 
-    let wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .075, "red")
+    let wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .015, "red")
     walls.push(wWallRight1)
-    let wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "red")
+    let wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "orange")
     walls.push(wWallRight2)
-    let wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "red")
+    let wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "white")
     walls.push(wWallRight3)
 
 
-    let qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    let qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "chartreuse")
     walls.push(qWallRight1)
-    let qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    let qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "cyan")
     walls.push(qWallRight2)
-    let qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
+    let qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .52) + .075, "blue")
     walls.push(qWallRight3)
 
     for (t = 0; t < walls.length; t++) {
@@ -5166,37 +5166,37 @@
       walls.push(xWallLeft4)
 
 
-      zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
-      walls.push(zWallTop1)
-      zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
-      walls.push(zWallTop2)
-      zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "red")
-      walls.push(zWallTop3)
+      let zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "pink")
+    walls.push(zWallTop1)
+    let zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "magenta")
+    walls.push(zWallTop2)
+    let zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "gray")
+    walls.push(zWallTop3)
 
 
-      yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "red")
-      walls.push(yWallBottom1)
-      yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "red")
-      walls.push(yWallBottom2)
-      yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .075, "red")
-      walls.push(yWallBottom3)
+    let yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "green")
+    walls.push(yWallBottom1)
+    let yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "yellow")
+    walls.push(yWallBottom2)
+    let yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .015, "purple")
+    walls.push(yWallBottom3)
 
 
 
-      wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .075, "red")
-      walls.push(wWallRight1)
-      wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "red")
-      walls.push(wWallRight2)
-      wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "red")
-      walls.push(wWallRight3)
+    let wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .015, "red")
+    walls.push(wWallRight1)
+    let wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "orange")
+    walls.push(wWallRight2)
+    let wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "white")
+    walls.push(wWallRight3)
 
 
-      qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
-      walls.push(qWallRight1)
-      qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
-      walls.push(qWallRight2)
-      qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "red")
-      walls.push(qWallRight3)
+    let qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "chartreuse")
+    walls.push(qWallRight1)
+    let qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "cyan")
+    walls.push(qWallRight2)
+    let qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .52) + .075, "blue")
+    walls.push(qWallRight3)
 
       for (t = 0; t < walls.length; t++) {
         walls[t].track.x *= 2
