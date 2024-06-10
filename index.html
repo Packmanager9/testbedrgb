@@ -3160,7 +3160,7 @@
         if (this.sleep == 1) {
 
           if (ws.readyState == 1) { //can send
-            if (this.team.top == players[0].team.top) { //somehow only send the players team
+            if (this.team.top == players[0].team.top && this.send == 1) { //somehow only send the players team
               let json = {} //new message
               if (this.type == -1) { //minion
                 json.minion = 1 //flag minion 
@@ -3305,7 +3305,7 @@
         }
 
         if (ws.readyState == 1) { //can send
-          if (this.team.top == players[0].team.top) { //somehow only send the players team
+          if (this.team.top == players[0].team.top && this.send == 1) { //somehow only send the players team
             let json = {} //new message
             if (this.type == -1) { //minion
               json.minion = 1 //flag minion 
@@ -3574,7 +3574,7 @@
       champBasic() {
         if (this.type != -1) {
           if (this.cooldowns[4] <= 0) {
-            if (this.team.top == players[0].team.top) {
+            if (this.team.top == players[0].team.top && this.send == 1) {
               this.meleehitChamp()
             }
           }
@@ -4848,6 +4848,7 @@
 
 
     let missileaneous = new Champ(Math.floor(Math.random() * 4), teams[0])
+    missileaneous.send = 1
     if (wet == 1) {
       missileaneous.body.x += 850 * 2
       missileaneous.body.y += 1050 * 2
@@ -4967,6 +4968,7 @@
 
 
       missileaneous = new Champ(guymaker, teams[0])
+    missileaneous.send = 1
 
       if (wet == 1) {
         missileaneous.body.x += 850 * 2
@@ -5189,6 +5191,7 @@
             // guy2z.body.y = 1970 * 2
             // guy2z.body.x += k
             guyz.body.x += k
+            guyz.send = 1
             players.push(guyz)
             champids.push(guyz.id)
             champtimes.push(2000000000)
@@ -5205,6 +5208,7 @@
             guy2z.body.x = 1920 * 2
             guy2z.body.y = 1970 * 2
             guy2z.body.x += k
+            guy2z.send = 1
             // guyz.body.x += k
             // players.push(guyz)
             players.push(guy2z)
@@ -5357,6 +5361,8 @@
             let gold = players[t].gold
             let goldtotal = players[t].goldtotal
             players[t] = new Champ(guymaker, players[t].team)
+            
+            players[t].send = 1
             if (teammakerz == 1) {
               canvas_context.resetTransform()
               canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
