@@ -3428,7 +3428,9 @@
                 this.slowedByFloor *= player.activeArts[t].slow
               }
               if (this.team.top != player.team.top) {
-                this.health -= (player.activeArts[t].damage*player.gaerboosts.damage)/this.gaerboosts.armor
+                if(this.send == 1){
+                  this.health -= (player.activeArts[t].damage*player.gaerboosts.damage)/this.gaerboosts.armor
+                }
               }
 
               if (this.health <= 0) {
