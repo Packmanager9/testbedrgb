@@ -2806,7 +2806,7 @@
               if (this.activeArts[t].follow == 1) {
                 follow = 1
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 1
+                this.activeArts[t].life = 2
               }
               if (this.activeArts[t].name == "TongueSpike") {
                 follow = 1
@@ -2851,7 +2851,7 @@
               }
               if (this.activeArts[t].shield == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 4
+                this.activeArts[t].life = this.activeArts[t].life
               }
               json.packet = JSON.stringify(this.activeArts[t])
               this.activeArts[t].life = lum
@@ -2880,6 +2880,10 @@
               json.mouse = JSON.stringify({ x: f.x, y: f.y })
               json.bod = JSON.stringify({ x: this.body.x, y: this.body.y })
               json.bodi = this.activeArts[t].bodi
+              json.bodid = this.activeArts[t].bodid
+              json.tip = this.activeArts[t].tip
+              json.shield = this.activeArts[t].shield
+              this.activeArts[t].shield = 0
               ws.send(JSON.stringify(json))
               if (this.activeArts[t].name == "TongueSpike") {
                 this.activeArts[t].track = this.body
@@ -2890,6 +2894,9 @@
                 this.activeArts[t].target = new Circle(TIP_engine.x, TIP_engine.y)
               }
               this.activeArts[t].sent = 0
+              if (this.activeArts[t].name == "TongueSpike") {
+                this.activeArts[t].sent = 1
+              }
               if (zum == 1) {
                 this.activeArts[t].sent = 1
               }
@@ -3012,7 +3019,7 @@
               if (teams[t].top != this.team.top) {
                 let link = new LineOP(this.body, teams[t].body)
                 let h = link.hypotenuse()
-                if (h < min ) {
+                if (h < min) {
                   min = h
                   target = teams[t]
                   wet = 1
@@ -3549,7 +3556,7 @@
           d.root = self.body
           d.maxDis = self.meleeRange
           d.damage = 60
-          d.collide = 1
+          // d.collide = 1
           d.emptyOut = 1
           d.update = 1
           d.name = "MeleeSpike"
@@ -3585,7 +3592,7 @@
           d.root = self.body
           d.maxDis = 70
           d.damage = 10
-          d.collide = 1
+          // d.collide = 1
           d.emptyOut = 1
           d.update = 1
           d.name = "MeleeSpike"
@@ -3731,7 +3738,7 @@
         d.root = self.body
         d.grab = 1
         d.maxDis = 300
-        d.follow = 1
+        // d.follow = 1
         d.damage = 8
         d.update = 1
         // d.tip = 1
@@ -3914,6 +3921,8 @@
               shocher.knockShield = 1
               shocher.shield = 1
               shocher.bod = 1
+              shocher.bodi = 1
+              shocher.bodid = players[t].id
               players[t].activeArts.push(shocher)
               shocher.damage = 0
             }
@@ -3937,6 +3946,8 @@
           shocher.life = lifeLength
           shocher.update = 1
           shocher.bod = 1
+          shocher.bodi = 1
+          shocher.bodid = self.id
           self.activeArts.push(shocher)
           let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FFffFF22")
           shocher2.growth = 1
@@ -3945,6 +3956,8 @@
           shocher2.life = lifeLength
           shocher2.update = 1
           shocher2.bod = 1
+          shocher2.bodi = 1
+          shocher2.bodid = self.id
           self.activeArts.push(shocher2)
           self.cooldowns[1] = 40 * 6
         } else {
@@ -3961,6 +3974,8 @@
           shocher.life = lifeLength
           shocher.update = 1
           shocher.bod = 1
+          shocher.bodi = 1
+          shocher.bodid = self.id
           shocher.damage = 3.5
           self.activeArts.push(shocher)
           let shocher2 = new Circle(self.body.x, self.body.y, 28, "#FFffFF22")
@@ -3970,6 +3985,8 @@
           shocher2.damage = 3.5
           shocher2.update = 1
           shocher2.bod = 1
+          shocher2.bodi = 1
+          shocher2.bodid = self.id
           self.activeArts.push(shocher2)
           self.cooldowns[1] = 40 * 6
         }
@@ -3990,6 +4007,8 @@
         shocher.damage = 25
         shocher.slow = .05
         shocher.bod = 1
+        shocher.bodi = 1
+        shocher.bodid = self.id
         self.activeArts.push(shocher)
         self.cooldowns[3] = 40 * 1
       }
@@ -4009,6 +4028,8 @@
           dx.growth = 1
           dx.damage = 30
           dx.bod = 1
+          dx.bodi = 1
+          dx.bodid = self.id
           dx.root = self.body
           self.activeArts.push(dx)
           self.cooldowns[0] = 40 * 10
@@ -4025,11 +4046,12 @@
           d.life = lifeLength
           d.growth = 1
           d.root = TIP_engine
-          d.tip = 1
+          d.tip = 1 
+
           d.maxDis = 300
           d.damage = 3
           d.update = 1
-          self.activeArts.push(d)
+          // self.activeArts.push(d)
           let p = new LineOP(self.body, d, "magenta", 16)
           p.echo = 1
           p.growth = 1
@@ -4039,7 +4061,7 @@
           p.tipo = 1
           p.follow = 1
           p.update = 1
-          p.damage = 3
+          p.damage = 4
           self.activeArts.push(p)
           let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
           dx.echo = 1
@@ -4047,7 +4069,9 @@
           dx.update = 1
           dx.root = self.body
           dx.bod = 1
-          dx.damage = 3
+          dx.bodi = 1
+          dx.bodid = self.id
+          dx.damage = 4
           dx.maxDis = 300
           dx.follow = 1
           dx.growth = 1
@@ -4058,7 +4082,10 @@
           dxi.update = 1
           dxi.root = self.body
           dxi.bod = 1
-          dxi.damage = 3
+          dxi.bodi = 1
+          dxi.bodid = self.id
+
+          dxi.damage = 4
           dxi.growth = 1
           dxi.maxDis = 300
           dxi.follow = 1
@@ -4069,9 +4096,10 @@
           di.update = 1
           di.root = TIP_engine
           di.tip = 1
+          
           di.follow = 1
           di.maxDis = 300
-          di.damage = 3
+          di.damage = 4
           di.growth = 1
           self.activeArts.push(di)
           let i = new LineOP(self.body, d, "white", 10)
@@ -4083,7 +4111,7 @@
           i.growth = 1
           i.follow = 1
           i.maxDis = 300
-          i.damage = 3
+          i.damage = 4
           self.activeArts.push(i)
           self.cooldowns[0] = 40 * 10
         }
@@ -4176,6 +4204,9 @@
         if (JSON.parse(data).rewardid >= 0) {
 
           let guy = players[champids.indexOf(JSON.parse(data).rewardid)]
+          if(!guy){
+            return
+          }
           guy.gold += parseInt(JSON.parse(data).reward, 10)
           guy.goldtotal += parseInt(JSON.parse(data).reward, 10)
         } else if (JSON.parse(data).collider == 1) {
@@ -4225,6 +4256,8 @@
               } else {
                 box.collide = (JSON.parse(data).collide)
                 box.bodi = (JSON.parse(data).bodi)
+                box.bodid = (JSON.parse(data).bodid)
+                box.tip = (JSON.parse(data).tip)
                 box.track = guy.body
                 box.root = guy.root
                 if (box.tip == 1) {
@@ -4248,22 +4281,20 @@
                   //console.log(box)
                 }
                 if (box.bodi == 1) {
-
                   let j = -1
                   for (let z = 0; z < players.length; z++) {
                     if (players[z].id == box.bodid) {
                       //console.log(z)
                       j = z
                     } else {
-
                     }
                   }
-
                   console.log(j)
                   box.track = new Circle(players[j].body.x, players[j].body.y)
                   box.root = new Circle(players[j].body.x, players[j].body.y)
                 }
                 ////////console.log(box)
+                guy.shield = box.shield
                 guy.activeArts.push(box)
               }
             }
@@ -4674,6 +4705,7 @@
       }
     }
 
+    let megaSnap = -1
     let team0 = new Rectangle(0, 0, 500, 100, "red")
     let team1 = new Rectangle(1280 - 500, 0, 500, 100, "blue")
     let butguy1 = new Rectangle(600, 100, 50, 50, "white")
@@ -4905,10 +4937,12 @@
           }
         }
       }
+
+      megaSnap = false
       for (let t = 0; t < champtimes.length; t++) {
         champtimes[t]--
       }
-      for (let t = 0; t < players.length; t++) {
+      for (let t = players.length - 1; t >= 0; t--) {
         if (players[t]) { } else {
 
           players.splice(t, 1)
@@ -4928,15 +4962,20 @@
               let id = players[t].id
               players[t] = new Champ((players[t].type + 1) % 4, players[t].team)
               players[t].id = id
-              keysPressed[' '] = true
+              megaSnap = true
+              continue
+            } else {
+              players.splice(t, 1)
+              champids.splice(t, 1)
+              champtimes.splice(t, 1)
               continue
             }
             // players.splice(1,t)
           }
         }
       }
-      if (keysPressed[' ']) {
-        keysPressed[' '] = false
+      if (megaSnap) {
+        megaSnap = false
         canvas_context.resetTransform()
         canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
         translator.x = 0
@@ -4955,6 +4994,8 @@
             champtimes.splice(t, 1)
           } else {
             let id = players[t].id
+            let gold = players[t].gold
+            let goldtotal = players[t].goldtotal
             players[t] = new Champ(guymaker, players[t].team)
             if (teammakerz == 1) {
               canvas_context.resetTransform()
@@ -4966,12 +5007,14 @@
               players[t].body.x += 850 * 2
               players[t].body.y += 1050 * 2
               canvas_context.translate(-850 * 2, -1050 * 2)
-              translator.x = 850 * 2
-              translator.y = 1050 * 2
+              translator.x -= 850 * 2
+              translator.y -= 1050 * 2
             }
 
 
             players[t].id = id
+            players[t].gold = gold
+            players[t].goldtotal = goldtotal
             // players.splice(1,t)
           }
           // }
