@@ -3007,15 +3007,15 @@
               }
               if (this.activeArts[t].shield == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 1
+                this.activeArts[t].life = 2
               }
               if (this.activeArts[t].anchorToPlayer == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 1
+                this.activeArts[t].life = 2
               }
               if (this.activeArts[t].sendEveryFrame == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 1
+                this.activeArts[t].life = 2
               }
               json.packet = JSON.stringify(this.activeArts[t])
               this.activeArts[t].life = lum
