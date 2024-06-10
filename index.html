@@ -4651,6 +4651,7 @@
             if (champids.indexOf(JSON.parse(data).id) > 0) {
               // //////////////////////////console.log(JSON.parse(data).id, players, champids)
               let guy = players[champids.indexOf(JSON.parse(data).id)]
+              guy.send = 0
               if (guy) {
                 if (!guy.activeArts) {
                   // guy.activeArts = []
@@ -4686,6 +4687,7 @@
               let guy =  players[champids.indexOf(JSON.parse(data).id)]    //new Champ(JSON.parse(JSON.parse(data).packet).type, teams[1])
               guy.team = {}
               let junk = [...guy.activeArts]
+              guy.send = 0
               guy.team.players = []
               guy.team.top = JSON.parse(data).top
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
@@ -4721,6 +4723,7 @@
 
               let guy =  new Champ(JSON.parse(JSON.parse(data).packet).type, teams[1])//new Champ()    //new Champ(JSON.parse(JSON.parse(data).packet).type, teams[1])
               guy.team = {}
+              guy.send = 0
               let junk = [...guy.activeArts]
               ////console.log(junk)
               guy.team.players = []
