@@ -5503,6 +5503,7 @@
             let id = players[t].id
             let gold = players[t].gold
             let goldtotal = players[t].goldtotal
+            let geartypes = [players[t].gear[0].type, players[t].gear[1].type, players[t].gear[2].type, players[t].gear[3].type]
             players[t] = new Champ(guymaker, players[t].team)
             
             players[t].send = 1
@@ -5522,6 +5523,10 @@
             players[t].id = id
             players[t].gold = gold
             players[t].goldtotal = goldtotal
+            players[t].gear[0] = new Gear(geartypes[0], players[t], 0)
+            players[t].gear[1] = new Gear(geartypes[0], players[t], 1)
+            players[t].gear[2] = new Gear(geartypes[0], players[t], 2)
+            players[t].gear[3] = new Gear(geartypes[0], players[t], 3)
             // players.splice(1,t)
           }
           // }
