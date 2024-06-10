@@ -2880,6 +2880,10 @@
                 lum = this.activeArts[t].life
                 this.activeArts[t].life = 2
               }
+              if (this.activeArts[t].sendEveryFrame == 1) {
+                lum = this.activeArts[t].life
+                this.activeArts[t].life = 2
+              }
               json.packet = JSON.stringify(this.activeArts[t])
               this.activeArts[t].life = lum
 
@@ -2944,6 +2948,10 @@
                 this.activeArts[t].sent = 1
               }
               if (this.activeArts[t].anchorToPlayer == 1) {
+                this.activeArts[t].sent = 1
+              }
+
+              if (this.activeArts[t].sendEveryFrame == 1) {
                 this.activeArts[t].sent = 1
               }
             }
@@ -3722,10 +3730,11 @@
           // d.root = TIP_engine
           d.maxDis = 3000
           d.update = 1
-          d.slow = .9
+          d.slow = .5
           d.collide = 1
           d.damage = 15
           d.pop = 1
+          d.sendEveryFrame = 1
           d.popdam = 5
           d.poprays = 9
           d.poprate = 10
@@ -4107,7 +4116,7 @@
           dx.life = lifeLength
           dx.update = 1
           dx.growth = 1
-          dx.damage = 30
+          dx.damage = 20
           dx.bod = 1
           dx.bodi = 1
           dx.bodid = self.id
@@ -4134,7 +4143,7 @@
           d.root = TIP_engine
           d.follow = 1
           d.update = 1
-          d.damage = 4
+          d.damage = 1
           self.activeArts.push(d)
           let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
           dx.echo = 1
@@ -4145,7 +4154,7 @@
           dx.bodi = 1
           dx.bodid = self.id
           dx.local = 1
-          dx.damage = 4
+          dx.damage = 1
           dx.maxDis = 300
           dx.follow = 1
           dx.anchorToPlayer = 1
@@ -4162,7 +4171,7 @@
           dxi.bodid = self.id
           dxi.anchorToPlayer = 1
 
-          dxi.damage = 4
+          dxi.damage = 1
           dxi.growth = 1
           dxi.maxDis = 300
           dxi.follow = 1
@@ -4178,7 +4187,7 @@
           di.follow = 1
           di.bodo = 1
           di.maxDis = 300
-          di.damage = 4
+          di.damage = 1
           di.growth = 1
           self.activeArts.push(di)
           //////console.log(zp)
@@ -4192,7 +4201,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = 4
+          zp.damage = 1
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
           //////console.log(zp)
@@ -4208,7 +4217,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = 4
+          zp.damage = 1
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
         }
