@@ -3055,7 +3055,7 @@
                 json.shield = this.activeArts[t].shield
                 this.activeArts[t].shielded = 1
               }
-              this.activeArts[t].life++ 
+              // this.activeArts[t].life++ 
                 ////////console.log(json)
               ws.send(JSON.stringify(json))
               // this.activeArts[t].life--
@@ -4837,7 +4837,7 @@
             guy.shield = JSON.parse(data).shield
             guy.health = Math.min(JSON.parse(data).health, guy.health)
             champids.push(JSON.parse(data).id)
-            champtimes[champids.length - 1] = 20
+            champtimes[champids.length - 1] = 25
             // players[0].collide(players[champids.indexOf(JSON.parse(data).id)])
             players[champids.length - 1] = guy
             // //////////////////console.log(guy)
