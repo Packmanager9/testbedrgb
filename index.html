@@ -3056,7 +3056,9 @@
               }
               this.activeArts[t].life++ 
                 //console.log(json)
+               if(this.send == 1) { 
               ws.send(JSON.stringify(json))
+                }
               this.activeArts[t].life--
               if (this.activeArts[t].name == "TongueSpike") {
                 this.activeArts[t].track = this.body
