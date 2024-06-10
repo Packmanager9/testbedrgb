@@ -172,7 +172,7 @@
         }
         gamepadAPI.axesStatus = axes;// assign received values
         gamepadAPI.buttonsStatus = pressed;
-        // ////////////////////////console.log(pressed); // return buttons for debugging purposes
+        // //////////////////////////////////console.log(pressed); // return buttons for debugging purposes
         return pressed;
       },
       buttonPressed: function (button, hold) {
@@ -280,6 +280,7 @@
         this.y2 = y2
         this.color = color
         this.width = width
+        this.local = 1
       }
       angle() {
         return Math.atan2(this.y1 - this.y2, this.x1 - this.x2)
@@ -340,8 +341,8 @@
       const { m, b } = line.getSlopeIntercept();
 
       // Debug logs to check values
-      ////////////////////////console.log(`Circle: center=(${h}, ${k}), radius=${r}`);
-      ////////////////////////console.log(`Line: slope=${m}, y-intercept=${b}`);
+      //////////////////////////////////console.log(`Circle: center=(${h}, ${k}), radius=${r}`);
+      //////////////////////////////////console.log(`Line: slope=${m}, y-intercept=${b}`);
 
       // Coefficients of the quadratic equation ax^2 + bx + c = 0
       const A = 1 + m * m;
@@ -352,7 +353,7 @@
       const discriminant = B * B - 4 * A * C;
 
       // Debug log for the discriminant
-      ////////////////////////console.log(`Discriminant: ${discriminant}`);
+      //////////////////////////////////console.log(`Discriminant: ${discriminant}`);
 
       // If discriminant is negative, no real intersection
       return discriminant >= 0;
@@ -401,6 +402,8 @@
         this.target = target
         this.color = color
         this.width = width
+        this.local = 1
+        this.bodo = 1
       }
       doesPerimeterTouch(circle) {
         return inteceptCircleLineSeg(circle, this).length > 0
@@ -415,7 +418,7 @@
       }
       move() { }
       intersects(line) {
-        ////////////////////////console.log(line)
+        //////////////////////////////////console.log(line)
         var det, gm, lm;
         det = (this.target.x - this.object.x) * (line.target.y - line.object.y) - (line.target.x - line.object.x) * (this.target.y - this.object.y);
         if (det === 0) {
@@ -473,6 +476,7 @@
         this.stroke = stroke
         this.strokeWidth = strokeWidth
         this.fill = fill
+        this.local = 1
       }
       draw() {
         canvas_context.fillStyle = this.color
@@ -516,6 +520,7 @@
         this.color = color
         this.xmom = xmom
         this.ymom = ymom
+        this.local = 1
       }
       draw() {
         canvas_context.lineWidth = this.strokeWidth
@@ -527,7 +532,7 @@
           canvas_context.fill()
           canvas_context.stroke();
         } else {
-          // ////////////////////////console.log("The circle is below a radius of 0, and has not been drawn. The circle is:", this)
+          // //////////////////////////////////console.log("The circle is below a radius of 0, and has not been drawn. The circle is:", this)
         }
       }
       move() {
@@ -1273,7 +1278,7 @@
       }
     }
     function gamepad_control(object, speed = 1) { // basic control for objects using the controler
-      //         ////////////////////////console.log(gamepadAPI.axesStatus[1]*gamepadAPI.axesStatus[0]) //debugging
+      //         //////////////////////////////////console.log(gamepadAPI.axesStatus[1]*gamepadAPI.axesStatus[0]) //debugging
       if (typeof object.body != 'undefined') {
         if (typeof (gamepadAPI.axesStatus[1]) != 'undefined') {
           if (typeof (gamepadAPI.axesStatus[0]) != 'undefined') {
@@ -1584,19 +1589,19 @@
       }
 
       becomeNetworkFrom(network) { //using a js file with one variable can be good for this
-        // ////////////////////////console.log(this.structure[0][0].bias)
+        // //////////////////////////////////console.log(this.structure[0][0].bias)
         for (let t = 0; t < this.structure.length; t++) {
-          // ////////////////////////console.log("h1")
+          // //////////////////////////////////console.log("h1")
           for (let k = 0; k < this.structure[t].length; k++) {
-            // ////////////////////////console.log("h2")
+            // //////////////////////////////////console.log("h2")
             this.structure[t][k].bias = network.structure[t][k].bias
             for (let w = 0; w < this.structure[t][k].weights.length; w++) {
-              // ////////////////////////console.log("h3")
+              // //////////////////////////////////console.log("h3")
               this.structure[t][k].weights[w].setWeight(network.structure[t][k][w].valueOf())
             }
           }
         }
-        // ////////////////////////console.log(this.structure[0][0].bias)
+        // //////////////////////////////////console.log(this.structure[0][0].bias)
       }
       log() {
         let json = {}
@@ -1612,7 +1617,7 @@
             }
           }
         }
-        ////////////////////////console.log(json)
+        //////////////////////////////////console.log(json)
       }
       calculateDeltasSigmoid(goals) {
         for (let t = this.structure.length - 1; t >= 0; t--) {
@@ -1626,7 +1631,7 @@
             } else {
               for (let k = 0; k < perceptron.outputConnections.length; k++) {
                 const currentConnection = perceptron.outputConnections[k]
-                //////////////////////////console.log(currentConnection)
+                ////////////////////////////////////console.log(currentConnection)
                 error += currentConnection.to.delta * currentConnection.valueOf()
               }
             }
@@ -1782,7 +1787,7 @@
         // f2.draw()
         // k2.draw()
         // k.draw()
-        // ////////////////////////console.log(circle)
+        // //////////////////////////////////console.log(circle)
         let wet = 0
         if (l1.doesPerimeterTouch(circle)) {
           wet = 1
@@ -1893,6 +1898,7 @@
         this.angle = angle
         this.color = color
         this.radius = length
+        this.local = 1
       }
 
       move() { }
@@ -1944,7 +1950,7 @@
         // f2.draw()
         // k2.draw()
         // k.draw()
-        ////////////////////////console.log(circle)
+        //////////////////////////////////console.log(circle)
         let wet = 0
         if (l1.doesPerimeterTouch(circle)) {
           wet = 1
@@ -2048,6 +2054,7 @@
         this.angle = angle
         this.color = color
         this.radius = length
+        this.local = 1
       }
 
       move() { }
@@ -2099,7 +2106,7 @@
         // // f2.draw()
         // k2.draw()
         // k.draw()
-        // ////////////////////////console.log(circle)
+        // //////////////////////////////////console.log(circle)
         let wet = 0
         if (k.doesPerimeterTouch(circle)) {
           wet = 1
@@ -2190,6 +2197,7 @@
         this.angle = angle
         this.color = color
         this.radius = length
+        this.local = 1
       }
 
       move() { }
@@ -2242,7 +2250,7 @@
         // // f2.draw()
         // k2.draw()
         // k.draw()
-        // ////////////////////////console.log(circle)
+        // //////////////////////////////////console.log(circle)
         let wet = 0
         if (k.doesPerimeterTouch(circle)) {
           wet = 1
@@ -2337,6 +2345,7 @@
         this.angle = angle
         this.color = color
         this.radius = length
+        this.local = 1
       }
       move() { }
       draw() {
@@ -2660,7 +2669,7 @@
           let rect = new Rectangle(x, this.healthBar.y, .5, 10, "black")
           rect.draw()
         }
-        // ////////////////////////console.log(this)
+        // //////////////////////////////////console.log(this)
       }
       healthDraw() {
         if (this.health < 0) {
@@ -2704,7 +2713,7 @@
           let rect = new Rectangle(x, this.healthBar.y, .5, 7, "black")
           rect.draw()
         }
-        // ////////////////////////console.log(this)
+        // //////////////////////////////////console.log(this)
       }
       tick() {
 
@@ -2757,10 +2766,20 @@
 
         for (let t = 0; t < this.activeArts.length; t++) {
           if (this.activeArts[t]) { } else { continue }
-          if (this.activeArts[t].moveAngle == 1) {
+          if (this.activeArts[t].moveAngle == 1 && this.activeArts[t].local == 1) {
             this.activeArts[t].angle = ((this.activeArts[t].angle * 10) + (new LineOP(this.last, this.body)).angle()) / 11
           }
-          if (this.activeArts[t].root) {
+          if (this.activeArts[t].root && this.activeArts[t].local == 1) {
+            if (this.activeArts[t].name == "Circle") {
+              if (this.activeArts[t].bodo == 1 && this.activeArts[t].local == 1) {
+                this.activeArts[t].root = TIP_engine
+              }
+            }
+            if (this.activeArts[t].name == "LineOP") {
+              if (this.activeArts[t].bodo == 1 && this.activeArts[t].local == 1) {
+                this.activeArts[t].target = TIP_engine
+              }
+            }
             this.activeArts[t].x = this.activeArts[t].root.x
             this.activeArts[t].y = this.activeArts[t].root.y
           }
@@ -2778,6 +2797,8 @@
         for (let t = 0; t < this.activeArts.length; t++) {
 
           if (this.activeArts[t]) { } else { continue }
+
+
           if (this.activeArts[t].growth >= 0) {
             this.activeArts[t].radius *= this.activeArts[t].growth
           }
@@ -2785,7 +2806,8 @@
           if (!(this.activeArts[t].id > 0)) {
             this.activeArts[t].id = Math.floor(Math.random() * 9000000)
           }
-          if (this.team.top == players[0].team.top) {
+          this.activeArts[t].draw()
+          if (this.team.top == players[0].team.top && (this.type == -1 || this == players[0])) {
 
             if (ws.readyState == 1 && this.activeArts[t].sent != 0) {
               let json = {}
@@ -2806,12 +2828,12 @@
               if (this.activeArts[t].follow == 1) {
                 follow = 1
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 3
               }
               if (this.activeArts[t].name == "TongueSpike") {
                 follow = 1
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 3
               }
               // }
               sto = this.activeArts[t].root
@@ -2841,6 +2863,7 @@
                 }
               }
               if (this.activeArts[t].name == "LineOP") {
+                //////////console.log("f")
                 this.activeArts[t].object = new Circle(this.activeArts[t].object.x, this.activeArts[t].object.y)
                 this.activeArts[t].target = new Circle(this.activeArts[t].target.x, this.activeArts[t].target.y)
               }
@@ -2851,7 +2874,11 @@
               }
               if (this.activeArts[t].shield == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = this.activeArts[t].life
+                this.activeArts[t].life = 2
+              }
+              if (this.activeArts[t].anchorToPlayer == 1) {
+                lum = this.activeArts[t].life
+                this.activeArts[t].life = 2
               }
               json.packet = JSON.stringify(this.activeArts[t])
               this.activeArts[t].life = lum
@@ -2863,7 +2890,7 @@
                 }
               }
               this.activeArts[t].track = stot
-              if (this.activeArts[t].tip == 1) {
+              if (this.activeArts[t].tip == 1 && this.activeArts[t].local == 1) {
                 this.activeArts[t].track = TIP_engine
                 this.activeArts[t].x = TIP_engine.x
                 this.activeArts[t].y = TIP_engine.y
@@ -2879,19 +2906,29 @@
               let f = new Point(this.body.x - (Math.cos(a) * Math.min(l.hypotenuse(), this.activeArts[t].maxDis)), this.body.y - (Math.sin(a) * Math.min(l.hypotenuse(), this.activeArts[t].maxDis)))
               json.mouse = JSON.stringify({ x: f.x, y: f.y })
               json.bod = JSON.stringify({ x: this.body.x, y: this.body.y })
+              json.bodo = this.activeArts[t].bodo
+              json.name = this.activeArts[t].name
+              //////////console.log(json.bodo,this.activeArts[t] )
+              //////////console.log(json.name,this.activeArts[t] )
               json.bodi = this.activeArts[t].bodi
+              json.bodz = this.activeArts[t].bod
               json.bodid = this.activeArts[t].bodid
               json.tip = this.activeArts[t].tip
-              json.shield = this.activeArts[t].shield
-              this.activeArts[t].shield = 0
+              if (this.activeArts[t].shielded != 1) {
+                json.shield = this.activeArts[t].shield
+                this.activeArts[t].shielded = 1
+              }
+              this.activeArts[t].life++ 
+                //console.log(json)
               ws.send(JSON.stringify(json))
+              this.activeArts[t].life--
               if (this.activeArts[t].name == "TongueSpike") {
                 this.activeArts[t].track = this.body
                 this.activeArts[t].guy = this
               }
               if (this.activeArts[t].name == "LineOP") {
                 this.activeArts[t].object = this.body
-                this.activeArts[t].target = new Circle(TIP_engine.x, TIP_engine.y)
+                this.activeArts[t].target = TIP_engine
               }
               this.activeArts[t].sent = 0
               if (this.activeArts[t].name == "TongueSpike") {
@@ -2906,11 +2943,12 @@
               if (this.activeArts[t].shield == 1) {
                 this.activeArts[t].sent = 1
               }
+              if (this.activeArts[t].anchorToPlayer == 1) {
+                this.activeArts[t].sent = 1
+              }
             }
           }
 
-
-          this.activeArts[t].draw()
           this.activeArts[t].life--
         }
         for (let t = this.activeArts.length - 1; t >= 0; t--) {
@@ -2980,6 +3018,44 @@
       move() {
         this.last = new Point(this.body.x, this.body.y)
         if (this.sleep == 1) {
+
+          if (ws.readyState == 1) { //can send
+            if (this.team.top == players[0].team.top) { //somehow only send the players team
+              let json = {} //new message
+              if (this.type == -1) { //minion
+                json.minion = 1 //flag minion 
+                json.health = this.health //carry health for UI
+                json.x = this.body.x //positional x
+                json.y = this.body.y //positional y
+                json.shield = this.shield //positional y
+                json.id = this.id //id for lookup hits
+                json.top = this.team.top //id for lookup hits
+                ws.send(JSON.stringify(json)) //send object to other players
+              } else {
+                json.champ = 1 //flag for character
+                json.team = (this.team.top - 1) * -1//somehow only send the players team
+                let k = [...this.team.players]//decircularize team
+                let g = [...this.gear]//decircularize gear
+                let a = [...this.activeArts]//decircularize colliders
+                this.activeArts = []//remove collider
+                let t = this.team//decircularize team
+                this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
+                json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
+                json.top = this.team.top
+                if (this.sleep > -1) {
+                  json.sleep = this.sleep
+                }
+                json.packet = JSON.stringify(this) // pack message
+                this.team.players = [...k] // recyclize team
+                this.team = t// recyclize team
+                this.activeArts = [...a]// recyclize colliders
+                this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
+                json.id = this.id//id for lookup hits
+                ws.send(JSON.stringify(json))//send object to other players
+              }
+            }
+          }
+
           return
         }
         if (this.type == -1) {
@@ -3109,7 +3185,9 @@
               this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
               json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
               json.top = this.team.top
-              json.sleep = this.sleep
+              if (this.sleep > -1) {
+                json.sleep = this.sleep
+              }
               json.packet = JSON.stringify(this) // pack message
               this.team.players = [...k] // recyclize team
               this.team = t// recyclize team
@@ -3166,7 +3244,7 @@
           if (player.activeArts[t]) { } else { continue }
           if (player.team.top != this.team.top) { } else { continue }
           if (player.activeArts[t].doesPerimeterTouch) {
-            ////console.log(player.activeArts[t], this)
+            //////////////console.log(player.activeArts[t], this)
             if (player.activeArts[t].doesPerimeterTouch(this.body)) {
               if (this.shield == 1) {
                 this.shield = 0
@@ -3976,6 +4054,7 @@
           shocher.bod = 1
           shocher.bodi = 1
           shocher.bodid = self.id
+          shocher.anchorToPlayer = 1
           shocher.damage = 3.5
           self.activeArts.push(shocher)
           let shocher2 = new Circle(self.body.x, self.body.y, 28, "#FFffFF22")
@@ -3987,6 +4066,7 @@
           shocher2.bod = 1
           shocher2.bodi = 1
           shocher2.bodid = self.id
+          shocher2.anchorToPlayer = 1
           self.activeArts.push(shocher2)
           self.cooldowns[1] = 40 * 6
         }
@@ -4008,6 +4088,7 @@
         shocher.slow = .05
         shocher.bod = 1
         shocher.bodi = 1
+        shocher.anchorToPlayer = 1
         shocher.bodid = self.id
         self.activeArts.push(shocher)
         self.cooldowns[3] = 40 * 1
@@ -4030,6 +4111,7 @@
           dx.bod = 1
           dx.bodi = 1
           dx.bodid = self.id
+          dx.anchorToPlayer = 1
           dx.root = self.body
           self.activeArts.push(dx)
           self.cooldowns[0] = 40 * 10
@@ -4043,26 +4125,15 @@
           let lifeLength = 100
           let d = new Circle(x, y, 10, "magenta")
           d.echo = 1
-          d.life = lifeLength
           d.growth = 1
-          d.root = TIP_engine
-          d.tip = 1 
-
+          d.life = lifeLength
+          d.bodo = 1
           d.maxDis = 300
-          d.damage = 3
-          d.update = 1
-          // self.activeArts.push(d)
-          let p = new LineOP(self.body, d, "magenta", 16)
-          p.echo = 1
-          p.growth = 1
-          p.life = lifeLength
-          p.bodo = 1
-          p.maxDis = 300
-          p.tipo = 1
-          p.follow = 1
-          p.update = 1
-          p.damage = 4
-          self.activeArts.push(p)
+          d.tipo = 1
+          d.follow = 1
+          d.uddate = 1
+          d.damage = 4
+          self.activeArts.push(d)
           let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
           dx.echo = 1
           dx.life = lifeLength
@@ -4074,6 +4145,7 @@
           dx.damage = 4
           dx.maxDis = 300
           dx.follow = 1
+          dx.anchorToPlayer = 1
           dx.growth = 1
           self.activeArts.push(dx)
           let dxi = new Circle(self.body.x, self.body.y, 7, "white")
@@ -4084,6 +4156,7 @@
           dxi.bod = 1
           dxi.bodi = 1
           dxi.bodid = self.id
+          dxi.anchorToPlayer = 1
 
           dxi.damage = 4
           dxi.growth = 1
@@ -4096,24 +4169,42 @@
           di.update = 1
           di.root = TIP_engine
           di.tip = 1
-          
+          di.local = 1
+
           di.follow = 1
           di.maxDis = 300
           di.damage = 4
           di.growth = 1
           self.activeArts.push(di)
-          let i = new LineOP(self.body, d, "white", 10)
-          i.echo = 1
-          i.life = lifeLength
-          i.bodo = 1
-          i.tipo = 1
-          i.update = 1
-          i.growth = 1
-          i.follow = 1
-          i.maxDis = 300
-          i.damage = 4
-          self.activeArts.push(i)
+          let zp = new LineOP(self.body, d, "white", 10)
+          zp.echo = 1
+          zp.growth = 1
+          zp.life = lifeLength
+          zp.bodo = 1  //hitsbodo
+          zp.maxDis = 300
+          zp.tipo = 1
+          zp.follow = 1
+          zp.update = 1
+          zp.damage = 4
+          self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
+          //////console.log(zp)
+          if(true){
+            let zp = new LineOP(self.body, d, "magenta", 16)
+          zp.echo = 1
+          zp.growth = 1
+          zp.life = lifeLength
+          zp.bodo = 1  //hitsbodo
+          zp.maxDis = 300
+          zp.tipo = 1
+          zp.follow = 1
+          zp.update = 1
+          zp.damage = 4
+          self.activeArts.push(zp)
+          self.cooldowns[0] = 40 * 10
+          //////console.log(zp)
+          //////console.log(self.activeArts)
+          }
         }
       }
       yspike(self, x, y) {
@@ -4197,21 +4288,24 @@
 
       // ws.addEventListener("open", () => {
       ws.addEventListener("message", ({ data }) => {
-        ////////////////////////console.log(data)
+        if (teammaker == -1) {
+          return
+        }
+        //////////////////////////////////console.log(data)
         // if (!(JSON.parse(data).flies > 0)) {
-        ////////////////////////console.log("hit")
+        //////////////////////////////////console.log("hit")
 
         if (JSON.parse(data).rewardid >= 0) {
 
           let guy = players[champids.indexOf(JSON.parse(data).rewardid)]
-          if(!guy){
+          if (!guy) {
             return
           }
           guy.gold += parseInt(JSON.parse(data).reward, 10)
           guy.goldtotal += parseInt(JSON.parse(data).reward, 10)
         } else if (JSON.parse(data).collider == 1) {
 
-          ////////console.log(JSON.parse(data))
+          //////////////////console.log(JSON.parse(data))
           if (champids.indexOf(JSON.parse(data).champid) > 0) {
             let wet = 0
             if (champids.includes(JSON.parse(data).champid)) {
@@ -4220,29 +4314,37 @@
 
             if (wet == 1) {
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
-              // ////////////////////console.log((JSON.parse(data)).isA)
+              // //////////////////////////////console.log((JSON.parse(data)).isA)
               let box = eval(`new ${(JSON.parse(data)).isA}()`)
-
+              //////console.log(box) 
               for (let t = 0; t < k.length; t++) {
-                box[k[t]] = JSON.parse(JSON.parse(data).packet)[k[t]]
+                if (k[t] == "root") {
+
+                } else if (k[t] == "track") {
+
+                } else {
+
+                  box[k[t]] = JSON.parse(JSON.parse(data).packet)[k[t]]
+                }
               }
-              //////////////console.log(box)
+              box.local = -1
+              ////////////////////////console.log(box)
               box.id = JSON.parse(data).aid
 
               let guy = players[champids.indexOf(JSON.parse(data).champid)]
               if (!guy) {
                 return
               }
-              ////////console.log(guy, champids, JSON.parse(data).champid, champids.indexOf(JSON.parse(data).champid), players, box)
+              //////////////////console.log(guy, champids, JSON.parse(data).champid, champids.indexOf(JSON.parse(data).champid), players, box)
 
-              //////////////console.log(JSON.parse(JSON.parse(data).packet).rootflag)
+              ////////////////////////console.log(JSON.parse(JSON.parse(data).packet).rootflag)
               if (JSON.parse(JSON.parse(data).packet).rootflag == "self") {
-                //////////////console.log("d")
+                ////////////////////////console.log("d")
                 box.root = guy
                 box.root.body = guy.body
               }
               // if (JSON.parse(JSON.parse(data).packet).trackflag == "self") {
-              //////////////console.log("d")
+              ////////////////////////console.log("d")
               // box.track.body = guy.body
               // }
 
@@ -4253,58 +4355,135 @@
               }
               if (list.includes(box.id)) {
 
-              } else {
                 box.collide = (JSON.parse(data).collide)
                 box.bodi = (JSON.parse(data).bodi)
+                box.bod = (JSON.parse(data).bod)
+                box.bodz = (JSON.parse(data).bodz)
+                box.bodo = (JSON.parse(data).bodo)
+                box.name = (JSON.parse(data).name)
                 box.bodid = (JSON.parse(data).bodid)
                 box.tip = (JSON.parse(data).tip)
+                ////////console.log(box)
                 box.track = guy.body
                 box.root = guy.root
+                if (box.bodz == 1) {
+                  box.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                  box.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                  ////////////console.log(box)
+                }
                 if (box.tip == 1) {
                   box.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                   box.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
-                  //console.log(box)
-                }
-                if (box.bod == 1) {
-                  box.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
-                  box.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
-                  //console.log(box)
-                }
-                if (box.bodo == 1) {
-                  box.object.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
-                  box.object.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
-                  box.object = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
-                  box.target.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
-                  box.target.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
-                  box.target = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
-
-                  //console.log(box)
+                  ////////////console.log(box)
                 }
                 if (box.bodi == 1) {
                   let j = -1
                   for (let z = 0; z < players.length; z++) {
                     if (players[z].id == box.bodid) {
-                      //console.log(z)
+                      ////////////console.log(z)
                       j = z
                     } else {
                     }
                   }
-                  console.log(j)
+                  //////////console.log(j)
                   box.track = new Circle(players[j].body.x, players[j].body.y)
                   box.root = new Circle(players[j].body.x, players[j].body.y)
                 }
+                if (box.bodo == 1) {
+                  ////////console.log(box)
+                  if (box.name == "Circle") {
+                    box.x = JSON.parse(JSON.parse(data).mouse).x
+                    box.y = JSON.parse(JSON.parse(data).mouse).y
+                    box.bodo = 1
+                  } else if (box.name == "LineOP") {
+                    box.bodo = 1
+
+                    box.object = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                    box.object.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                    box.object.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                    box.target = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+                    box.target.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+                    box.target.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+
+                  }
+                  ////////////console.log(box)
+                }
+                //////////////////console.log(box)
+                guy.shield = box.shield
+                guy.activeArts.push(box)
+                list[list.indexOf(box.id)] = box
+              } else {
+                box.collide = (JSON.parse(data).collide)
+                box.bodi = (JSON.parse(data).bodi)
+                box.bod = (JSON.parse(data).bod)
+                box.bodz = (JSON.parse(data).bodz)
+                box.bodo = (JSON.parse(data).bodo)
+                box.name = (JSON.parse(data).name)
                 ////////console.log(box)
+                box.bodid = (JSON.parse(data).bodid)
+                box.tip = (JSON.parse(data).tip)
+                box.track = guy.body
+                box.root = guy.root
+                if (box.bod == 1) {
+                  box.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                  box.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                  ////////////console.log(box)
+                }
+                if (box.tip == 1) {
+                  box.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+                  box.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+                  ////////////console.log(box)
+                }
+                if (box.bodi == 1) {
+                  let j = -1
+                  for (let z = 0; z < players.length; z++) {
+                    if (players[z].id == box.bodid) {
+                      ////////////console.log(z)
+                      j = z
+                    } else {
+                    }
+                  }
+                  //////////console.log(j)
+                  box.track = new Circle(players[j].body.x, players[j].body.y)
+                  box.root = new Circle(players[j].body.x, players[j].body.y)
+                }
+                if (box.bodo == 1) {
+                  ////////console.log(box)
+                  if (box.name == "Circle") {
+                    box.x = JSON.parse(JSON.parse(data).mouse).x
+                    box.y = JSON.parse(JSON.parse(data).mouse).y
+                    box.bodo = 1
+                  } else if (box.name == "LineOP") {
+                    box.bodo = 1
+
+
+                    box.object.x = JSON.parse(JSON.parse(data).bod).x
+                    box.object.y = JSON.parse(JSON.parse(data).bod).y
+                    box.object.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                    box.object.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                    box.target = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+
+
+                    box.target.x = JSON.parse(JSON.parse(data).mouse).x
+                    box.target.y = JSON.parse(JSON.parse(data).mouse).y
+                    box.target.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+                    box.target.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+
+                  }
+                  ////////////console.log(box)
+                }
+                //////////////////console.log(box)
                 guy.shield = box.shield
                 guy.activeArts.push(box)
               }
             }
           }
         } else if (champids.includes(JSON.parse(data).id)) {
-          // //////////////////////console.log(teams[0], (((JSON.parse(data).team*1)+0)))
+          // ////////////////////////////////console.log(teams[0], (((JSON.parse(data).team*1)+0)))
           if (JSON.parse(data).minion == 1) {
-            //console.log(JSON.parse(data))
+            ////////////console.log(JSON.parse(data))
             if (champids.indexOf(JSON.parse(data).id) > 0) {
-              // ////////console.log(JSON.parse(data).id, players, champids)
+              // //////////////////console.log(JSON.parse(data).id, players, champids)
               let guy = players[champids.indexOf(JSON.parse(data).id)]
               if (guy) {
                 if (!guy.activeArts) {
@@ -4314,7 +4493,7 @@
                 return
               }
               let junk = [...guy.activeArts]
-              // //////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
+              // ////////////////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
               guy.body.x = JSON.parse(data).x
               guy.body.y = JSON.parse(data).y
               guy.shield = JSON.parse(data).shield
@@ -4325,7 +4504,7 @@
           } else if (JSON.parse(data).champ == 1) {
 
             if (champids.indexOf(JSON.parse(data).id) > 0) {
-              // ////////console.log(JSON.parse(data).id, players, champids)
+              // //////////////////console.log(JSON.parse(data).id, players, champids)
               let guy = players[champids.indexOf(JSON.parse(data).id)]
               if (guy) {
                 if (!guy.activeArts) {
@@ -4335,7 +4514,7 @@
                 return
               }
               let junk = [...guy.activeArts]
-              // //////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
+              // ////////////////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
 
               //new Champ(JSON.parse(JSON.parse(data).packet).type, teams[0])
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
@@ -4359,12 +4538,12 @@
                 guy.gear[t] = new Gear(JSON.parse(JSON.parse(data).packet).gear[t], guy, t)
               }
               guy.abilities = [guy.power1(guy.type), guy.power2(guy.type), guy.power3(guy.type), guy.power4(guy.type)]
-              ////////////////////////console.log("hit")
+              //////////////////////////////////console.log("hit")
               players[champids.indexOf(JSON.parse(data).id)] = guy
               players[champids.indexOf(JSON.parse(data).id)].activeArts = [...junk]
               // players[0].collide(players[champids.indexOf(JSON.parse(data).id)])
             }
-            ////////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
+            //////////////////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
 
             // for (let t = 0; t < players.length; t++) {
             // if (players[t]) { } else { continue }
@@ -4378,12 +4557,12 @@
           }
         } else {
 
-          ////////////////////////console.log("hit")
+          //////////////////////////////////console.log("hit")
           if (JSON.parse(data).minion == 1) {
-            //console.log(JSON.parse(data))
+            ////////////console.log(JSON.parse(data))
 
             // if (champids.indexOf(JSON.parse(data).id) > 0) {
-            // ////////console.log(JSON.parse(data).id, players, champids)
+            // //////////////////console.log(JSON.parse(data).id, players, champids)
             let guy = new Champ(-1, teams[1])
             guy.team = {}
             guy.team.players = []
@@ -4397,7 +4576,7 @@
               return
             }
             let junk = [...guy.activeArts]
-            // //////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
+            // ////////////////////////console.log(junk, players[champids.indexOf(JSON.parse(data).id)].activeArts)
             guy.body.x = JSON.parse(data).x
             guy.id = JSON.parse(data).id
             guy.body.y = JSON.parse(data).y
@@ -4407,8 +4586,8 @@
             champtimes[champids.length - 1] = 20
             // players[0].collide(players[champids.indexOf(JSON.parse(data).id)])
             players[champids.length - 1] = guy
-            // //console.log(guy)
-            // //console.log(players[champids.length - 1] )
+            // ////////////console.log(guy)
+            // ////////////console.log(players[champids.length - 1] )
             // }
           } else if (JSON.parse(data).champ == 1) {
             if (champids.length - 1 == 0) {
@@ -4418,15 +4597,14 @@
               guy.mana = JSON.parse(JSON.parse(data).packet).mana
             } else if (champids.length - 1 > 0) {
               champids.push(JSON.parse(data).id)
-              //////////////////console.log("hit")
-              ////////////////////////console.log("hit")
-              // //////////////////////console.log(teams[0], (JSON.parse(data)))
-              //////////////////console.log(teams[0], ((JSON.parse(data).team*1)+0))
+              ////////////////////////////console.log("hit")
+              //////////////////////////////////console.log("hit")
+              // ////////////////////////////////console.log(teams[0], (JSON.parse(data)))
+              ////////////////////////////console.log(teams[0], ((JSON.parse(data).team*1)+0))
               let guy = new Champ(JSON.parse(JSON.parse(data).packet).type, teams[1])
               guy.team = {}
               guy.team.players = []
               guy.team.top = JSON.parse(data).top
-              guy.sleep = JSON.parse(data).sleep
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
               for (let t = 0; t < k.length; t++) {
                 if ([k[t]] == "activeArts") {
@@ -4440,6 +4618,7 @@
                   guy[k[t]] = JSON.parse(JSON.parse(data).packet)[k[t]]
                 }
               }
+              guy.sleep = JSON.parse(data).sleep
               guy.health = JSON.parse(JSON.parse(data).packet).health
               guy.mana = JSON.parse(JSON.parse(data).packet).mana
               // guy.body = new Circle(0, 0, JSON.parse(JSON.parse(data).packet).body.radius)
@@ -4449,7 +4628,7 @@
                 guy.gear[t] = new Gear(JSON.parse(JSON.parse(data).packet).gear[t], guy, t)
               }
               guy.abilities = [guy.power1(guy.type), guy.power2(guy.type), guy.power3(guy.type), guy.power4(guy.type)]
-              // //////////////////////console.log(guy)
+              // ////////////////////////////////console.log(guy)
               players[champids.length - 1] = guy
               champtimes[champids.length - 1] = 20
               // players[0].collide(players[champids.indexOf(JSON.parse(data).id)])
@@ -4458,7 +4637,7 @@
         }
 
 
-        // //////////////////////////console.log(players)
+        // ////////////////////////////////////console.log(players)
         // } else {
 
         //   textcanvas_context.font = "12px arial"
@@ -4817,7 +4996,7 @@
       // game code goes here
       // psybean.draw()
       if (time > -1) {
-        if (time % 500 == 0 && spawner == 2) {
+        if (time % 5000 == 0 && spawner == 2) {
           for (let k = 0; k < 3; k++) {
 
             let guyz = new Champ(-1, teams[0])
@@ -4834,7 +5013,7 @@
         }
       }
       if (time > -1) {
-        if (time % 500 == 0 && spawner == 1) {
+        if (time % 5000 == 0 && spawner == 1) {
           for (let k = 0; k < 3; k++) {
 
             // let guyz = new Champ(-1, teams[teams[1].top])
@@ -4959,9 +5138,6 @@
           } else {
             // players[t] = new Champ(Math.floor(Math.random() * 4), { players: [] })
             if (t == 0) {
-              let id = players[t].id
-              players[t] = new Champ((players[t].type + 1) % 4, players[t].team)
-              players[t].id = id
               megaSnap = true
               continue
             } else {
@@ -5010,8 +5186,6 @@
               translator.x -= 850 * 2
               translator.y -= 1050 * 2
             }
-
-
             players[t].id = id
             players[t].gold = gold
             players[t].goldtotal = goldtotal
