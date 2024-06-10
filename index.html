@@ -4130,8 +4130,10 @@
           d.bodo = 1
           d.maxDis = 300
           d.tipo = 1
+          d.local = 1
+          d.root = TIP_engine
           d.follow = 1
-          d.uddate = 1
+          d.update = 1
           d.damage = 4
           self.activeArts.push(d)
           let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
@@ -4142,6 +4144,7 @@
           dx.bod = 1
           dx.bodi = 1
           dx.bodid = self.id
+          dx.local = 1
           dx.damage = 4
           dx.maxDis = 300
           dx.follow = 1
@@ -4153,6 +4156,7 @@
           dxi.life = lifeLength
           dxi.update = 1
           dxi.root = self.body
+          dxi.local = 1
           dxi.bod = 1
           dxi.bodi = 1
           dxi.bodid = self.id
@@ -4172,22 +4176,11 @@
           di.local = 1
 
           di.follow = 1
+          di.bodo = 1
           di.maxDis = 300
           di.damage = 4
           di.growth = 1
           self.activeArts.push(di)
-          let zp = new LineOP(self.body, d, "white", 10)
-          zp.echo = 1
-          zp.growth = 1
-          zp.life = lifeLength
-          zp.bodo = 1  //hitsbodo
-          zp.maxDis = 300
-          zp.tipo = 1
-          zp.follow = 1
-          zp.update = 1
-          zp.damage = 4
-          self.activeArts.push(zp)
-          self.cooldowns[0] = 40 * 10
           //////console.log(zp)
           if(true){
             let zp = new LineOP(self.body, d, "magenta", 16)
@@ -4205,6 +4198,19 @@
           //////console.log(zp)
           //////console.log(self.activeArts)
           }
+
+          let zp = new LineOP(self.body, d, "white", 10)
+          zp.echo = 1
+          zp.growth = 1
+          zp.life = lifeLength
+          zp.bodo = 1  //hitsbodo
+          zp.maxDis = 300
+          zp.tipo = 1
+          zp.follow = 1
+          zp.update = 1
+          zp.damage = 4
+          self.activeArts.push(zp)
+          self.cooldowns[0] = 40 * 10
         }
       }
       yspike(self, x, y) {
@@ -4398,13 +4404,17 @@
                   } else if (box.name == "LineOP") {
                     box.bodo = 1
 
-                    box.object = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
+                    box.object.x = JSON.parse(JSON.parse(data).bod).x
+                    box.object.y = JSON.parse(JSON.parse(data).bod).y
                     box.object.track = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
                     box.object.root = new Circle(JSON.parse(JSON.parse(data).bod).x, JSON.parse(JSON.parse(data).bod).y)
                     box.target = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
+
+
+                    box.target.x = JSON.parse(JSON.parse(data).mouse).x
+                    box.target.y = JSON.parse(JSON.parse(data).mouse).y
                     box.target.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                     box.target.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
-
                   }
                   ////////////console.log(box)
                 }
