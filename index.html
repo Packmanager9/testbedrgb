@@ -3037,6 +3037,7 @@
                 json.y = this.body.y //positional y
                 json.shield = this.shield //positional y
                 json.id = this.id //id for lookup hits
+                json.slowedByFloor = this.slowedByFloor
                 json.top = this.team.top //id for lookup hits
                 ws.send(JSON.stringify(json)) //send object to other players
               } else {
@@ -3049,6 +3050,7 @@
                 let t = this.team//decircularize team
                 this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
                 json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
+                json.slowedByFloor = this.slowedByFloor
                 json.top = this.team.top
                 if (this.sleep > -1) {
                   json.sleep = this.sleep
@@ -3181,6 +3183,7 @@
               json.shield = this.shield //positional y
               json.id = this.id //id for lookup hits
               json.top = this.team.top //id for lookup hits
+                json.slowedByFloor = this.slowedByFloor
               ws.send(JSON.stringify(json)) //send object to other players
             } else {
               json.champ = 1 //flag for character
@@ -3202,6 +3205,7 @@
               this.activeArts = [...a]// recyclize colliders
               this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
               json.id = this.id//id for lookup hits
+                json.slowedByFloor = this.slowedByFloor
               ws.send(JSON.stringify(json))//send object to other players
             }
           }
@@ -3855,6 +3859,7 @@
           d.update = 1
           d.slow = .9
           d.damage = .2
+          d.sendEveryFrame = 1
           distance += 3 - (t / 30)
           angle += (Math.PI + (Math.PI / 60))
           d.name = "Circle"
@@ -3879,6 +3884,7 @@
           shocher.poison = 1
           shocher.damage = 1.4
           shocher.slow = .9
+          shocher.sendEveryFrame = 1
           shocher.update = 1
           self.activeArts.push(shocher)
         }
@@ -4549,6 +4555,7 @@
                 }
               }
               // guy.body = new Circle(0, 0, JSON.parse(JSON.parse(data).packet).body.radius)
+              guy.slowedByFloor = JSON.parse(data).slowedByFloor
               guy.health = JSON.parse(JSON.parse(data).packet).health
               guy.mana = JSON.parse(JSON.parse(data).packet).mana
               guy.body.x = JSON.parse(JSON.parse(data).packet).body.x
@@ -4613,6 +4620,7 @@
 
               let guy = new Champ(JSON.parse(JSON.parse(data).packet).type, teams[1]) //teams[(((JSON.parse(data).team*1)+0))]
               guy.health = JSON.parse(JSON.parse(data).packet).health
+              guy.slowedByFloor = JSON.parse(data).slowedByFloor
               guy.mana = JSON.parse(JSON.parse(data).packet).mana
             } else if (champids.length - 1 > 0) {
               champids.push(JSON.parse(data).id)
@@ -4639,6 +4647,7 @@
               }
               guy.sleep = JSON.parse(data).sleep
               guy.health = JSON.parse(JSON.parse(data).packet).health
+              guy.slowedByFloor = JSON.parse(data).slowedByFloor
               guy.mana = JSON.parse(JSON.parse(data).packet).mana
               // guy.body = new Circle(0, 0, JSON.parse(JSON.parse(data).packet).body.radius)
               guy.body.x = JSON.parse(JSON.parse(data).packet).body.x
