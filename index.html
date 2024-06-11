@@ -2557,18 +2557,45 @@
         }
       }
     }
-
+    
+    class DeathPop {
+      constructor(x,y, money){
+        this.pops = []
+        this.money = money
+        this.life = 9
+        this.a = 0
+        this.step = (Math.PI*2)/9
+        for(let t = 0;t<9;t++){
+          let dot = new Circle(x,y, 10, "black", Math.cos(this.a)*15, Math.sin(this.a)*15)
+          this.pops.push(dot)
+          this.a+=this.step
+        }
+        this.x = x
+        this.y = y
+      }
+      draw(){
+        for(let t = 0;t<this.pops.length;t++){
+          this.pops[t].radius *= .95
+          this.pops[t].draw()
+          this.pops[t].move()
+        }
+        canvas_context.fillStyle = "gold"
+        canvas_context.font = "30px comic sans ms"
+        canvas_context.fillText(this.money, this.x-30, this.y)
+        this.life--
+      }
+    }
 
     let translator = { x: 0, y: 0 }
     canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
     translator.x -= 360 + (1280 - (640 - 360))
     translator.y -= 360 + 720
 
+ let  worldpops = []
 
 
     class Champ {
       constructor(type, team) {
-
           this.gaerboosts = {}
           this.gaerboosts.damage = 1
           this.gaerboosts.armor = 1
@@ -3108,21 +3135,36 @@
           if (this.type == -1) {
             let json = {}
             json.rewardid = enemy.id
+            json.splicid = this.id
+            json.x = this.body.x
+            json.y = this.body.y
             json.reward = 50 + Math.floor(Math.random() * 11)
-            ws.send(JSON.stringify(json))
+            if( this.send == 1){
+              ws.send(JSON.stringify(json))
+            }
             return 50 + Math.floor(Math.random() * 11)
           } else {
             if (this.goldtotal > 0) {
               let json = {}
               json.rewardid = enemy.id
+              json.splicid = this.id
+            json.x = this.body.x
+            json.y = this.body.y
               json.reward = 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 6)
+              if( this.send == 1){
               ws.send(JSON.stringify(json))
+            }
               return 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 6)
             } else {
               let json = {}
               json.reward = 100
+            json.x = this.body.x
+            json.y = this.body.y
               json.rewardid = enemy.id
+              json.splicid = this.id
+              if( this.send == 1){
               ws.send(JSON.stringify(json))
+            }
               return 100
             }
           }
@@ -4457,13 +4499,23 @@
         //////////////////////////////////////////console.log("hit")
 
         if (JSON.parse(data).rewardid >= 0) {
-
+          let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, parseInt(JSON.parse(data).reward, 10))
+          console.log(pop)
           let guy = players[champids.indexOf(JSON.parse(data).rewardid)]
           if (!guy) {
             return
           }
+          worldpops.push(pop)
           guy.gold += parseInt(JSON.parse(data).reward, 10)
           guy.goldtotal += parseInt(JSON.parse(data).reward, 10)
+
+          if(champids.includes(JSON.parse(data).splicid)){
+            let d = champids.indexOf(JSON.parse(data).splicid)
+            players.splice(d, 1)
+            champids.splice(d, 1)
+            champtimes.splice(d, 1)
+          }
+
         } else if (JSON.parse(data).collider == 1) {
 
           //////////////////////////console.log(JSON.parse(data))
@@ -5386,10 +5438,20 @@
           players[t].command()
         }
       }
+      for (let t = 0; t < worldpops.length; t++) {
+        worldpops[t].draw()
+      }
+      for (let t = 0; t < worldpops.length; t++) {
+        if (worldpops[t].life <= 0) {
+          worldpops.splice(t,1)
+        }
+      }
       for (let t = 0; t < players.length; t++) {
         if (players[t]) { } else { continue }
         players[t].fieldStuff()
       }
+
+      
       for (let t = 0; t < players.length; t++) {
         if (players[t]) { } else { continue }
         players[t].artDraw()
