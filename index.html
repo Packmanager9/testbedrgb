@@ -4503,6 +4503,12 @@
           console.log(pop)
           let guy = players[champids.indexOf(JSON.parse(data).rewardid)]
           if (!guy) {
+            if(champids.includes(JSON.parse(data).splicid)){
+              let d = champids.indexOf(JSON.parse(data).splicid)
+              players.splice(d, 1)
+              champids.splice(d, 1)
+              champtimes.splice(d, 1)
+            }
             return
           }
           worldpops.push(pop)
