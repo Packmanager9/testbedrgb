@@ -4540,7 +4540,8 @@
                 }
                 if (box.bodi == 1) {
                   let j = -1
-                  for (let z = 0; z < players.length; z++) {
+                  if(players){
+                    for (let z = 0; z < players.length; z++) {
                     if (players[z].id == box.bodid) {
                       ////////////////////console.log(z)
                       j = z
@@ -4550,6 +4551,7 @@
                   //////////////////console.log(j)
                   box.track = new Circle(players[j].body.x, players[j].body.y)
                   box.root = new Circle(players[j].body.x, players[j].body.y)
+                  }
                 }
                 if (box.bodo == 1) {
                   ////////////////console.log(box)
