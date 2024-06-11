@@ -3569,6 +3569,17 @@
               }
               if (wet == 1) {
                 this.abilities[0](this, target)
+                if(teams.includes(target)){
+                  if(this.send == 1){
+                    let json = {}
+                  json.smackupbase = teams.indexOf(target)
+                  json.dam = 10
+                  if(json.smackupbase == 0){
+                  }else{
+                    ws.send(JSON.stringify(json))
+                  }
+                  }
+                }
               }
             }
           }
@@ -4498,7 +4509,11 @@
         // if (!(JSON.parse(data).flies > 0)) {
         //////////////////////////////////////////console.log("hit")
 
-        if (JSON.parse(data).rewardid >= 0) {
+        if(JSON.parse(data).smackupbase >= 0){
+
+          teams[1].health -= 10
+
+        }else if (JSON.parse(data).rewardid >= 0) {
           let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, parseInt(JSON.parse(data).reward, 10))
           console.log(pop)
           let guy = players[champids.indexOf(JSON.parse(data).rewardid)]
