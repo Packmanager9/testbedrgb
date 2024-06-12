@@ -263,7 +263,7 @@ wss.on("connection", ws => {
     })
     ws.on("message", data => {
     
-        console.log(data)
+        // console.log(data)
 
         if(JSON.parse(data).roomQuery == 1){
 
@@ -273,7 +273,7 @@ wss.on("connection", ws => {
             for(let t = 0;t<11;t++){
                 json.roomNums.push(games[t].players.length)
             }
-            console.log("g")
+            // console.log("g")
             ws.send(JSON.stringify(json))
             return
         }
