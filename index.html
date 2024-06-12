@@ -28,7 +28,7 @@
     }
 
     let localRoom = 0
-    let localRooms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    let localRooms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     let champtimes = []
     let champids = []
     let video_recorder
@@ -5759,6 +5759,8 @@
             if (t == 0) {
               megaSnap = true
               players[0].body.x = 9999999
+              players[0].goal.x = 9999999
+              players[0].goal.y = players[0].body.y
               continue
             } else {
               players.splice(t, 1)
