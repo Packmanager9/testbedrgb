@@ -281,6 +281,7 @@
         this.color = color
         this.width = width
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
       angle() {
         return Math.atan2(this.y1 - this.y2, this.x1 - this.x2)
@@ -404,6 +405,7 @@
         this.width = width
         this.local = 1
         this.bodo = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
       doesPerimeterTouch(circle) {
         return inteceptCircleLineSeg(circle, this).length > 0
@@ -477,6 +479,7 @@
         this.strokeWidth = strokeWidth
         this.fill = fill
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
       draw() {
         canvas_context.fillStyle = this.color
@@ -521,6 +524,7 @@
         this.xmom = xmom
         this.ymom = ymom
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
       draw() {
         canvas_context.lineWidth = this.strokeWidth
@@ -1912,6 +1916,7 @@
         this.color = color
         this.radius = length
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
 
       move() { }
@@ -2068,6 +2073,7 @@
         this.color = color
         this.radius = length
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
 
       move() { }
@@ -2211,6 +2217,7 @@
         this.color = color
         this.radius = length
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
 
       move() { }
@@ -2359,6 +2366,7 @@
         this.color = color
         this.radius = length
         this.local = 1
+        this.id = Math.floor(Math.random() * 9000000)
       }
       move() { }
       draw() {
@@ -2918,7 +2926,7 @@
         this.cooldowns[4]--
 
       }
-      fieldStuff() {
+      fieldStuffA() {
 
         if (!this.activeArts) {
           this.activeArts = []
@@ -2938,7 +2946,7 @@
             }
             if (this.activeArts[t].name == "LineOP") {
               if (this.activeArts[t].bodo == 1 && this.activeArts[t].local == 1) {
-                this.activeArts[t].target = TIP_engine
+                this.activeArts[t].target = new Point(TIP_engine.x, TIP_engine.y)
               }
             }
             this.activeArts[t].x = this.activeArts[t].root.x
@@ -3002,12 +3010,12 @@
               if (this.activeArts[t].follow == 1) {
                 follow = 1
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 1
               }
               if (this.activeArts[t].name == "TongueSpike") {
                 follow = 1
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 1
               }
               // }
               sto = this.activeArts[t].root
@@ -3025,7 +3033,7 @@
                   this.activeArts[t].rootflag = "self"
                   if (zum == 1) {
                     this.activeArts[t].rootflag = "tip"
-                    this.activeArts[t].life = 2
+                    this.activeArts[t].life = 1
                   }
                 }
               }
@@ -3048,15 +3056,15 @@
               }
               if (this.activeArts[t].shield == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 1
               }
               if (this.activeArts[t].anchorToPlayer == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 1
               }
               if (this.activeArts[t].sendEveryFrame == 1) {
                 lum = this.activeArts[t].life
-                this.activeArts[t].life = 2
+                this.activeArts[t].life = 1
               }
               json.packet = JSON.stringify(this.activeArts[t])
               this.activeArts[t].life = lum
@@ -3079,10 +3087,17 @@
               }
               json.aid = this.activeArts[t].id
               json.collide = this.activeArts[t].collide
-              let l = new LineOP(this.body, TIP_engine)
+              let l = new LineOP(TIP_engine, this.body )
               let a = l.angle()
+              if(this.type == 0 && this.activeArts[t].name == "Circle"){
+
+                let f = new Point(this.body.x - (Math.cos(a) * Math.max(-l.hypotenuse(), -this.activeArts[t].maxDis)), this.body.y - (Math.sin(a) * Math.max(-l.hypotenuse(), -this.activeArts[t].maxDis)))
+              json.mouse = JSON.stringify({ x: f.x, y: f.y })
+              }else{
+
               let f = new Point(this.body.x - (Math.cos(a) * Math.min(l.hypotenuse(), this.activeArts[t].maxDis)), this.body.y - (Math.sin(a) * Math.min(l.hypotenuse(), this.activeArts[t].maxDis)))
               json.mouse = JSON.stringify({ x: f.x, y: f.y })
+              }
               json.bod = JSON.stringify({ x: this.body.x, y: this.body.y })
               json.bodo = this.activeArts[t].bodo
               json.name = this.activeArts[t].name
@@ -3091,6 +3106,7 @@
               json.bodi = this.activeArts[t].bodi
               json.bodz = this.activeArts[t].bod
               json.bodid = this.activeArts[t].bodid
+              json.artid = this.activeArts[t].id
               json.tip = this.activeArts[t].tip
               if (this.activeArts[t].shielded != 1) {
                 json.shield = this.activeArts[t].shield
@@ -3133,6 +3149,13 @@
 
         }
           this.activeArts[t].life--
+        }
+      }
+     
+      fieldStuffB() {
+
+        if (!this.activeArts) {
+          this.activeArts = []
         }
         for (let t = this.activeArts.length - 1; t >= 0; t--) {
 
@@ -4371,7 +4394,7 @@
           d.root = TIP_engine
           d.follow = 1
           d.update = 1
-          d.damage = 1
+          d.damage = 2
           self.activeArts.push(d)
           let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
           dx.echo = 1
@@ -4382,7 +4405,7 @@
           dx.bodi = 1
           dx.bodid = self.id
           dx.local = 1
-          dx.damage = 1
+          dx.damage = 2
           dx.maxDis = 300
           dx.follow = 1
           dx.anchorToPlayer = 1
@@ -4399,7 +4422,7 @@
           dxi.bodid = self.id
           dxi.anchorToPlayer = 1
 
-          dxi.damage = 1
+          dxi.damage = 2
           dxi.growth = 1
           dxi.maxDis = 300
           dxi.follow = 1
@@ -4415,7 +4438,7 @@
           di.follow = 1
           di.bodo = 1
           di.maxDis = 300
-          di.damage = 1
+          di.damage = 2
           di.growth = 1
           self.activeArts.push(di)
           //////////////console.log(zp)
@@ -4429,7 +4452,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = 1
+          zp.damage = 2
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
           //////////////console.log(zp)
@@ -4445,7 +4468,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = 1
+          zp.damage = 2
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
         }
@@ -4582,7 +4605,15 @@
             if (wet == 1) {
               let k = Object.keys(JSON.parse(JSON.parse(data).packet))
               // //////////////////////////////////////console.log((JSON.parse(data)).isA)
+              let guy = players[champids.indexOf(JSON.parse(data).champid)]
+              if (!guy) {
+                return
+              }
               let box = eval(`new ${(JSON.parse(data)).isA}()`)
+              if(guy.activeArts.includes(JSON.parse(data).artid)){
+                box = guy.activeArts[guy.activeArts.indexOf(JSON.parse(data).artid)]
+              }
+              
               //////////////console.log(box) 
               for (let t = 0; t < k.length; t++) {
                 if (k[t] == "root") {
@@ -4599,7 +4630,7 @@
               ////////////////////////////////console.log(box)
               box.id = JSON.parse(data).aid
 
-              let guy = players[champids.indexOf(JSON.parse(data).champid)]
+               guy = players[champids.indexOf(JSON.parse(data).champid)]
               if (!guy) {
                 return
               }
@@ -5517,7 +5548,7 @@
       }
       for (let t = 0; t < players.length; t++) {
         if (players[t]) { } else { continue }
-        players[t].fieldStuff()
+        players[t].fieldStuffA()
       }
 
       
@@ -5588,6 +5619,11 @@
           }
         }
       }
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        players[t].fieldStuffB()
+      }
+
 
       megaSnap = false
       for (let t = 0; t < champtimes.length; t++) {
