@@ -262,6 +262,22 @@ wss.on("connection", ws => {
         games[ws.assigned].removePlayer(ws)
     })
     ws.on("message", data => {
+    
+        console.log(data)
+
+        if(JSON.parse(data).roomQuery == 1){
+
+            let json = {}
+            json.roomData = 1
+            json.roomNums = []
+            for(let t = 0;t<11;t++){
+                json.roomNums.push(games[t].players.length)
+            }
+            console.log("g")
+            ws.send(JSON.stringify(json))
+            return
+        }
+
         if (JSON.parse(data).makeTournament == 1) {
             let tournament = new TournamentBracket(JSON.parse(data).name, JSON.parse(data).size, JSON.parse(data).stock)
             tournaments.push(tournament)
