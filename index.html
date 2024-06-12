@@ -3152,11 +3152,11 @@
               json.splicid = this.id
             json.x = this.body.x
             json.y = this.body.y
-              json.reward = 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 6)
+              json.reward = 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 60)
               if( this.send == 1){
               ws.send(JSON.stringify(json))
             }
-              return 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 6)
+              return 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 60)
             } else {
               let json = {}
               json.reward = 100
