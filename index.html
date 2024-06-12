@@ -2945,10 +2945,22 @@
             this.activeArts[t].y = this.activeArts[t].root.y
           }
           if (this.activeArts[t].maxDis >= 1) {
-            let link = new LineOP(this.body, this.activeArts[t])
+            let link = new LineOP(this.activeArts[t], this.body)
             if (link.hypotenuse() > this.activeArts[t].maxDis) {
-              this.activeArts[t].x = this.body.x + (Math.cos(link.angle()) * -this.activeArts[t].maxDis)
-              this.activeArts[t].y = this.body.y + (Math.sin(link.angle()) * -this.activeArts[t].maxDis)
+              let lah = link.angle()
+              this.activeArts[t].x = this.body.x + (Math.cos(lah) * this.activeArts[t].maxDis)
+              this.activeArts[t].y = this.body.y + (Math.sin(lah) * this.activeArts[t].maxDis)
+            }else{
+              let haa = link.hypotenuse() 
+              let lah = link.angle()
+              this.activeArts[t].x = this.body.x + (Math.cos(lah) * haa)
+              this.activeArts[t].y = this.body.y + (Math.sin(lah) * haa)
+            }
+            if(this.activeArts[t].name == "LineOP"){
+              let ah = this.activeArts[t].hypotenuse()
+              let ha  = this.activeArts[t].angle()
+              this.activeArts[t].target.x = this.body.x + (Math.cos(ha) *Math.min( ah,this.activeArts[t].maxDis))
+              this.activeArts[t].target.y = this.body.y + (Math.sin(ha) * Math.min( ah,this.activeArts[t].maxDis))
             }
             if (this.activeArts[t].radius > this.activeArts[t].maxDis) {
               this.activeArts[t].radius = this.activeArts[t].maxDis
