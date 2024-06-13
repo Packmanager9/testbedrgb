@@ -3195,9 +3195,9 @@
             this.dropSlime(this)
           }
           if (this.type == 4) {
-              let link = new LineOP(this.body, TIP_engine)
-              this.nhaigrape(this, this.body.x + (Math.cos(link.angle()) * 200), this.body.y + (Math.sin(link.angle()) * 200))
-            }
+            let link = new LineOP(this.body, TIP_engine)
+            this.nhaigrape(this, this.body.x + (Math.cos(link.angle()) * 200), this.body.y + (Math.sin(link.angle()) * 200))
+          }
         }
         this.cooldowns[0]--
         this.cooldowns[1]--
@@ -4006,9 +4006,9 @@
               }
               if (this.team.top != player.team.top) {
                 if (this.send == 1) {
-                  if(((player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor) > 0){
+                  if (((player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor) > 0) {
                     this.health -= (player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor
-                  }else if (player.activeArts[t].healshock == 1){
+                  } else if (player.activeArts[t].healshock == 1) {
                     this.health += (player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor
                   }
                 }
@@ -4475,42 +4475,42 @@
       }
 
       nhaigrape(self, x, y) {
-        
+
 
         self.slimeTime++
         if (self.slimeTime % 10 == 0) {
-        let l = new LineOP(self.body, new Point(x, y))
-        let manaCost = 10
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 22
-        let shocher = new Circle(self.body.x, self.body.y, 12, "#8800ff", Math.cos(l.angle()) * 2 * 10, Math.sin(l.angle()) * 2 * 10)
-        shocher.growth = .999
-        // shocher.root = self.body
-        shocher.life = lifeLength
-        shocher.slow = .5
-        shocher.collide = 1
-        shocher.damage = 40
-        shocher.update = 1
-        shocher.pop = 1
-        shocher.popdam = 5
-        shocher.poprays = 5
-        shocher.poprate = 10
-        shocher.popradius = 5
-        shocher.popcolor = "purple"
-        shocher.poplife = 10
-        shocher.name = "Circle"
-        self.activeArts.push(shocher)
+          let l = new LineOP(self.body, new Point(x, y))
+          let manaCost = 10
+          if (self.mana < manaCost) {
+            return
+          } else {
+            self.mana -= manaCost
+          }
+          let lifeLength = 22
+          let shocher = new Circle(self.body.x, self.body.y, 12, "#8800ff", Math.cos(l.angle()) * 2 * 10, Math.sin(l.angle()) * 2 * 10)
+          shocher.growth = .999
+          // shocher.root = self.body
+          shocher.life = lifeLength
+          shocher.slow = .5
+          shocher.collide = 1
+          shocher.damage = 40
+          shocher.update = 1
+          shocher.pop = 1
+          shocher.popdam = 5
+          shocher.poprays = 5
+          shocher.poprate = 10
+          shocher.popradius = 5
+          shocher.popcolor = "purple"
+          shocher.poplife = 10
+          shocher.name = "Circle"
+          self.activeArts.push(shocher)
         }
       }
       nhaiShotToggle(self, x, y) {
-        if(self.cooldowns[1] <= 0){
+        if (self.cooldowns[1] <= 0) {
           self.slimeTime = 0
-        self.slimeToggle *= -1
-        self.cooldowns[1] = 30
+          self.slimeToggle *= -1
+          self.cooldowns[1] = 30
         }
       }
       boombeam(self, x, y) {
@@ -4941,7 +4941,7 @@
         } else {
           self.mana -= manaCost
         }
-        if(self.mana > self.maxmana){
+        if (self.mana > self.maxmana) {
           self.mana = self.maxmana
         }
         let lifeLength = 9
@@ -5287,10 +5287,11 @@
         if (JSON.parse(data).roomData == 1) {
           localRooms = [...JSON.parse(data).roomNums]
           localRooms[localRoom] -= 1
-        } else
+        } else{
           if (teammaker == -1) {
             return
           }
+        }
         if (JSON.parse(data).roomData == 1 || JSON.parse(data).roomQuery == 1) {
           return
         } else {
@@ -6383,7 +6384,7 @@
         for (let k = 0; k < players.length; k++) {
           // if (players[k]) { } else { continue }
           // if ((t != k)) {
-            players[t].collide(players[k])
+          players[t].collide(players[k])
           // }
         }
       }
