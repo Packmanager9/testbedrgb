@@ -4950,7 +4950,7 @@
         shocher.root = self.body
         shocher.life = lifeLength
         shocher.update = 1
-        shocher.damage = -25
+        shocher.damage = -15
         shocher.healshock = 1
         shocher.slow = .05
         shocher.bod = 1
@@ -4958,7 +4958,7 @@
         shocher.anchorToPlayer = 1
         shocher.bodid = self.id
         self.activeArts.push(shocher)
-        self.cooldowns[3] = 140 * 1
+        self.cooldowns[3] = 140 * 2
       }
       healblast(self, x, y) {
         let manaCost = 40
