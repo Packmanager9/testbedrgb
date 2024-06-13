@@ -4444,7 +4444,7 @@
             if (players[t].type != -1 && players[t].team.top != this.team.top) {
               let link = new LineOP(this.body, players[t].body)
               let h = link.hypotenuse()
-              if (h < min && h < 80) {
+              if (h < min && h < this.meleeRange) {
                 min = h
                 target = players[t]
                 wet = 1
@@ -4460,7 +4460,7 @@
               if (players[t].type == -1 && players[t].team.top != this.team.top) {
                 let link = new LineOP(this.body, players[t].body)
                 let h = link.hypotenuse()
-                if (h < min && h < 80) {
+                if (h < min && h < this.meleeRange) {
                   min = h
                   target = players[t]
                   wet = 1
@@ -4873,9 +4873,9 @@
           self.health -= healthcost
         }
 
-        let lifeLength = 120
+        let lifeLength = 100
         let shocher = new Circle(self.body.x, self.body.y, 50, "#FF000044") 
-        shocher.growth = 1.02
+        shocher.growth = 1.023
         shocher.root = self.body
         shocher.life = lifeLength
         shocher.update = 1
@@ -4886,7 +4886,7 @@
         shocher.anchorToPlayer = 1
         shocher.bodid = self.id
         self.activeArts.push(shocher)
-        self.cooldowns[0] = 40 * 1
+        self.cooldowns[0] = 60 * 1
       }
       fusion(self){
         if(self.health > 50){
