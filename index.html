@@ -1253,6 +1253,9 @@
           if (butguy5.isPointInside(TIP_engine)) {
             guymaker = 4
           }
+          if (butguy6.isPointInside(TIP_engine)) {
+            guymaker = 5
+          }
 
           if (team0.isPointInside(TIP_engine)) {
             teammaker = 0
@@ -2306,6 +2309,244 @@
       }
     }
 
+    class PsychoSolar{
+      constructor(track = { x: 0, y: 0 }, angle = 1, color = "red") {
+        this.name = "PsychoSolar"
+        this.track = track
+        this.x = this.track.x
+        this.y = this.track.y
+        this.angle = angle
+        this.color = color
+        this.radius = 200
+        this.local = 1
+        this.moveAngle = 0
+        this.id = Math.floor(Math.random() * 9000000)
+      }
+      move(){
+
+      }
+      draw(){
+        this.angle = (new LineOP(this.track, TIP_engine)).angle()+Math.PI
+        let p1 = new Circle(this.track.x+(Math.cos(this.angle+.5)* 100), this.track.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
+        let p2 = new Circle(this.track.x+(Math.cos(this.angle-.5)* 100), this.track.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
+        let end = new Circle(this.track.x+(Math.cos(this.angle)* 200), this.track.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
+        let linkp1 = new LineOP(this.track, p1,"#FFAA22", 20)
+        let linkp2 = new LineOP(this.track, p2,"#FFAA22",20)
+        let endp1 = new LineOP(end, p1,"#FFAA22",20)
+        let endp2 = new LineOP(end, p2,"#FFAA22",20)
+        p1.draw()
+        p2.draw()
+        linkp1.draw()
+        linkp2.draw()
+        endp1.draw()
+        endp2.draw()
+        end.draw()
+        end.radius-=3
+        end.color = "white"
+        end.draw()
+        
+        p2.radius-=3
+        p2.color = "white"
+        p2.draw()
+        p1.radius-=3
+        p1.color = "white"
+        p1.draw()
+        
+        linkp1.color = "white"
+        linkp1.width -= 3.5
+        linkp1.draw()
+        linkp2.color = "white"
+        linkp2.width -= 3.5
+        linkp2.draw()
+        endp1.color = "white"
+        endp1.width -= 3.5
+        endp1.draw()
+        endp2.color = "white"
+        endp2.width -= 3.5
+        endp2.draw()
+
+      }
+      doesPerimeterTouch(guybody){
+
+        this.angle = (new LineOP(this.track, TIP_engine)).angle()+Math.PI
+        let p1 = new Circle(this.track.x+(Math.cos(this.angle+.5)* 100), this.track.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
+        let p2 = new Circle(this.track.x+(Math.cos(this.angle-.5)* 100), this.track.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
+        let end = new Circle(this.track.x+(Math.cos(this.angle)* 200), this.track.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
+        let linkp1 = new LineOP(this.track, p1,"#FFAA22", 20)
+        let linkp2 = new LineOP(this.track, p2,"#FFAA22",20)
+        let endp1 = new LineOP(end, p1,"#FFAA22",20)
+        let endp2 = new LineOP(end, p2,"#FFAA22",20)
+
+        let pile = [p1,p2,end,linkp1,linkp2,endp1,endp2]
+        for(let t= 0;t<pile.length;t++){
+          if(pile[t].doesPerimeterTouch(guybody)){
+            return true
+          }
+        }
+
+      }
+    }
+
+    class SolarFlares{
+      constructor(track = { x: 0, y: 0 }, angle = 1, color = "red") {
+        this.name = "SolarFlares"
+        this.track = track
+        this.x = this.track.x
+        this.y = this.track.y
+        this.angle = angle
+        this.color = color
+        this.radius = 200
+        this.local = 1
+        this.moveAngle = 0
+        this.id = Math.floor(Math.random() * 9000000)
+      }
+
+      move() { }
+      draw() {
+        this.angle = 0
+        for(let t = 0;t<5;t++){
+          
+        this.x = this.track.x
+        this.y = this.track.y
+        let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
+        let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
+        let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 15, "yellow")
+        // p.draw()
+        // m.draw()
+
+        // let p2 = new Circle(this.x - (Math.cos(this.angle + 1) * 8), this.y - (Math.sin(this.angle + 1) * 8), 3, "blue")
+        // let m2 = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "blue")
+        // let k2 = new Circle(this.x - (Math.cos(this.angle + .75) * this.radius), this.y - (Math.sin(this.angle + .75) * this.radius), 3, "white")
+        // // p2.draw()
+        // m2.draw()
+
+        let l1 = new LineOP(p, k, "red", 6)
+        l1.draw()
+        let l2 = new LineOP(m, k, "red", 6)
+        l2.draw()
+
+        // let f1 = new LineOP(p2, k2, "gray", 6)
+        // f1.draw()
+        // let f2 = new LineOP(m2, k2, "gray", 6)
+        // f2.draw()
+
+        // k2.draw()
+
+        k.draw()
+        this.angle += (Math.PI*2)/5
+        }
+
+      }
+      doesPerimeterTouch(circle) {
+        this.angle = 0
+        for(let t = 0;t<5;t++){
+        let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
+        let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
+        let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 15, "yellow")
+
+        // let p2 = new Circle(this.x - (Math.cos(this.angle + 1) * 8), this.y - (Math.sin(this.angle + 1) * 8), 3, "blue")
+        // let m2 = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "blue")
+        // let k2 = new Circle(this.x - (Math.cos(this.angle + .75) * this.radius), this.y - (Math.sin(this.angle + .75) * this.radius), 3, "white")
+        let l1 = new LineOP(p, k, "gray", 6)
+        // l1.draw()
+        let l2 = new LineOP(m, k, "gray", 6)
+        // l2.draw()
+        // let f1 = new LineOP(p2, k2, "gray", 6)
+        // // f1.draw()
+        // let f2 = new LineOP(m2, k2, "gray", 6)
+        // // f2.draw()
+        // k2.draw()
+        // k.draw()
+        // ////////////////////////////////////////////////console.log(circle)
+        let wet = 0
+        if (k.doesPerimeterTouch(circle)) {
+          wet = 1
+        }
+        if (l1.doesPerimeterTouch(circle)) {
+          wet = 1
+        }
+        if (l2.doesPerimeterTouch(circle)) {
+          wet = 1
+        }
+          this.angle += (Math.PI*2)/5
+      }
+        // if(f1.doesPerimeterTouch(circle)){
+        //     wet = 1
+        // }
+        // if(f2.doesPerimeterTouch(circle)){
+        //     wet = 1
+        // }
+        let trapper = 0
+        if (circle == players[0].body) {
+          trapper = 1
+        }
+        if (wet == 1) {
+
+        for(let t = 0;t<5;t++){
+          for (let z = 0; z < 10; z++) {
+            for (let k = 0; k < walls.length; k++) {
+              walls[k].doesPerimeterTouch(circle)
+            }
+            let pc1 = l1.crashPoint(circle)
+            let pc2 = l2.crashPoint(circle)
+            // let pc3 = f1.crashPoint(circle)
+            // let pc4 = f2.crashPoint(circle)
+            if (trapper == 0) {
+              if (pc1.length > 0) {
+                let l = new LineOP(pc1[0], circle)
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
+              } else if (pc2.length > 0) {
+                let l = new LineOP(pc2[0], circle)
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
+              }
+
+            } else {
+
+              if (pc1.length > 0) {
+                let l = new LineOP(pc1[0], circle)
+                let a = l.angle()
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
+              } else if (pc2.length > 0) {
+                let l = new LineOP(pc2[0], circle)
+                let a = l.angle()
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
+              }
+            }
+            // }else  if(pc3.length > 0){
+            //     circle.x -= (Math.sign(pc3[0].x - circle.x))*1
+            //     circle.y -= (Math.sign(pc3[0].y - circle.y))*1
+            // }else  if(pc4.length > 0){
+            //     circle.x -= (Math.sign(pc4[0].x - circle.x))*1
+            //     circle.y -= (Math.sign(pc4[0].y - circle.y))*1
+            // }
+
+            for (let k = 0; k < walls.length; k++) {
+              walls[k].doesPerimeterTouch(circle)
+            }
+          }
+
+
+
+          this.angle += (Math.PI*2)/5
+        }
+        
+          return true
+        }
+        return false
+        
+      }
+    }
+
 
 
     class BoomSpike {
@@ -2910,6 +3151,7 @@
       }
       manaMaker(type) {
         this.tempHealth = 0
+        this.mana = 100
         if (type == -1) {
           this.mana = 400
         }
@@ -2928,11 +3170,18 @@
         if (type == 4) {
           this.mana = 333
         }
+        if (type == 4) {
+          this.mana = 333
+        }
+        if (type == 5) {
+          this.mana = 666
+        }
         return this.mana
       }
 
       healthMaker(type) {
         this.tempHealth = 0
+        this.health = 100
         if (type == -1) {
           this.health = 400
         }
@@ -2950,6 +3199,9 @@
         }
         if (type == 4) {
           this.health = 1024
+        }
+        if (type == 5) {
+          this.health = 451
         }
         return this.health
       }
@@ -2973,6 +3225,9 @@
         if (type == 4) {
           this.meleeRange = 105
         }
+        if (type == 5) {
+          this.meleeRange = 165
+        }
         return this.meleeRange
       }
       healthRegenMaker(type) {
@@ -2995,6 +3250,9 @@
         if (type == 4) {
           this.healthRegen = 10 / 100
         }
+        if (type == 5) {
+          this.healthRegen = 25 / 100
+        }
         return this.healthRegen
       }
       manaRegenMaker(type) {
@@ -3003,13 +3261,13 @@
           this.manaRegen = 0
         }
         if (type == 0) {
-          this.manaRegen = .25
+          this.manaRegen = .15
         }
         if (type == 1) {
           this.manaRegen = .1
         }
         if (type == 2) {
-          this.manaRegen = .15
+          this.manaRegen = .12
         }
         if (type == 3) {
           this.manaRegen = .1875
@@ -3017,10 +3275,14 @@
         if (type == 4) {
           this.manaRegen = .05
         }
+        if (type == 5) {
+          this.manaRegen = .09
+        }
         return this.manaRegen
       }
       speedMaker(type) {
         this.tempSpeed = 0
+        this.speed = 1
         if (type == -1) {
           this.speed = 1.5
         }
@@ -3038,6 +3300,9 @@
         }
         if (type == 4) {
           this.speed = 2.5
+        }
+        if (type == 5) {
+          this.speed = 1.8
         }
         return this.speed
       }
@@ -4240,6 +4505,10 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -300), this.body.y + (Math.sin(link.angle()) * -300))
           }
+          if (this.type == 5) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -300), this.body.y + (Math.sin(link.angle()) * -300))
+          }
         }
         if (keysPressed['w'] && this.cooldowns[1] <= 0) {
           if (this.type == 0) {
@@ -4259,6 +4528,10 @@
           }
           if (this.type == 4) {
             this.abilities[1](this)
+          }
+          if (this.type == 5) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
         }
         if (keysPressed['e'] && this.cooldowns[2] <= 0) {
@@ -4281,6 +4554,10 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
           }
+          if (this.type == 5) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+          }
         }
         if (keysPressed['r'] && this.cooldowns[3] <= 0) {
           if (this.type == 0) {
@@ -4297,6 +4574,10 @@
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
           }
           if (this.type == 4) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+          }
+          if (this.type == 5) {
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
           }
@@ -4329,6 +4610,9 @@
         if (this.type == 4) {
           canvas_context.drawImage(i5, ((this.step % (i5.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
         }
+        if (this.type == 5) {
+          canvas_context.drawImage(i6, ((this.step % (i6.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
 
       }
 
@@ -4352,6 +4636,9 @@
         if (type == 4) {
           return this.manazone
         }
+        if (type == 5) {
+          return this.solarflares
+        }
       }
       power3(type) {
         if (type == -1) {
@@ -4371,6 +4658,9 @@
         }
         if (type == 4) {
           return this.nhaiSpike
+        }
+        if (type == 5) {
+          return this.psychosolar
         }
       }
       power2(type) {
@@ -4392,6 +4682,9 @@
         if (type == 4) {
           return this.nhaiShotToggle
         }
+        if (type == 5) {
+          return this.fusion
+        }
 
       }
       power1(type) {
@@ -4412,6 +4705,9 @@
         }
         if (type == 4) {
           return this.healblast
+        }
+        if (type == 5) {
+          return this.burnout
         }
       }
       unitmeleeChamp(self, target) {
@@ -4548,6 +4844,92 @@
         d.damage = 5
         d.update = 1
         d.name = "BoomSpike"
+        self.activeArts.push(d)
+        self.cooldowns[3] = 40 * 10
+      }
+      burnout(self, x, y){
+        let manaCost = 50
+        let healthcost = 25
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        if (self.health < healthcost) {
+          self.mana += manaCost
+          return
+        } else {
+          self.health -= healthcost
+        }
+
+        let lifeLength = 120
+        let shocher = new Circle(self.body.x, self.body.y, 50, "#FF000044") 
+        shocher.growth = 1.02
+        shocher.root = self.body
+        shocher.life = lifeLength
+        shocher.update = 1
+        shocher.damage = 2
+        shocher.slow = .95
+        shocher.bod = 1
+        shocher.bodi = 1
+        shocher.anchorToPlayer = 1
+        shocher.bodid = self.id
+        self.activeArts.push(shocher)
+        self.cooldowns[0] = 40 * 1
+      }
+      fusion(self){
+        if(self.health > 50){
+          self.health -= 50
+          self.mana += 100
+          self.cooldowns[1] = 30 * 5
+        }
+      }
+      psychosolar(self, x, y) {
+        let manaCost = 100
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 200
+        let d = new PsychoSolar(self.body, (new LineOP(self.body, new Point(x, y)).angle()))
+        d.echo = 1 
+        d.life = lifeLength
+        d.line = 1
+        d.moveAngle = 1
+        d.growth = 1
+        d.growth = 1.3
+        d.root = self.body
+        d.anchorToPlayer = 1
+        d.maxDis = 100
+        d.damage = 7
+        d.update = 1
+        d.name = "PsychoSolar"
+        self.activeArts.push(d)
+        self.cooldowns[2] = 120 * 4
+      }
+      solarflares(self, x, y) {
+
+        let manaCost = 100
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 200
+        let d = new SolarFlares(self.body, (new LineOP(self.body, new Point(x, y)).angle()), "gray")
+        d.echo = 1
+        d.life = lifeLength
+        d.line = 1
+        d.moveAngle = 1
+        d.growth = 1
+        d.growth = 1.3
+        d.root = self.body
+        d.anchorToPlayer = 1
+        d.maxDis = 100
+        d.damage = 5
+        d.update = 1
+        d.name = "SolarFlares"
         self.activeArts.push(d)
         self.cooldowns[3] = 40 * 10
       }
@@ -5249,6 +5631,8 @@
     i4.src = "https://ditzbitz.com/r27.png"
     let i5 = new Image()
     i5.src = "https://ditzbitz.com/r26.png"
+    let i6 = new Image()
+    i6.src = "https://ditzbitz.com/r14.png"
     let ie1 = new Image()
     ie1.src = "https://ditzbitz.com/c51.png"
     let ie2 = new Image()
@@ -6106,10 +6490,11 @@
     let team0 = new Rectangle(0, 0, 500, 100, "red")
     let team1 = new Rectangle(1280 - 500, 0, 500, 100, "#00ff00")
     let butguy1 = new Rectangle(600, 100, 50, 50, "white")
-    let butguy2 = new Rectangle(600, 180, 50, 50, "white")
-    let butguy3 = new Rectangle(600, 260, 50, 50, "white")
-    let butguy4 = new Rectangle(600, 340, 50, 50, "white")
-    let butguy5 = new Rectangle(600, 420, 50, 50, "white")
+    let butguy2 = new Rectangle(600, 160, 50, 50, "white")
+    let butguy3 = new Rectangle(600, 220, 50, 50, "white")
+    let butguy4 = new Rectangle(600, 280, 50, 50, "white")
+    let butguy5 = new Rectangle(600, 340, 50, 50, "white")
+    let butguy6 = new Rectangle(600, 400, 50, 50, "white")
     let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
     let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
     let teammaker = -1
@@ -6156,12 +6541,16 @@
         if (guymaker == 4) {
           butguy5.draw()
         }
+        if (guymaker == 5) {
+          butguy6.draw()
+        }
 
         canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
         canvas_context.drawImage(i2, 0, 0, 64, 64, butguy2.x, butguy2.y, butguy2.width, butguy2.height)
         canvas_context.drawImage(i3, 0, 0, 64, 64, butguy3.x, butguy3.y, butguy3.width, butguy3.height)
         canvas_context.drawImage(i4, 0, 0, 64, 64, butguy4.x, butguy4.y, butguy4.width, butguy4.height)
         canvas_context.drawImage(i5, 0, 0, 64, 64, butguy5.x, butguy5.y, butguy5.width, butguy5.height)
+        canvas_context.drawImage(i6, 0, 0, 64, 64, butguy6.x, butguy6.y, butguy6.width, butguy6.height)
 
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
