@@ -6007,6 +6007,9 @@
         canvas_context.font = "70px comic sans ms"
         canvas_context.fillText("Respawn in: " + respawn, 20 - translator.x, 180 - translator.y)
 
+        players[0].body.x = 9999999
+        players[0].goal.x = 9999999
+        players[0].goal.y = players[0].body.y
 
         respawn--
         if (respawn == 0) {
