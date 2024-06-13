@@ -2858,6 +2858,11 @@
         this.healthBarOut = new Rectangle(this.gear[0].box.x - 2, this.gear[0].box.y - 15, 484, 15, "#000000")
         this.healthBarOut.draw()
         this.healthBarBack.draw()
+        if(this.team.top == 0){
+          this.healthBar.color = "#FF0000"
+        }else{
+          this.healthBar.color = "#00FF00"
+        }
         this.healthBar.draw()
         canvas_context.strokeStyle = "white"
         canvas_context.lineWidth = 2.5
@@ -2872,6 +2877,11 @@
           this.manaBarOut = new Rectangle(this.gear[0].box.x - 2, this.gear[0].box.y - 30, 484, 15, "#000000")
           this.manaBarOut.draw()
           this.manaBarBack.draw()
+        if(this.team.top == 0){
+          this.manaBar.color = "#0000ff"
+        }else{
+          this.manaBar.color = "#00FFFF"
+        }
           this.manaBar.draw()
           let mb = Math.floor(this.maxmana / 100)
           let mbx = (this.maxmana / 100)
@@ -2914,6 +2924,11 @@
         this.healthBarOut = new Rectangle(this.body.x - 34, this.body.y - 44, 68, 11, "#000000")
         this.healthBarOut.draw()
         this.healthBarBack.draw()
+        if(this.team.top == 0){
+          this.healthBar.color = "#FF0000"
+        }else{
+          this.healthBar.color = "#00FF00"
+        }
         this.healthBar.draw()
         if (this.type != -1) {
 
@@ -2922,6 +2937,12 @@
           this.manaBarOut = new Rectangle(this.body.x - 34, this.body.y - 52, 68, 11, "#000000")
           this.manaBarOut.draw()
           this.manaBarBack.draw()
+
+        if(this.team.top == 0){
+          this.manaBar.color = "#0000ff"
+        }else{
+          this.manaBar.color = "#00FFFF"
+        }
           this.manaBar.draw()
           let mb = Math.floor(this.maxmana / 100)
           let mbx = (this.maxmana / 100)
@@ -5277,7 +5298,7 @@
 
 
 
-    let topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "blue") }
+    let topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "#00ff00") }
     let botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
     let wet = 0
     let spawner = 2
@@ -5391,7 +5412,7 @@
     function remakeWorld(teammakerDrop) {
 
 
-      topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "blue") }
+      topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "#00ff00") }
       botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
 
       storeUI1 = new StoreUI(topTeam)
@@ -5511,7 +5532,7 @@
     let respawn = 0
     let megaSnap = -1
     let team0 = new Rectangle(0, 0, 500, 100, "red")
-    let team1 = new Rectangle(1280 - 500, 0, 500, 100, "blue")
+    let team1 = new Rectangle(1280 - 500, 0, 500, 100, "#00ff00")
     let butguy1 = new Rectangle(600, 100, 50, 50, "white")
     let butguy2 = new Rectangle(600, 200, 50, 50, "white")
     let butguy3 = new Rectangle(600, 300, 50, 50, "white")
@@ -5568,7 +5589,7 @@
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
         canvas_context.fillText("red team", 50, 50)
-        canvas_context.fillText("blue team", 1280 - 450, 50)
+        canvas_context.fillText("green team", 1280 - 450, 50)
         canvas_context.fillStyle = "white"
         canvas_context.fillText("You are In Lobby: " + localRoom, 400, 500)
         canvas_context.font = "20px comic sans ms"
@@ -5923,7 +5944,7 @@
           dot.y += (720 - 270) - translator.y
           dot.draw()
         } else if (players[t].team.top == 1) {
-          let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "blue")
+          let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "#00ff00")
           if (players[t].type == -1) {
             dot.radius = 1.5
           }
