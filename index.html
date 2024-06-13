@@ -2327,12 +2327,16 @@
 
       } 
       draw(){
+        if(players[this.track]){
+        }else{
+          return
+        }
         if(this.local == 1){
           this.x = players[this.track].body.x
           this.y = players[this.track].body.y
           this.lock = new Point(TIP_engine.x,TIP_engine.y)
         }
-        this.angle = (new LineOP(players[this.track].body, this.lock)).angle()+Math.PI
+        this.angle = (new LineOP(players[this.track].body, this.lock)).angle()+Math.PI 
         let p1 = new Circle(players[this.track].body.x+(Math.cos(this.angle+.5)* 100), players[this.track].body.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
         let p2 = new Circle(players[this.track].body.x+(Math.cos(this.angle-.5)* 100), players[this.track].body.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
         let end = new Circle(players[this.track].body.x+(Math.cos(this.angle)* 200), players[this.track].body.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
@@ -2373,7 +2377,10 @@
 
       }
       doesPerimeterTouch(guybody){
-
+        if(players[this.track]){
+        }else{
+          return
+        }
         this.angle = (new LineOP(players[this.track].body, TIP_engine)).angle()+Math.PI
         let p1 = new Circle(players[this.track].body.x+(Math.cos(this.angle+.5)* 100), players[this.track].body.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
         let p2 = new Circle(players[this.track].body.x+(Math.cos(this.angle-.5)* 100), players[this.track].body.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
@@ -4943,7 +4950,7 @@
         } else {
           self.mana -= manaCost
         }
-        let lifeLength = 200
+        let lifeLength = 100
         let d = new SolarFlares(self.body, (new LineOP(self.body, new Point(x, y)).angle()), "gray")
         d.echo = 1
         d.life = lifeLength
