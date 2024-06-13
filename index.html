@@ -1151,7 +1151,7 @@
             }
           }
         }
-        if(teammaker != -1){
+        if(teammaker != -1 && respawn <= 0){
           canvas_context.resetTransform()
           canvas_context.translate(-(players[0].body.x-640), -(players[0].body.y-360));
           translator.x = -(players[0].body.x-640)
@@ -1159,7 +1159,7 @@
         }
         main()
 
-        if(teammaker != -1){
+        if(teammaker != -1 && respawn <= 0){
           canvas_context.resetTransform()
           canvas_context.translate(-(players[0].body.x-640), -(players[0].body.y-360));
           translator.x = -(players[0].body.x-640)
@@ -4913,7 +4913,7 @@
         d.root = self.body
         d.anchorToPlayer = 1
         d.maxDis = 100
-        d.damage = 7
+        d.damage = 3
         d.update = 1
         d.name = "PsychoSolar"
         self.activeArts.push(d)
@@ -4938,7 +4938,7 @@
         d.root = self.body
         d.anchorToPlayer = 1
         d.maxDis = 100
-        d.damage = 5
+        d.damage = 3
         d.update = 1
         d.name = "SolarFlares"
         self.activeArts.push(d)
