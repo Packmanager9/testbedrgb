@@ -2483,6 +2483,17 @@
         if (wet == 1) {
 
         for(let t = 0;t<5;t++){
+
+        let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
+        let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
+        let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 15, "yellow")
+
+        // let p2 = new Circle(this.x - (Math.cos(this.angle + 1) * 8), this.y - (Math.sin(this.angle + 1) * 8), 3, "blue")
+        // let m2 = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "blue")
+        // let k2 = new Circle(this.x - (Math.cos(this.angle + .75) * this.radius), this.y - (Math.sin(this.angle + .75) * this.radius), 3, "white")
+        let l1 = new LineOP(p, k, "gray", 6)
+        // l1.draw()
+        let l2 = new LineOP(m, k, "gray", 6)
           for (let z = 0; z < 10; z++) {
             for (let k = 0; k < walls.length; k++) {
               walls[k].doesPerimeterTouch(circle)
