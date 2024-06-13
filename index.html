@@ -1151,7 +1151,19 @@
             }
           }
         }
+        if(teammaker != -1){
+          canvas_context.resetTransform()
+          canvas_context.translate(-(players[0].body.x-640), -(players[0].body.y-360));
+          translator.x = -(players[0].body.x-640)
+          translator.y = -(players[0].body.y-360)
+        }
         main()
+        if(teammaker != -1){
+          canvas_context.resetTransform()
+          canvas_context.translate(-(players[0].body.x-640), -(players[0].body.y-360));
+          translator.x = -(players[0].body.x-640)
+          translator.y = -(players[0].body.y-360)
+        }
         // if (Math.random() < .01) {
         //   console.log(datalong + " Bytes", (-(tnowime - Date.now()) / 1000) + " Seconds", (-(datalong / (1024)) / ((tnowime - Date.now()) / 1000)) + " KBps")
 
@@ -1923,41 +1935,41 @@
               if (pc1.length > 0) {
                 let l = new LineOP(pc1[0], circle)
                 let a = l.angle()
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
               let pc2 = l2.crashPoint(circle)
               if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
               let pc3 = f1.crashPoint(circle)
               if (pc3.length > 0) {
                 let l = new LineOP(pc3[0], circle)
                 let a = l.angle()
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
               let pc4 = f2.crashPoint(circle)
               if (pc4.length > 0) {
                 let l = new LineOP(pc4[0], circle)
                 let a = l.angle()
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
 
             }
@@ -2087,33 +2099,33 @@
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc3.length > 0) {
                 let l = new LineOP(pc3[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc4.length > 0) {
                 let l = new LineOP(pc4[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
 
             }
@@ -2249,33 +2261,33 @@
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc3.length > 0) {
                 let l = new LineOP(pc3[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc4.length > 0) {
                 let l = new LineOP(pc4[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
 
             }
@@ -2406,17 +2418,17 @@
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 3
                 circle.y -= Math.sin(a) * 3
-                canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
-                translator.x += Math.cos(a) * 3
-                translator.y += Math.sin(a) * 3
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
               } else if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 3
                 circle.y -= Math.sin(a) * 3
-                canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
-                translator.x += Math.cos(a) * 3
-                translator.y += Math.sin(a) * 3
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
               }
             }
             // }else  if(pc3.length > 0){
@@ -2555,17 +2567,17 @@
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               } else if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
                 circle.x -= Math.cos(a) * 2
                 circle.y -= Math.sin(a) * 2
-                canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                translator.x += Math.cos(a) * 2
-                translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
+                //translator.x += Math.cos(a) * 2
+                //translator.y += Math.sin(a) * 2
               }
             }
             // }else  if(pc3.length > 0){
@@ -2830,9 +2842,9 @@
     }
 
     let translator = { x: 0, y: 0 }
-    canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-    translator.x -= 360 + (1280 - (640 - 360))
-    translator.y -= 360 + 720
+    //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+    //translator.x -= 360 + (1280 - (640 - 360))
+    //translator.y -= 360 + 720
 
     let worldpops = []
 
@@ -3776,9 +3788,9 @@
           let ydiff = this.body.y - this.root.y
           if (this == players[0]) {
 
-            canvas_context.translate(xdiff, ydiff)
-            translator.x += xdiff
-            translator.y += ydiff
+            //canvas_context.translate(xdiff, ydiff)
+            //translator.x += xdiff
+            //translator.y += ydiff
           }
           this.body.x = this.root.x
           this.body.y = this.root.y
@@ -3802,10 +3814,10 @@
                 this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
                 if (this.selected == 1 && players.indexOf(this) == 0) {
                   let as = (new LineOP(this.goal, this.body)).angle()
-                  canvas_context.translate(-((Math.sign(this.goal.x - this.body.x) * .5) + Math.cos(as) / 2), -((Math.sign(this.goal.y - this.body.y) * .5) + Math.sin(as) / 2))
+                  //canvas_context.translate(-((Math.sign(this.goal.x - this.body.x) * .5) + Math.cos(as) / 2), -((Math.sign(this.goal.y - this.body.y) * .5) + Math.sin(as) / 2))
 
-                  translator.x -= (Math.sign(this.goal.x - this.body.x) * .5) + ((Math.cos(as) / 2))
-                  translator.y -= (Math.sign(this.goal.y - this.body.y) * .5) + ((Math.sin(as) / 2))
+                  //translator.x -= (Math.sign(this.goal.x - this.body.x) * .5) + ((Math.cos(as) / 2))
+                  //translator.y -= (Math.sign(this.goal.y - this.body.y) * .5) + ((Math.sin(as) / 2))
                 }
               }
             } else {
@@ -3951,15 +3963,15 @@
           player.body.y -= Math.sin(la)
           if (player.body == players[0].body) {
 
-            canvas_context.translate(Math.cos(la), Math.sin(la))
-            translator.x += Math.cos(la)
-            translator.y += Math.sin(la)
+            //canvas_context.translate(Math.cos(la), Math.sin(la))
+            //translator.x += Math.cos(la)
+            //translator.y += Math.sin(la)
           }
           if (this.body == players[0].body) {
 
-            canvas_context.translate(-Math.cos(la), -Math.sin(la))
-            translator.x -= Math.cos(la)
-            translator.y -= Math.sin(la)
+            //canvas_context.translate(-Math.cos(la), -Math.sin(la))
+            //translator.x -= Math.cos(la)
+            //translator.y -= Math.sin(la)
           }
 
         }
@@ -5839,7 +5851,7 @@
         //     textcanvas_context.clearRect(0, 320 + textscroll, 1000, 40)
         //     textscroll += 12
         //   }
-        //   // textcanvas_context.translate(0, 12)
+        //   // text//canvas_context.translate(0, 12)
         //   // textcanvas.translate(0, 12)
         // }
       })
@@ -5884,9 +5896,9 @@
     if (wet == 1) {
       missileaneous.body.x += 850 * 2
       missileaneous.body.y += 1050 * 2
-      canvas_context.translate(-850 * 2, -1050 * 2)
-      translator.x -= 850 * 2
-      translator.y -= 1050 * 2
+      //canvas_context.translate(-850 * 2, -1050 * 2)
+      //translator.x -= 850 * 2
+      //translator.y -= 1050 * 2
       // missileaneous.team.top = 0
       // missileaneous.team.bot = 1
       // missileaneous.team.top = 1
@@ -6007,9 +6019,9 @@
       if (wet == 1) {
         missileaneous.body.x += 850 * 2
         missileaneous.body.y += 1050 * 2
-        canvas_context.translate(-850 * 2, -1050 * 2)
-        translator.x -= 850 * 2
-        translator.y -= 1050 * 2
+        //canvas_context.translate(-850 * 2, -1050 * 2)
+        //translator.x -= 850 * 2
+        //translator.y -= 1050 * 2
         // missileaneous.team.top = 0
         // missileaneous.team.bot = 1
         // missileaneous.team.top = 1
@@ -6122,8 +6134,8 @@
 
       if (teammaker == -1) {
         canvas_context.resetTransform()
-        translator.x = 0
-        translator.y = 0
+        //translator.x = 0
+        //translator.y = 0
         team0.draw()
         team1.draw()
         lobbyUp.draw()
@@ -6164,21 +6176,21 @@
 
         return
       } else if (teammaker == 1) {
-        canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-        translator.x = 0
-        translator.y = 0
-        translator.x += -360 - (1280 - (640 - 360))
-        translator.y += -360 - 720
+        //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+        //translator.x = 0
+        //translator.y = 0
+        //translator.x += -360 - (1280 - (640 - 360))
+        //translator.y += -360 - 720
         remakeWorld(teammaker)
         teammakerz = 1
         teammaker = 2
         return
       } else if (teammaker == 0) {
-        canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-        translator.x = 0
-        translator.y = 0
-        translator.x += -360 - (1280 - (640 - 360))
-        translator.y += -360 - 720
+        //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+        //translator.x = 0
+        //translator.y = 0
+        //translator.x += -360 - (1280 - (640 - 360))
+        //translator.y += -360 - 720
         remakeWorld(teammaker)
         teammakerz = 0
         teammaker = 2
@@ -6447,11 +6459,11 @@
         if (respawn == 0) {
 
           canvas_context.resetTransform()
-          canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-          translator.x = 0
-          translator.y = 0
-          translator.x += -360 - (1280 - (640 - 360))
-          translator.y += -360 - 720
+          //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+          //translator.x = 0
+          //translator.y = 0
+          //translator.x += -360 - (1280 - (640 - 360))
+          //translator.y += -360 - 720
           for (let t = 0; t < players.length; t++) {
             if (players[t]) { } else { continue }
             // if(players[t].health <=0){
@@ -6465,16 +6477,16 @@
               players[t].send = 1
               if (teammakerz == 1) {
                 canvas_context.resetTransform()
-                canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-                translator.x = 0
-                translator.y = 0
-                translator.x += -360 - (1280 - (640 - 360))
-                translator.y += -360 - 720
+                //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+                //translator.x = 0
+                //translator.y = 0
+                //translator.x += -360 - (1280 - (640 - 360))
+                //translator.y += -360 - 720
                 players[t].body.x += 850 * 2
                 players[t].body.y += 1050 * 2
-                canvas_context.translate(-850 * 2, -1050 * 2)
-                translator.x -= 850 * 2
-                translator.y -= 1050 * 2
+                //canvas_context.translate(-850 * 2, -1050 * 2)
+                //translator.x -= 850 * 2
+                //translator.y -= 1050 * 2
               }
               players[t].id = id
               players[t].gold = gold
