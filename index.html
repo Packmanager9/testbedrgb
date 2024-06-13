@@ -670,8 +670,8 @@
 
     let zoneA1 = new Circle(3120, 1340, 100, "blue")
     let zoneB2 = new Circle(2160, 2160, 100, "white")
-    let zoneC3 = new Circle(888, 2664, 100, "red") 
- 
+    let zoneC3 = new Circle(888, 2664, 100, "red")
+
     let zone1 = new Circle(3650, 1800, 300, "orange")
     let zone2 = new Circle(2700, 2700, 300, "green")
     let zone3 = new Circle(1560, 3700, 300, "cyan")
@@ -2670,6 +2670,7 @@
 
     class Champ {
       constructor(type, team) {
+        this.smackline = 0
         this.gaerboosts = {}
         this.gaerboosts.damage = 1
         this.gaerboosts.armor = 1
@@ -2858,9 +2859,9 @@
         this.healthBarOut = new Rectangle(this.gear[0].box.x - 2, this.gear[0].box.y - 15, 484, 15, "#000000")
         this.healthBarOut.draw()
         this.healthBarBack.draw()
-        if(this.team.top == 0){
+        if (this.team.top == 0) {
           this.healthBar.color = "#FF0000"
-        }else{
+        } else {
           this.healthBar.color = "#00FF00"
         }
         this.healthBar.draw()
@@ -2877,11 +2878,11 @@
           this.manaBarOut = new Rectangle(this.gear[0].box.x - 2, this.gear[0].box.y - 30, 484, 15, "#000000")
           this.manaBarOut.draw()
           this.manaBarBack.draw()
-        if(this.team.top == 0){
-          this.manaBar.color = "#0000ff"
-        }else{
-          this.manaBar.color = "#00FFFF"
-        }
+          if (this.team.top == 0) {
+            this.manaBar.color = "#0000ff"
+          } else {
+            this.manaBar.color = "#00FFFF"
+          }
           this.manaBar.draw()
           let mb = Math.floor(this.maxmana / 100)
           let mbx = (this.maxmana / 100)
@@ -2924,9 +2925,9 @@
         this.healthBarOut = new Rectangle(this.body.x - 34, this.body.y - 44, 68, 11, "#000000")
         this.healthBarOut.draw()
         this.healthBarBack.draw()
-        if(this.team.top == 0){
+        if (this.team.top == 0) {
           this.healthBar.color = "#FF0000"
-        }else{
+        } else {
           this.healthBar.color = "#00FF00"
         }
         this.healthBar.draw()
@@ -2938,11 +2939,11 @@
           this.manaBarOut.draw()
           this.manaBarBack.draw()
 
-        if(this.team.top == 0){
-          this.manaBar.color = "#0000ff"
-        }else{
-          this.manaBar.color = "#00FFFF"
-        }
+          if (this.team.top == 0) {
+            this.manaBar.color = "#0000ff"
+          } else {
+            this.manaBar.color = "#00FFFF"
+          }
           this.manaBar.draw()
           let mb = Math.floor(this.maxmana / 100)
           let mbx = (this.maxmana / 100)
@@ -3400,7 +3401,29 @@
           let min = 99999999
           let wet = 0
           //console.log(this.tar, zones)
-          if (this.hitlane == 0) {
+
+
+
+
+          for (let t = 0; t < players.length; t++) {
+            if (players[t]) { } else { continue }
+            if (players[t].team.top != this.team.top) {
+              let link = new LineOP(this.body, players[t].body)
+              let h = link.hypotenuse()
+              if (h < min && h < 400) {
+                min = h
+                target = players[t]
+                wet = 1
+              }
+            }
+          }
+          if (wet == 1) {
+            this.goal = target.body
+          } else {
+
+
+
+            if (this.hitlane == 0) {
             let link = new LineOP(this.body, zones[this.tar])
             let h = link.hypotenuse()
             if (h < min && h > 50 && this.hitlane == 0) {
@@ -3412,34 +3435,70 @@
             }
           }
           if (this.body.doesPerimeterTouch(zones[this.tar])) {
-            if(this.tar >= 3 && this.tar <= 5){
+            this.smackline++
+            if (this.smackline == 3) {
               this.hitlane = 1
-            }else{
-              if(this.tar == 0){
+            }
+            if (this.smackline == 1) {
+              if (this.tar == 0) {
                 this.tar = 3
-              }else  if(this.tar == 1){
+              } else if (this.tar == 1) {
                 this.tar = 4
-              }else  if(this.tar == 2){
+              } else if (this.tar == 2) {
+                this.tar = 5
+              } else if (this.tar == 6) {
+                this.tar = 3
+              } else if (this.tar == 7) {
+                this.tar = 4
+              } else if (this.tar == 8) {
                 this.tar = 5
               }
-              if(this.tar == 6){
-                this.tar = 3
-              }else  if(this.tar == 7){
-                this.tar = 4
-              }else  if(this.tar == 8){
-                this.tar = 5
+            }
+            if (this.smackline == 2) {
+              if (this.zop == 1) {
+                if (this.tar == 3) {
+                  this.tar = 0
+                } else if (this.tar == 4) {
+                  this.tar = 1
+                } else if (this.tar == 5) {
+                  this.tar = 2
+                }
+              }else{
+                if (this.tar == 3) {
+                  this.tar = 6
+                } else if (this.tar == 4) {
+                  this.tar = 7
+                } else if (this.tar == 5) {
+                  this.tar = 8
+                }
+              }
+            }
+          
+        }
+        if (wet == 1) {
+          this.goal = target
+          //console.log(this.goal)
+        } else {
+
+
+          for (let t = 0; t < players.length; t++) {
+            if (players[t]) { } else { continue }
+            if (players[t].team.top != this.team.top) {
+              let link = new LineOP(this.body, players[t].body)
+              let h = link.hypotenuse()
+              if (h < min && h < 500) {
+                min = h
+                target = players[t]
+                wet = 1
               }
             }
           }
           if (wet == 1) {
-            this.goal = target
-            //console.log(this.goal)
+            this.goal = target.body
           } else {
-
-
             for (let t = 0; t < players.length; t++) {
               if (players[t]) { } else { continue }
-              if (players[t].team.top != this.team.top) {
+              if (players[t].type != -1 && players[t].team.top != this.team.top) {
                 let link = new LineOP(this.body, players[t].body)
                 let h = link.hypotenuse()
                 if (h < min && h < 500) {
@@ -3449,296 +3508,299 @@
                 }
               }
             }
+
+            for (let t = 0; t < teams.length; t++) {
+              if (teams[t].top != this.team.top) {
+                let link = new LineOP(this.body, teams[t].body)
+                let h = link.hypotenuse()
+                if (h < min) {
+                  min = h
+                  target = teams[t]
+                  wet = 1
+                }
+              }
+            }
+            if (wet == 1) {
+              this.goal = target.body
+            }
             if (wet == 1) {
               this.goal = target.body
             } else {
-              for (let t = 0; t < players.length; t++) {
-                if (players[t]) { } else { continue }
-                if (players[t].type != -1 && players[t].team.top != this.team.top) {
-                  let link = new LineOP(this.body, players[t].body)
-                  let h = link.hypotenuse()
-                  if (h < min && h < 500) {
-                    min = h
-                    target = players[t]
-                    wet = 1
-                  }
-                }
-              }
 
-              for (let t = 0; t < teams.length; t++) {
-                if (teams[t].top != this.team.top) {
-                  let link = new LineOP(this.body, teams[t].body)
-                  let h = link.hypotenuse()
-                  if (h < min) {
-                    min = h
-                    target = teams[t]
-                    wet = 1
-                  }
-                }
-              }
-              if (wet == 1) {
-                this.goal = target.body
-              }
-              if (wet == 1) {
-                this.goal = target.body
-              } else {
-
-              }
             }
           }
         }
-        if (this.rooted > 0) {
-          this.rooted--
-          let xdiff = this.body.x - this.root.x
-          let ydiff = this.body.y - this.root.y
-          if (this == players[0]) {
 
-            canvas_context.translate(xdiff, ydiff)
-            translator.x += xdiff
-            translator.y += ydiff
           }
-          this.body.x = this.root.x
-          this.body.y = this.root.y
+      }
+      if(this.rooted > 0) {
+      this.rooted--
+      let xdiff = this.body.x - this.root.x
+      let ydiff = this.body.y - this.root.y
+      if (this == players[0]) {
 
-          if (this.goto) {
-            let l = new LineOP(this.goto, this.root)
-            let a = l.angle()
-            let h = l.hypotenuse()
-            this.root.x = this.goto.x - (Math.cos(a) * h * .85)
-            this.root.y = this.goto.y - (Math.sin(a) * h * .85)
-          }
-          this.goal = this.root
-        } else if (this.goal) {
-          if (this.goal == this.body) {
+        canvas_context.translate(xdiff, ydiff)
+        translator.x += xdiff
+        translator.y += ydiff
+      }
+      this.body.x = this.root.x
+      this.body.y = this.root.y
 
-          } else {
-            if (Math.abs(this.goal.x - this.body.x) + Math.abs(this.goal.y - this.body.y) > 2) {
-              for (let t = 0; t < ((((this.speed + this.tempSpeed) * 2) * this.slowedByFloor) * this.gaerboosts.speed); t++) {
-                let as = (new LineOP(this.goal, this.body)).angle()
-                this.body.x += Math.sign(this.goal.x - this.body.x) * .5 + ((Math.cos(as) / 2))
-                this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
-                if (this.selected == 1 && players.indexOf(this) == 0) {
-                  let as = (new LineOP(this.goal, this.body)).angle()
-                  canvas_context.translate(-((Math.sign(this.goal.x - this.body.x) * .5) + Math.cos(as) / 2), -((Math.sign(this.goal.y - this.body.y) * .5) + Math.sin(as) / 2))
+      if (this.goto) {
+        let l = new LineOP(this.goto, this.root)
+        let a = l.angle()
+        let h = l.hypotenuse()
+        this.root.x = this.goto.x - (Math.cos(a) * h * .85)
+        this.root.y = this.goto.y - (Math.sin(a) * h * .85)
+      }
+      this.goal = this.root
+    } else if (this.goal) {
+      if (this.goal == this.body) {
 
-                  translator.x -= (Math.sign(this.goal.x - this.body.x) * .5) + ((Math.cos(as) / 2))
-                  translator.y -= (Math.sign(this.goal.y - this.body.y) * .5) + ((Math.sin(as) / 2))
-                }
-              }
-            } else {
-              for (let t = 0; t < this.drops.length; t++) {
-                if (this.drops[t].dirLock > 0) {
-                  this.drops.splice(t, 1)
-                }
-              }
+      } else {
+        if (Math.abs(this.goal.x - this.body.x) + Math.abs(this.goal.y - this.body.y) > 2) {
+          for (let t = 0; t < ((((this.speed + this.tempSpeed) * 2) * this.slowedByFloor) * this.gaerboosts.speed); t++) {
+            let as = (new LineOP(this.goal, this.body)).angle()
+            this.body.x += Math.sign(this.goal.x - this.body.x) * .5 + ((Math.cos(as) / 2))
+            this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
+            if (this.selected == 1 && players.indexOf(this) == 0) {
+              let as = (new LineOP(this.goal, this.body)).angle()
+              canvas_context.translate(-((Math.sign(this.goal.x - this.body.x) * .5) + Math.cos(as) / 2), -((Math.sign(this.goal.y - this.body.y) * .5) + Math.sin(as) / 2))
+
+              translator.x -= (Math.sign(this.goal.x - this.body.x) * .5) + ((Math.cos(as) / 2))
+              translator.y -= (Math.sign(this.goal.y - this.body.y) * .5) + ((Math.sin(as) / 2))
             }
           }
-          if (this.send == 1) {
-            this.slowedByFloor = 1
-          }
-        }
-
-        if (ws.readyState == 1) { //can send
-          if (this.team.top == players[0].team.top && this.send == 1) { //somehow only send the players team
-            let json = {} //new message
-            if (this.type == -1) { //minion
-              json.minion = 1 //flag minion 
-              json.health = this.health //carry health for UI
-              json.x = this.body.x //positional x
-              json.y = this.body.y //positional y
-              json.shield = this.shield //positional y
-              json.id = this.id //id for lookup hits
-              json.top = this.team.top //id for lookup hits
-              json.slowedByFloor = this.slowedByFloor
-              logBinarySize(JSON.stringify(json))
-              ws.send(JSON.stringify(json)) //send object to other players
-            } else {
-              json.champ = 1 //flag for character
-              json.team = (this.team.top - 1) * -1//somehow only send the players team
-              let k = [...this.team.players]//decircularize team
-              let g = [...this.gear]//decircularize gear
-              let a = [...this.activeArts]//decircularize colliders
-              this.activeArts = []//remove collider
-              let t = this.team//decircularize team
-              this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
-              json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
-              json.top = this.team.top
-              if (this.sleep > -1) {
-                json.sleep = this.sleep
-              }
-              json.packet = JSON.stringify(this) // pack message
-              let packetz = JSON.parse(json.packet) // pack message
-              packetz.UI = []
-              packetz.healthBar = {}
-              packetz.healthBarBack = {}
-              packetz.healthBarOut = {}
-              packetz.manaBar = {}
-              packetz.manaBarBack = {}
-              packetz.manaBarOut = {}
-              packetz.gaerboosts = {}
-              packetz.cooldowns = []
-              packetz.abilities = []
-              delete packetz.selected
-              let b = new Point(this.body.x, this.body.y)
-              let gm = new Point(this.goal.x, this.goal.y)
-              b.radius = this.body.radius
-              packetz.body = b
-              packetz.goal = gm
-              json.packet = JSON.stringify(packetz)
-              //////console.log(JSON.parse(json.packet), packetz)
-              this.team.players = [...k] // recyclize team
-              this.team = t// recyclize team
-              this.activeArts = [...a]// recyclize colliders
-              this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
-              json.id = this.id//id for lookup hits
-              json.slowedByFloor = this.slowedByFloor
-              logBinarySize(JSON.stringify(json))
-              ws.send(JSON.stringify(json))//send object to other players
+        } else {
+          for (let t = 0; t < this.drops.length; t++) {
+            if (this.drops[t].dirLock > 0) {
+              this.drops.splice(t, 1)
             }
           }
         }
+      }
+      if (this.send == 1) {
+        this.slowedByFloor = 1
+      }
+    }
+
+    if (ws.readyState == 1) { //can send
+      if (this.team.top == players[0].team.top && this.send == 1) { //somehow only send the players team
+        let json = {} //new message
+        if (this.type == -1) { //minion
+          json.minion = 1 //flag minion 
+          json.health = this.health //carry health for UI
+          json.x = this.body.x //positional x
+          json.y = this.body.y //positional y
+          json.shield = this.shield //positional y
+          json.id = this.id //id for lookup hits
+          json.top = this.team.top //id for lookup hits
+          json.slowedByFloor = this.slowedByFloor
+          logBinarySize(JSON.stringify(json))
+          ws.send(JSON.stringify(json)) //send object to other players
+        } else {
+          json.champ = 1 //flag for character
+          json.team = (this.team.top - 1) * -1//somehow only send the players team
+          let k = [...this.team.players]//decircularize team
+          let g = [...this.gear]//decircularize gear
+          let a = [...this.activeArts]//decircularize colliders
+          this.activeArts = []//remove collider
+          let t = this.team//decircularize team
+          this.gear = [this.gear[0].type, this.gear[1].type, this.gear[2].type, this.gear[3].type]//fake gear data for resistances etc
+          json.gear = [this.gear[0], this.gear[1], this.gear[2], this.gear[3]]//pack gear data
+          json.top = this.team.top
+          if (this.sleep > -1) {
+            json.sleep = this.sleep
+          }
+          json.packet = JSON.stringify(this) // pack message
+          let packetz = JSON.parse(json.packet) // pack message
+          packetz.UI = []
+          packetz.healthBar = {}
+          packetz.healthBarBack = {}
+          packetz.healthBarOut = {}
+          packetz.manaBar = {}
+          packetz.manaBarBack = {}
+          packetz.manaBarOut = {}
+          packetz.gaerboosts = {}
+          packetz.cooldowns = []
+          packetz.abilities = []
+          delete packetz.selected
+          let b = new Point(this.body.x, this.body.y)
+          let gm = new Point(this.goal.x, this.goal.y)
+          b.radius = this.body.radius
+          packetz.body = b
+          packetz.goal = gm
+          json.packet = JSON.stringify(packetz)
+          //////console.log(JSON.parse(json.packet), packetz)
+          this.team.players = [...k] // recyclize team
+          this.team = t// recyclize team
+          this.activeArts = [...a]// recyclize colliders
+          this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
+          json.id = this.id//id for lookup hits
+          json.slowedByFloor = this.slowedByFloor
+          logBinarySize(JSON.stringify(json))
+          ws.send(JSON.stringify(json))//send object to other players
+        }
+      }
+    }
 
 
       }
-      collide(player) {
-        if (player.id == this.id) {
-          return
+    collide(player) {
+      if (player.id == this.id) {
+        return
+      }
+      if (!player) {
+        return
+      }
+      if (!player.activeArts) {
+        player.activeArts = []
+      }
+      let j = 0
+      while (this.body.doesPerimeterTouch(player.body)) {
+        j++
+        if (j > 100) {
+          break
         }
-        if (!player) {
-          return
-        }
-        if (!player.activeArts) {
-          player.activeArts = []
-        }
-        let j = 0
-        while (this.body.doesPerimeterTouch(player.body)) {
-          j++
-          if (j > 100) {
-            break
-          }
-          let li = new LineOP(this.body, player.body)
-          let la = li.angle()
-          this.body.x += Math.cos(la)
-          this.body.y += Math.sin(la)
-          player.body.x -= Math.cos(la)
-          player.body.y -= Math.sin(la)
-          if (player.body == players[0].body) {
+        let li = new LineOP(this.body, player.body)
+        let la = li.angle()
+        this.body.x += Math.cos(la)
+        this.body.y += Math.sin(la)
+        player.body.x -= Math.cos(la)
+        player.body.y -= Math.sin(la)
+        if (player.body == players[0].body) {
 
-            canvas_context.translate(Math.cos(la), Math.sin(la))
-            translator.x += Math.cos(la)
-            translator.y += Math.sin(la)
-          }
-          if (this.body == players[0].body) {
-
-            canvas_context.translate(-Math.cos(la), -Math.sin(la))
-            translator.x -= Math.cos(la)
-            translator.y -= Math.sin(la)
-          }
-
+          canvas_context.translate(Math.cos(la), Math.sin(la))
+          translator.x += Math.cos(la)
+          translator.y += Math.sin(la)
         }
-        // if (player.team.top == this.team.top) {
-        //   return
-        // }
-        for (let t = player.activeArts.length - 1; t >= 0; t--) {
-          if (player.activeArts[t]) { } else { continue }
-          if (player.team.top != this.team.top) { } else { continue }
-          if (player.activeArts[t].doesPerimeterTouch) {
-            ////////////////////////////console.log(player.activeArts[t], this)
-            if (player.activeArts[t].doesPerimeterTouch(this.body)) {
-              if (this.shield == 1) {
-                this.shield = 0
-                for (let k = this.activeArts.length - 1; k >= 0; k--) {
-                  if (this.activeArts[k]) { } else { continue }
-                  if (this.activeArts[k].knockShield == 1) {
-                    this.activeArts.splice(k, 1)
-                    continue
-                  }
-                }
-                if (player.activeArts[t].collide == 1) {
-                  player.activeArts.splice(t, 1)
+        if (this.body == players[0].body) {
+
+          canvas_context.translate(-Math.cos(la), -Math.sin(la))
+          translator.x -= Math.cos(la)
+          translator.y -= Math.sin(la)
+        }
+
+      }
+      // if (player.team.top == this.team.top) {
+      //   return
+      // }
+      for (let t = player.activeArts.length - 1; t >= 0; t--) {
+        if (player.activeArts[t]) { } else { continue }
+        if (player.team.top != this.team.top) { } else { continue }
+        if (player.activeArts[t].doesPerimeterTouch) {
+          ////////////////////////////console.log(player.activeArts[t], this)
+          if (player.activeArts[t].doesPerimeterTouch(this.body)) {
+            if (this.shield == 1) {
+              this.shield = 0
+              for (let k = this.activeArts.length - 1; k >= 0; k--) {
+                if (this.activeArts[k]) { } else { continue }
+                if (this.activeArts[k].knockShield == 1) {
+                  this.activeArts.splice(k, 1)
                   continue
                 }
-                if (player.activeArts[t].grab == 1) {
-                  player.activeArts[t].maxDis = player.activeArts[t].radius - 1
-                  player.activeArts[t].grab = 0
-                }
-
-                continue
-              }
-              if (player.activeArts[t].line == 1) {
-              }
-              if (player.activeArts[t].grab == 1) {
-                player.activeArts[t].grab = 0
-                player.mana += player.maxmana / 8
-                this.rooted = 10
-                this.root = player.activeArts[t].k
-                this.goto = player.body
-              }
-              if (player.activeArts[t].slow <= 1) {
-                this.slowedByFloor *= player.activeArts[t].slow
-              }
-              if (this.team.top != player.team.top) {
-                if (this.send == 1) {
-                  this.health -= (player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor
-                }
-                if (this.health <= 0) {
-                  let pop = new DeathPop(this.body.x, this.body.y, '')
-                  worldpops.push(pop)
-                }
-              }
-
-              if (this.health <= 0) {
-                player.gold += this.reward(player)
-                player.goldtotal += this.reward(player)
-              }
-
-              if (player.activeArts[t].emptyOut == 1) {
-                player.activeArts[t].damage = 0
               }
               if (player.activeArts[t].collide == 1) {
-                if (player.activeArts[t].pop == 1) {
-                  let angle = 0
-                  for (let p = 0; p < player.activeArts[t].poprays; p++) {
-                    let ojb = new Circle(player.activeArts[t].x, player.activeArts[t].y, player.activeArts[t].popradius, player.activeArts[t].popcolor, Math.cos(angle) * player.activeArts[t].poprate, Math.sin(angle) * player.activeArts[t].poprate)
-                    ojb.life = player.activeArts[t].poplife
-                    ojb.damage = player.activeArts[t].popdam
-                    ojb.collide = 1
-
-                    angle += (Math.PI * 2) / player.activeArts[t].poprays
-                    ojb.name = "Circle"
-                    player.activeArts.push(ojb)
-                  }
-                }
                 player.activeArts.splice(t, 1)
                 continue
               }
+              if (player.activeArts[t].grab == 1) {
+                player.activeArts[t].maxDis = player.activeArts[t].radius - 1
+                player.activeArts[t].grab = 0
+              }
+
+              continue
+            }
+            if (player.activeArts[t].line == 1) {
+            }
+            if (player.activeArts[t].grab == 1) {
+              player.activeArts[t].grab = 0
+              player.mana += player.maxmana / 8
+              this.rooted = 10
+              this.root = player.activeArts[t].k
+              this.goto = player.body
+            }
+            if (player.activeArts[t].slow <= 1) {
+              this.slowedByFloor *= player.activeArts[t].slow
+            }
+            if (this.team.top != player.team.top) {
+              if (this.send == 1) {
+                this.health -= (player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor
+              }
+              if (this.health <= 0) {
+                let pop = new DeathPop(this.body.x, this.body.y, '')
+                worldpops.push(pop)
+              }
+            }
+
+            if (this.health <= 0) {
+              player.gold += this.reward(player)
+              player.goldtotal += this.reward(player)
+            }
+
+            if (player.activeArts[t].emptyOut == 1) {
+              player.activeArts[t].damage = 0
+            }
+            if (player.activeArts[t].collide == 1) {
+              if (player.activeArts[t].pop == 1) {
+                let angle = 0
+                for (let p = 0; p < player.activeArts[t].poprays; p++) {
+                  let ojb = new Circle(player.activeArts[t].x, player.activeArts[t].y, player.activeArts[t].popradius, player.activeArts[t].popcolor, Math.cos(angle) * player.activeArts[t].poprate, Math.sin(angle) * player.activeArts[t].poprate)
+                  ojb.life = player.activeArts[t].poplife
+                  ojb.damage = player.activeArts[t].popdam
+                  ojb.collide = 1
+
+                  angle += (Math.PI * 2) / player.activeArts[t].poprays
+                  ojb.name = "Circle"
+                  player.activeArts.push(ojb)
+                }
+              }
+              player.activeArts.splice(t, 1)
+              continue
             }
           }
         }
       }
-      draw() {
+    }
+    draw() {
 
 
-        // this.body.draw()
-        // this.tick()
-        // if(this.selected == 1){
-        //     this.command()
-        // }
-        // this.fieldStuff()
-        // this.artDraw()
-        // if(this.selected == 1){
-        // this.drawUI()
-        // }
-        // this.move()
-      }
-      meleehit() {
-        if (this.type == -1) {
-          let target = {}
-          let min = 99999999
-          let wet = 0
+      // this.body.draw()
+      // this.tick()
+      // if(this.selected == 1){
+      //     this.command()
+      // }
+      // this.fieldStuff()
+      // this.artDraw()
+      // if(this.selected == 1){
+      // this.drawUI()
+      // }
+      // this.move()
+    }
+    meleehit() {
+      if (this.type == -1) {
+        let target = {}
+        let min = 99999999
+        let wet = 0
+        for (let t = 0; t < players.length; t++) {
+          if (players[t]) { } else { continue }
+          if (players[t].team.top != this.team.top) {
+            let link = new LineOP(this.body, players[t].body)
+            let h = link.hypotenuse()
+            if (h < min && h < 70) {
+              min = h
+              target = players[t]
+              wet = 1
+            }
+          }
+        }
+        if (wet == 1) {
+          this.abilities[0](this, target)
+        } else {
+
           for (let t = 0; t < players.length; t++) {
             if (players[t]) { } else { continue }
-            if (players[t].team.top != this.team.top) {
+            if (players[t].type != -1 && players[t].team.top != this.team.top) {
               let link = new LineOP(this.body, players[t].body)
               let h = link.hypotenuse()
               if (h < min && h < 70) {
@@ -3752,55 +3814,38 @@
             this.abilities[0](this, target)
           } else {
 
-            for (let t = 0; t < players.length; t++) {
-              if (players[t]) { } else { continue }
-              if (players[t].type != -1 && players[t].team.top != this.team.top) {
-                let link = new LineOP(this.body, players[t].body)
+            for (let t = 0; t < teams.length; t++) {
+              if (teams[t].top != this.team.top) {
+                let link = new LineOP(this.body, teams[t].body)
                 let h = link.hypotenuse()
                 if (h < min && h < 70) {
                   min = h
-                  target = players[t]
+                  target = teams[t]
                   wet = 1
                 }
               }
             }
             if (wet == 1) {
               this.abilities[0](this, target)
-            } else {
+              if (teams.includes(target)) {
+                if (this.send == 1) {
+                  let json = {}
+                  json.smackupbase = teams.indexOf(target)
+                  json.dam = 10
+                  if (json.smackupbase == 0) {
+                    //////console.log("t")
+                  } else {
+                    //////console.log("r")
+                    target.health -= 10
+                    logBinarySize(JSON.stringify(json))
+                    ws.send(JSON.stringify(json))
 
-              for (let t = 0; t < teams.length; t++) {
-                if (teams[t].top != this.team.top) {
-                  let link = new LineOP(this.body, teams[t].body)
-                  let h = link.hypotenuse()
-                  if (h < min && h < 70) {
-                    min = h
-                    target = teams[t]
-                    wet = 1
-                  }
-                }
-              }
-              if (wet == 1) {
-                this.abilities[0](this, target)
-                if (teams.includes(target)) {
-                  if (this.send == 1) {
-                    let json = {}
-                    json.smackupbase = teams.indexOf(target)
-                    json.dam = 10
-                    if (json.smackupbase == 0) {
-                      //////console.log("t")
-                    } else {
-                      //////console.log("r")
-                      target.health -= 10
-                      logBinarySize(JSON.stringify(json))
-                      ws.send(JSON.stringify(json))
-
-                      if (target.health <= 0) {
-                        worldstop = 1
-                        youLost = 0
-                      }
-
-
+                    if (target.health <= 0) {
+                      worldstop = 1
+                      youLost = 0
                     }
+
+
                   }
                 }
               }
@@ -3808,14 +3853,31 @@
           }
         }
       }
-      meleehitChamp() {
-        if (this.type != -1) {
-          let target = {}
-          let min = 99999999
-          let wet = 0
+    }
+    meleehitChamp() {
+      if (this.type != -1) {
+        let target = {}
+        let min = 99999999
+        let wet = 0
+        for (let t = 0; t < players.length; t++) {
+          if (players[t]) { } else { continue }
+          if (players[t].type != -1 && players[t].team.top != this.team.top) {
+            let link = new LineOP(this.body, players[t].body)
+            let h = link.hypotenuse()
+            if (h < min && h < 80) {
+              min = h
+              target = players[t]
+              wet = 1
+            }
+          }
+        }
+        if (wet == 1) {
+          this.basicAttack(this, target)
+        } else {
+
           for (let t = 0; t < players.length; t++) {
             if (players[t]) { } else { continue }
-            if (players[t].type != -1 && players[t].team.top != this.team.top) {
+            if (players[t].type == -1 && players[t].team.top != this.team.top) {
               let link = new LineOP(this.body, players[t].body)
               let h = link.hypotenuse()
               if (h < min && h < 80) {
@@ -3827,811 +3889,779 @@
           }
           if (wet == 1) {
             this.basicAttack(this, target)
-          } else {
-
-            for (let t = 0; t < players.length; t++) {
-              if (players[t]) { } else { continue }
-              if (players[t].type == -1 && players[t].team.top != this.team.top) {
-                let link = new LineOP(this.body, players[t].body)
-                let h = link.hypotenuse()
-                if (h < min && h < 80) {
-                  min = h
-                  target = players[t]
-                  wet = 1
-                }
-              }
-            }
-            if (wet == 1) {
-              this.basicAttack(this, target)
-            }
           }
         }
       }
-      unitAI() {
-        if (this.type == -1) {
-          if (this.cooldowns[0] <= 0 && this.team.top == players[0].team.top) {
-            this.meleehit()
+    }
+    unitAI() {
+      if (this.type == -1) {
+        if (this.cooldowns[0] <= 0 && this.team.top == players[0].team.top) {
+          this.meleehit()
+        }
+      }
+    }
+    champBasic() {
+      if (this.type != -1) {
+        if (this.cooldowns[4] <= 0) {
+          if (this.team.top == players[0].team.top && this.send == 1) {
+            this.meleehitChamp()
           }
         }
       }
-      champBasic() {
-        if (this.type != -1) {
-          if (this.cooldowns[4] <= 0) {
-            if (this.team.top == players[0].team.top && this.send == 1) {
-              this.meleehitChamp()
-            }
-          }
-        }
+    }
+    command() {
+      if (this.type == -1) {
+        this.unitAI()
+      } else {
+        this.champBasic()
       }
-      command() {
-        if (this.type == -1) {
-          this.unitAI()
-        } else {
-          this.champBasic()
-        }
-        if (keysPressed['q'] && this.cooldowns[0] <= 0) {
-          if (this.type == 0) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -300), this.body.y + (Math.sin(link.angle()) * -300))
-          }
-          if (this.type == 1) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -180), this.body.y + (Math.sin(link.angle()) * -180))
-          }
-          if (this.type == 2) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * 180), this.body.y + (Math.sin(link.angle()) * 180))
-          }
-          if (this.type == 3) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * 180), this.body.y + (Math.sin(link.angle()) * 180))
-          }
-        }
-        if (keysPressed['w'] && this.cooldowns[1] <= 0) {
-          if (this.type == 0) {
-            this.abilities[1](this, this.body.x, this.body.y)
-          }
-          if (this.type == 1) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
-          }
-          if (this.type == 2) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
-          }
-          if (this.type == 3) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
-          }
-        }
-        if (keysPressed['e'] && this.cooldowns[2] <= 0) {
-          if (this.type == 0) {
-            this.abilities[2](this)
-          }
-          if (this.type == 1) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[2](this)
-          }
-          if (this.type == 2) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[2](this)
-          }
-          if (this.type == 3) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
-          }
-        }
-        if (keysPressed['r'] && this.cooldowns[3] <= 0) {
-          if (this.type == 0) {
-            this.abilities[3](this)
-          }
-          if (this.type == 1) {
-            this.abilities[3](this)
-          }
-          if (this.type == 2) {
-            this.abilities[3](this, this.body.x, this.body.y)
-          }
-          if (this.type == 3) {
-            let link = new LineOP(this.body, TIP_engine)
-            this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
-          }
-        }
-      }
-      artDraw() {
-        if (this.type == -1) {
-          if (this.team.top == 1) {
-            canvas_context.drawImage(ie1, ((this.step % (ie1.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          } else {
-            canvas_context.drawImage(ie2, ((this.step % (ie2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          }
-        }
+      if (keysPressed['q'] && this.cooldowns[0] <= 0) {
         if (this.type == 0) {
-          if (this.sleep == 1) {
-            canvas_context.drawImage(i1, (20 * 64) + ((this.step % 4) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          } else {
-            canvas_context.drawImage(i1, ((this.step % 20) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          }
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -300), this.body.y + (Math.sin(link.angle()) * -300))
         }
         if (this.type == 1) {
-          canvas_context.drawImage(i2, ((this.step % (i2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -180), this.body.y + (Math.sin(link.angle()) * -180))
         }
         if (this.type == 2) {
-          canvas_context.drawImage(i3, ((this.step % (i3.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * 180), this.body.y + (Math.sin(link.angle()) * 180))
         }
         if (this.type == 3) {
-          canvas_context.drawImage(i4, ((this.step % (i4.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * 180), this.body.y + (Math.sin(link.angle()) * 180))
         }
-
+      }
+      if (keysPressed['w'] && this.cooldowns[1] <= 0) {
+        if (this.type == 0) {
+          this.abilities[1](this, this.body.x, this.body.y)
+        }
+        if (this.type == 1) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+        }
+        if (this.type == 2) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+        }
+        if (this.type == 3) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+        }
+      }
+      if (keysPressed['e'] && this.cooldowns[2] <= 0) {
+        if (this.type == 0) {
+          this.abilities[2](this)
+        }
+        if (this.type == 1) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[2](this)
+        }
+        if (this.type == 2) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[2](this)
+        }
+        if (this.type == 3) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+        }
+      }
+      if (keysPressed['r'] && this.cooldowns[3] <= 0) {
+        if (this.type == 0) {
+          this.abilities[3](this)
+        }
+        if (this.type == 1) {
+          this.abilities[3](this)
+        }
+        if (this.type == 2) {
+          this.abilities[3](this, this.body.x, this.body.y)
+        }
+        if (this.type == 3) {
+          let link = new LineOP(this.body, TIP_engine)
+          this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+        }
+      }
+    }
+    artDraw() {
+      if (this.type == -1) {
+        if (this.team.top == 1) {
+          canvas_context.drawImage(ie1, ((this.step % (ie1.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        } else {
+          canvas_context.drawImage(ie2, ((this.step % (ie2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
+      }
+      if (this.type == 0) {
+        if (this.sleep == 1) {
+          canvas_context.drawImage(i1, (20 * 64) + ((this.step % 4) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        } else {
+          canvas_context.drawImage(i1, ((this.step % 20) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
+      }
+      if (this.type == 1) {
+        canvas_context.drawImage(i2, ((this.step % (i2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+      }
+      if (this.type == 2) {
+        canvas_context.drawImage(i3, ((this.step % (i3.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+      }
+      if (this.type == 3) {
+        canvas_context.drawImage(i4, ((this.step % (i4.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
       }
 
+    }
 
-      power4(type) {
-        if (type == -1) {
-          return this.unitmelee
-        }
-        if (type == 0) {
-          return this.shielding
-        }
-        if (type == 1) {
-          return this.sliming
-        }
-        if (type == 2) {
-          return this.shockwaveP
-        }
-        if (type == 3) {
-          return this.boombeam
-        }
-      }
-      power3(type) {
-        if (type == -1) {
-          return this.unitmelee
-        }
-        if (type == 0) {
-          return this.sleeping
-        }
-        if (type == 1) {
-          return this.rushing
-        }
-        if (type == 2) {
-          return this.rushing
-        }
-        if (type == 3) {
-          return this.blastjump
-        }
-      }
-      power2(type) {
-        if (type == -1) {
-          return this.unitmelee
-        }
-        if (type == 0) {
-          return this.shockwave
-        }
-        if (type == 1) {
-          return this.yspike
-        }
-        if (type == 2) {
-          return this.tonguegrab
-        }
-        if (type == 3) {
-          return this.bombfield
-        }
-      }
-      power1(type) {
-        if (type == -1) {
-          return this.unitmelee
-        }
-        if (type == 0) {
-          return this.psyblast
-        }
-        if (type == 1) {
-          return this.slugmax
-        }
-        if (type == 2) {
-          return this.eggspit
-        }
-        if (type == 3) {
-          return this.bigbomb
-        }
-      }
-      unitmeleeChamp(self, target) {
-        let l = new LineOP(self.body, target.body)
-        if (l.hypotenuse() < (self.meleeRange * 1.15)) {
-          if (target.shield == 1) {
-          } else {
-            // target.health -= 34
-            if (target.health <= 0) {
 
-              self.gold += target.reward(self)
-              self.goldtotal += target.reward(self)
-            }
+    power4(type) {
+      if (type == -1) {
+        return this.unitmelee
+      }
+      if (type == 0) {
+        return this.shielding
+      }
+      if (type == 1) {
+        return this.sliming
+      }
+      if (type == 2) {
+        return this.shockwaveP
+      }
+      if (type == 3) {
+        return this.boombeam
+      }
+    }
+    power3(type) {
+      if (type == -1) {
+        return this.unitmelee
+      }
+      if (type == 0) {
+        return this.sleeping
+      }
+      if (type == 1) {
+        return this.rushing
+      }
+      if (type == 2) {
+        return this.rushing
+      }
+      if (type == 3) {
+        return this.blastjump
+      }
+    }
+    power2(type) {
+      if (type == -1) {
+        return this.unitmelee
+      }
+      if (type == 0) {
+        return this.shockwave
+      }
+      if (type == 1) {
+        return this.yspike
+      }
+      if (type == 2) {
+        return this.tonguegrab
+      }
+      if (type == 3) {
+        return this.bombfield
+      }
+    }
+    power1(type) {
+      if (type == -1) {
+        return this.unitmelee
+      }
+      if (type == 0) {
+        return this.psyblast
+      }
+      if (type == 1) {
+        return this.slugmax
+      }
+      if (type == 2) {
+        return this.eggspit
+      }
+      if (type == 3) {
+        return this.bigbomb
+      }
+    }
+    unitmeleeChamp(self, target) {
+      let l = new LineOP(self.body, target.body)
+      if (l.hypotenuse() < (self.meleeRange * 1.15)) {
+        if (target.shield == 1) {
+        } else {
+          // target.health -= 34
+          if (target.health <= 0) {
+
+            self.gold += target.reward(self)
+            self.goldtotal += target.reward(self)
           }
-          self.cooldowns[4] = 30 * 1
-          let manaCost = 0
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 6
-          let d = new MeleeSpike(self.body, this.meleeRange, (new LineOP(self.body, new Point(target.body.x, target.body.y)).angle()), "gray")
-          d.echo = 1
-          d.life = lifeLength
-          d.line = 1
-          d.growth = 1
-          d.growth = 1.3
-          d.root = self.body
-          d.maxDis = self.meleeRange
-          d.damage = 60
-          // d.collide = 1
-          d.emptyOut = 1
-          d.update = 1
-          d.name = "MeleeSpike"
-          self.activeArts.push(d)
         }
-      }
-      unitmelee(self, target) {
-        let l = new LineOP(self.body, target.body)
-        if (l.hypotenuse() < 70) {
-          if (target.shield == 1) {
-
-          } else {
-            // target.health -= 10
-            if (target.health <= 0) {
-              self.gold += target.reward(self)
-              self.goldtotal += target.reward(self)
-            }
-          }
-          self.cooldowns[0] = 30 * 1
-          let manaCost = 0
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 6
-          let d = new MeleeSpike(self.body, 64, (new LineOP(self.body, new Point(target.body.x, target.body.y)).angle()), "gray")
-          d.echo = 1
-          d.life = lifeLength
-          d.line = 1
-          d.growth = 1
-          d.growth = 1.3
-          d.root = self.body
-          d.maxDis = 70
-          d.damage = 10
-          // d.collide = 1
-          d.emptyOut = 1
-          d.update = 1
-          d.name = "MeleeSpike"
-          self.activeArts.push(d)
-        }
-      }
-      boombeam(self, x, y) {
-
-        let manaCost = 100
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 200
-        let d = new BoomSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "gray")
-        d.echo = 1
-        d.life = lifeLength
-        d.line = 1
-        d.moveAngle = 1
-        d.growth = 1
-        d.growth = 1.3
-        d.root = self.body
-        d.anchorToPlayer = 1
-        d.maxDis = 100
-        d.damage = 5
-        d.update = 1
-        d.name = "BoomSpike"
-        self.activeArts.push(d)
-        self.cooldowns[3] = 40 * 10
-      }
-      bombfield(self, x, y) {
-
-
-        let manaCost = 100
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 200
-        let distance = 0
-        let angle = (new LineOP(self.body, new Point(x, y)).angle())
-
-        for (let t = 1; t < 20; t++) {
-          let d = new Circle(x + (Math.cos(angle) * distance), y + (Math.sin(angle) * distance), 18, "#FFAA0088")
-          d.echo = 1
-          d.life = lifeLength
-          d.growth = .99
-          // d.root = TIP_engine
-          d.maxDis = 3000
-          d.update = 1
-          d.slow = .5
-          d.collide = 1
-          d.damage = 15
-          d.pop = 1
-          // d.sendEveryFrame = 1
-          d.popdam = 5
-          d.poprays = 9
-          d.poprate = 10
-          d.popradius = 5
-          d.popcolor = "yellow"
-          d.poplife = 10
-          // distance += 3-(t/30)
-          angle += Math.PI / 2
-          if (t % 5 == 0) {
-            distance += 40
-          }
-          d.name = "Circle"
-          self.activeArts.push(d)
-        }
-        self.cooldowns[1] = 40 * 8
-      }
-      bigbomb(self, x, y) {
-        let l = new LineOP(self.body, new Point(x, y))
-
-        let manaCost = 100
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 65
-        let shocher = new Circle(self.body.x, self.body.y, 35, "#888888", Math.cos(l.angle()) * 2 * 12, Math.sin(l.angle()) * 2 * 12)
-        shocher.growth = .999
-        // shocher.root = self.body
-        shocher.life = lifeLength
-        shocher.slow = .5
-        shocher.collide = 1
-        shocher.damage = 155
-        shocher.update = 1
-        shocher.pop = 1
-        shocher.popdam = 15
-        shocher.poprays = 9
-        shocher.poprate = 10
-        shocher.popradius = 5
-        shocher.popcolor = "yellow"
-        shocher.poplife = 10
-        shocher.name = "Circle"
-        self.activeArts.push(shocher)
-        self.cooldowns[0] = 40 * 4
-      }
-      eggspit(self, x, y) {
-        let l = new LineOP(self.body, new Point(x, y))
-
-        let manaCost = 60
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 65
-        let shocher = new Circle(self.body.x, self.body.y, 25, "#ff00ff", Math.cos(l.angle()) * 2 * 16, Math.sin(l.angle()) * 2 * 16)
-        shocher.growth = .999
-        // shocher.root = self.body
-        shocher.life = lifeLength
-        shocher.slow = .5
-        shocher.collide = 1
-        shocher.damage = 125
-        shocher.update = 1
-        shocher.pop = 1
-        shocher.popdam = 10
-        shocher.poprays = 17
-        shocher.poprate = 10
-        shocher.popradius = 5
-        shocher.popcolor = "yellow"
-        shocher.poplife = 10
-        shocher.name = "Circle"
-        self.activeArts.push(shocher)
-        self.cooldowns[0] = 40 * 2
-      }
-      tonguegrab(self, x, y) {
-        let manaCost = 70
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 30
-        let d = new TongueSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "blue", self)
-        d.echo = 1
-        d.life = lifeLength
-        d.growth = 1
-        d.growth = 1.15
-        d.root = self.body
-        d.grab = 1
-        d.maxDis = 300
-        // d.follow = 1
-        d.damage = 8
-        d.update = 1
-        // d.tip = 1
-        d.name = "TongueSpike"
-        self.activeArts.push(d)
-        self.cooldowns[1] = 40 * 3
-      }
-      slugmax(self, x, y) {
-
-        let manaCost = 70
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 100
-        let distance = 0
-        let angle = (new LineOP(self.body, new Point(x, y)).angle())
-
-        for (let t = 0; t < 60; t++) {
-          let d = new Circle(x + (Math.cos(angle) * distance), y + (Math.sin(angle) * distance), 90 - (t / 1), "#AAFF0020")
-          d.echo = 1
-          d.life = lifeLength
-          d.growth = .989
-          // d.root = TIP_engine
-          d.maxDis = 3000
-          d.update = 1
-          d.slow = .9
-          d.damage = .2
-          // d.sendEveryFrame = 1
-          distance += 3 - (t / 30)
-          angle += (Math.PI + (Math.PI / 60))
-          d.name = "Circle"
-          self.activeArts.push(d)
-        }
-        self.cooldowns[0] = 40 * 10
-      }
-      dropSlime(self) {
-        self.slimeTime++
-        if (self.slimeTime % 10 == 0) {
-          let manaCost = 5
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 65
-          let shocher = new Circle(self.body.x, self.body.y, 50, "#00ff0023")
-          shocher.growth = .985
-          // shocher.root = self.body
-          shocher.life = lifeLength
-          shocher.poison = 1
-          shocher.damage = 1.4
-          shocher.slow = .9
-          // shocher.sendEveryFrame = 1
-          shocher.update = 1
-          self.activeArts.push(shocher)
-        }
-      }
-      sliming(self) {
-
-        self.slimeTime = 0
-        self.slimeToggle *= -1
-        self.cooldowns[3] = 40 * .5
-      }
-
-      blastjump(self) {
-        let manaCost = 25
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-
-        let speedBoost = 10
-        self.tempSpeed += speedBoost
-        self.boosts.push({ speedDown: 180, dropBy: speedBoost })
-        // self.drops.push({ dirLock: 180 })
-        self.health -= self.maxhealth * .1
-        if (self.health <= 0) {
-          self.health = 1
-        }
-        let lifeLength = 16
-        let shocher = new Circle(self.body.x, self.body.y, 85, "#FFFF0033")
-        shocher.growth = 1
-        // shocher.root = self.body
-        shocher.damage = 4
-        shocher.life = lifeLength
-        shocher.update = 1
-        self.activeArts.push(shocher)
-        let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FF000022")
-        shocher2.growth = 1
-        // shocher2.root = self.body
-        shocher2.damage = 4
-        shocher2.life = lifeLength
-        shocher2.update = 1
-        self.activeArts.push(shocher2)
-        self.cooldowns[2] = 40 * 5
-      }
-
-      rushing(self) {
-        let manaCost = 25
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-
-        let speedBoost = 3
-        self.tempSpeed += speedBoost
-        self.boosts.push({ speedDown: 180, dropBy: speedBoost })
-        self.drops.push({ dirLock: 180 })
-        self.cooldowns[2] = 40 * 5
-      }
-      sleeping(self) {
+        self.cooldowns[4] = 30 * 1
         let manaCost = 0
         if (self.mana < manaCost) {
           return
         } else {
           self.mana -= manaCost
         }
+        let lifeLength = 6
+        let d = new MeleeSpike(self.body, this.meleeRange, (new LineOP(self.body, new Point(target.body.x, target.body.y)).angle()), "gray")
+        d.echo = 1
+        d.life = lifeLength
+        d.line = 1
+        d.growth = 1
+        d.growth = 1.3
+        d.root = self.body
+        d.maxDis = self.meleeRange
+        d.damage = 60
+        // d.collide = 1
+        d.emptyOut = 1
+        d.update = 1
+        d.name = "MeleeSpike"
+        self.activeArts.push(d)
+      }
+    }
+    unitmelee(self, target) {
+      let l = new LineOP(self.body, target.body)
+      if (l.hypotenuse() < 70) {
+        if (target.shield == 1) {
 
-        self.sleep *= -1
-        if (self.sleep == 1) {
-          self.health += (self.maxhealth / 10)
-          if (self.health > self.maxhealth) {
-            self.health = self.maxhealth
-          }
         } else {
-          self.mana += (self.maxmana / 10)
-          if (self.mana > self.maxmana) {
-            self.mana = self.maxmana
+          // target.health -= 10
+          if (target.health <= 0) {
+            self.gold += target.reward(self)
+            self.goldtotal += target.reward(self)
           }
         }
-        self.cooldowns[2] = 40 * 2
-      }
-      shielding(self) {
-        if (self.sleep == 1) {
-          let manaCost = 100
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 400
-          for (let t = 0; t < players.length; t++) {
-            if (players[t]) { } else { continue }
-            if (players[t].team.top == self.team.top) {
-              players[t].shield = 1
-              let shocher = new Circle(players[t].body.x, players[t].body.y, 50, "#00FFFF44")
-              shocher.growth = 1
-              shocher.root = players[t].body
-              shocher.life = lifeLength
-              shocher.bod = 1
-              shocher.bodi = 1
-              shocher.bodid = players[t].id
-              shocher.update = 1
-              shocher.knockShield = 1
-              shocher.shield = 1
-              players[t].activeArts.push(shocher)
-              shocher.damage = 0
-            }
-          }
-          self.cooldowns[3] = 40 * 5
-        } else {
-          let manaCost = 100
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 300
-          for (let t = 0; t < players.length; t++) {
-            if (players[t]) { } else { continue }
-            if (players[t].team.top == self.team.top) {
-              players[t].shield = 1
-              let shocher = new Circle(players[t].body.x, players[t].body.y, 50, "#00FFFF44")
-              shocher.growth = 1
-              shocher.root = players[t].body
-              shocher.life = lifeLength
-              shocher.update = 1
-              shocher.knockShield = 1
-              shocher.shield = 1
-              shocher.bod = 1
-              shocher.bodi = 1
-              shocher.bodid = players[t].id
-              players[t].activeArts.push(shocher)
-              shocher.damage = 0
-            }
-          }
-          self.cooldowns[3] = 40 * 3
-        }
-      }
-      shockwave(self, x, y) {
-        if (self.sleep == 1) {
-          let manaCost = 60
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 16
-          let shocher = new Circle(self.body.x, self.body.y, 85, "#FF000033")
-          shocher.growth = 1
-          shocher.root = self.body
-          shocher.damage = 3
-          shocher.life = lifeLength
-          shocher.update = 1
-          shocher.bod = 1
-          shocher.bodi = 1
-          shocher.bodid = self.id
-          self.activeArts.push(shocher)
-          let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FFffFF22")
-          shocher2.growth = 1
-          shocher2.root = self.body
-          shocher2.damage = 3
-          shocher2.life = lifeLength
-          shocher2.update = 1
-          shocher2.bod = 1
-          shocher2.bodi = 1
-          shocher2.bodid = self.id
-          self.activeArts.push(shocher2)
-          self.cooldowns[1] = 40 * 6
-        } else {
-          let manaCost = 60
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 30
-          let shocher = new Circle(self.body.x, self.body.y, 35, "#00ff0033")
-          shocher.growth = 1.055
-          shocher.root = self.body
-          shocher.life = lifeLength
-          shocher.update = 1
-          shocher.bod = 1
-          shocher.bodi = 1
-          shocher.bodid = self.id
-          shocher.anchorToPlayer = 1
-          shocher.damage = 3.5
-          self.activeArts.push(shocher)
-          let shocher2 = new Circle(self.body.x, self.body.y, 28, "#FFffFF22")
-          shocher2.growth = 1.055
-          shocher2.root = self.body
-          shocher2.life = lifeLength
-          shocher2.damage = 3.5
-          shocher2.update = 1
-          shocher2.bod = 1
-          shocher2.bodi = 1
-          shocher2.bodid = self.id
-          shocher2.anchorToPlayer = 1
-          self.activeArts.push(shocher2)
-          self.cooldowns[1] = 40 * 6
-        }
-      }
-      shockwaveP(self, x, y) {
-        let manaCost = 40
+        self.cooldowns[0] = 30 * 1
+        let manaCost = 0
         if (self.mana < manaCost) {
           return
         } else {
           self.mana -= manaCost
         }
-        let lifeLength = 9
-        let shocher = new Circle(self.body.x, self.body.y, 35, "#00ffff40")
-        shocher.growth = 1.17
+        let lifeLength = 6
+        let d = new MeleeSpike(self.body, 64, (new LineOP(self.body, new Point(target.body.x, target.body.y)).angle()), "gray")
+        d.echo = 1
+        d.life = lifeLength
+        d.line = 1
+        d.growth = 1
+        d.growth = 1.3
+        d.root = self.body
+        d.maxDis = 70
+        d.damage = 10
+        // d.collide = 1
+        d.emptyOut = 1
+        d.update = 1
+        d.name = "MeleeSpike"
+        self.activeArts.push(d)
+      }
+    }
+    boombeam(self, x, y) {
+
+      let manaCost = 100
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 200
+      let d = new BoomSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "gray")
+      d.echo = 1
+      d.life = lifeLength
+      d.line = 1
+      d.moveAngle = 1
+      d.growth = 1
+      d.growth = 1.3
+      d.root = self.body
+      d.anchorToPlayer = 1
+      d.maxDis = 100
+      d.damage = 5
+      d.update = 1
+      d.name = "BoomSpike"
+      self.activeArts.push(d)
+      self.cooldowns[3] = 40 * 10
+    }
+    bombfield(self, x, y) {
+
+
+      let manaCost = 100
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 200
+      let distance = 0
+      let angle = (new LineOP(self.body, new Point(x, y)).angle())
+
+      for (let t = 1; t < 20; t++) {
+        let d = new Circle(x + (Math.cos(angle) * distance), y + (Math.sin(angle) * distance), 18, "#FFAA0088")
+        d.echo = 1
+        d.life = lifeLength
+        d.growth = .99
+        // d.root = TIP_engine
+        d.maxDis = 3000
+        d.update = 1
+        d.slow = .5
+        d.collide = 1
+        d.damage = 15
+        d.pop = 1
+        // d.sendEveryFrame = 1
+        d.popdam = 5
+        d.poprays = 9
+        d.poprate = 10
+        d.popradius = 5
+        d.popcolor = "yellow"
+        d.poplife = 10
+        // distance += 3-(t/30)
+        angle += Math.PI / 2
+        if (t % 5 == 0) {
+          distance += 40
+        }
+        d.name = "Circle"
+        self.activeArts.push(d)
+      }
+      self.cooldowns[1] = 40 * 8
+    }
+    bigbomb(self, x, y) {
+      let l = new LineOP(self.body, new Point(x, y))
+
+      let manaCost = 100
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 65
+      let shocher = new Circle(self.body.x, self.body.y, 35, "#888888", Math.cos(l.angle()) * 2 * 12, Math.sin(l.angle()) * 2 * 12)
+      shocher.growth = .999
+      // shocher.root = self.body
+      shocher.life = lifeLength
+      shocher.slow = .5
+      shocher.collide = 1
+      shocher.damage = 155
+      shocher.update = 1
+      shocher.pop = 1
+      shocher.popdam = 15
+      shocher.poprays = 9
+      shocher.poprate = 10
+      shocher.popradius = 5
+      shocher.popcolor = "yellow"
+      shocher.poplife = 10
+      shocher.name = "Circle"
+      self.activeArts.push(shocher)
+      self.cooldowns[0] = 40 * 4
+    }
+    eggspit(self, x, y) {
+      let l = new LineOP(self.body, new Point(x, y))
+
+      let manaCost = 60
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 65
+      let shocher = new Circle(self.body.x, self.body.y, 25, "#ff00ff", Math.cos(l.angle()) * 2 * 16, Math.sin(l.angle()) * 2 * 16)
+      shocher.growth = .999
+      // shocher.root = self.body
+      shocher.life = lifeLength
+      shocher.slow = .5
+      shocher.collide = 1
+      shocher.damage = 125
+      shocher.update = 1
+      shocher.pop = 1
+      shocher.popdam = 10
+      shocher.poprays = 17
+      shocher.poprate = 10
+      shocher.popradius = 5
+      shocher.popcolor = "yellow"
+      shocher.poplife = 10
+      shocher.name = "Circle"
+      self.activeArts.push(shocher)
+      self.cooldowns[0] = 40 * 2
+    }
+    tonguegrab(self, x, y) {
+      let manaCost = 70
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 30
+      let d = new TongueSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "blue", self)
+      d.echo = 1
+      d.life = lifeLength
+      d.growth = 1
+      d.growth = 1.15
+      d.root = self.body
+      d.grab = 1
+      d.maxDis = 300
+      // d.follow = 1
+      d.damage = 8
+      d.update = 1
+      // d.tip = 1
+      d.name = "TongueSpike"
+      self.activeArts.push(d)
+      self.cooldowns[1] = 40 * 3
+    }
+    slugmax(self, x, y) {
+
+      let manaCost = 70
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 100
+      let distance = 0
+      let angle = (new LineOP(self.body, new Point(x, y)).angle())
+
+      for (let t = 0; t < 60; t++) {
+        let d = new Circle(x + (Math.cos(angle) * distance), y + (Math.sin(angle) * distance), 90 - (t / 1), "#AAFF0020")
+        d.echo = 1
+        d.life = lifeLength
+        d.growth = .989
+        // d.root = TIP_engine
+        d.maxDis = 3000
+        d.update = 1
+        d.slow = .9
+        d.damage = .2
+        // d.sendEveryFrame = 1
+        distance += 3 - (t / 30)
+        angle += (Math.PI + (Math.PI / 60))
+        d.name = "Circle"
+        self.activeArts.push(d)
+      }
+      self.cooldowns[0] = 40 * 10
+    }
+    dropSlime(self) {
+      self.slimeTime++
+      if (self.slimeTime % 10 == 0) {
+        let manaCost = 5
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 65
+        let shocher = new Circle(self.body.x, self.body.y, 50, "#00ff0023")
+        shocher.growth = .985
+        // shocher.root = self.body
+        shocher.life = lifeLength
+        shocher.poison = 1
+        shocher.damage = 1.4
+        shocher.slow = .9
+        // shocher.sendEveryFrame = 1
+        shocher.update = 1
+        self.activeArts.push(shocher)
+      }
+    }
+    sliming(self) {
+
+      self.slimeTime = 0
+      self.slimeToggle *= -1
+      self.cooldowns[3] = 40 * .5
+    }
+
+    blastjump(self) {
+      let manaCost = 25
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+
+      let speedBoost = 10
+      self.tempSpeed += speedBoost
+      self.boosts.push({ speedDown: 180, dropBy: speedBoost })
+      // self.drops.push({ dirLock: 180 })
+      self.health -= self.maxhealth * .1
+      if (self.health <= 0) {
+        self.health = 1
+      }
+      let lifeLength = 16
+      let shocher = new Circle(self.body.x, self.body.y, 85, "#FFFF0033")
+      shocher.growth = 1
+      // shocher.root = self.body
+      shocher.damage = 4
+      shocher.life = lifeLength
+      shocher.update = 1
+      self.activeArts.push(shocher)
+      let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FF000022")
+      shocher2.growth = 1
+      // shocher2.root = self.body
+      shocher2.damage = 4
+      shocher2.life = lifeLength
+      shocher2.update = 1
+      self.activeArts.push(shocher2)
+      self.cooldowns[2] = 40 * 5
+    }
+
+    rushing(self) {
+      let manaCost = 25
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+
+      let speedBoost = 3
+      self.tempSpeed += speedBoost
+      self.boosts.push({ speedDown: 180, dropBy: speedBoost })
+      self.drops.push({ dirLock: 180 })
+      self.cooldowns[2] = 40 * 5
+    }
+    sleeping(self) {
+      let manaCost = 0
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+
+      self.sleep *= -1
+      if (self.sleep == 1) {
+        self.health += (self.maxhealth / 10)
+        if (self.health > self.maxhealth) {
+          self.health = self.maxhealth
+        }
+      } else {
+        self.mana += (self.maxmana / 10)
+        if (self.mana > self.maxmana) {
+          self.mana = self.maxmana
+        }
+      }
+      self.cooldowns[2] = 40 * 2
+    }
+    shielding(self) {
+      if (self.sleep == 1) {
+        let manaCost = 100
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 400
+        for (let t = 0; t < players.length; t++) {
+          if (players[t]) { } else { continue }
+          if (players[t].team.top == self.team.top) {
+            players[t].shield = 1
+            let shocher = new Circle(players[t].body.x, players[t].body.y, 50, "#00FFFF44")
+            shocher.growth = 1
+            shocher.root = players[t].body
+            shocher.life = lifeLength
+            shocher.bod = 1
+            shocher.bodi = 1
+            shocher.bodid = players[t].id
+            shocher.update = 1
+            shocher.knockShield = 1
+            shocher.shield = 1
+            players[t].activeArts.push(shocher)
+            shocher.damage = 0
+          }
+        }
+        self.cooldowns[3] = 40 * 5
+      } else {
+        let manaCost = 100
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 300
+        for (let t = 0; t < players.length; t++) {
+          if (players[t]) { } else { continue }
+          if (players[t].team.top == self.team.top) {
+            players[t].shield = 1
+            let shocher = new Circle(players[t].body.x, players[t].body.y, 50, "#00FFFF44")
+            shocher.growth = 1
+            shocher.root = players[t].body
+            shocher.life = lifeLength
+            shocher.update = 1
+            shocher.knockShield = 1
+            shocher.shield = 1
+            shocher.bod = 1
+            shocher.bodi = 1
+            shocher.bodid = players[t].id
+            players[t].activeArts.push(shocher)
+            shocher.damage = 0
+          }
+        }
+        self.cooldowns[3] = 40 * 3
+      }
+    }
+    shockwave(self, x, y) {
+      if (self.sleep == 1) {
+        let manaCost = 60
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 16
+        let shocher = new Circle(self.body.x, self.body.y, 85, "#FF000033")
+        shocher.growth = 1
+        shocher.root = self.body
+        shocher.damage = 3
+        shocher.life = lifeLength
+        shocher.update = 1
+        shocher.bod = 1
+        shocher.bodi = 1
+        shocher.bodid = self.id
+        self.activeArts.push(shocher)
+        let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FFffFF22")
+        shocher2.growth = 1
+        shocher2.root = self.body
+        shocher2.damage = 3
+        shocher2.life = lifeLength
+        shocher2.update = 1
+        shocher2.bod = 1
+        shocher2.bodi = 1
+        shocher2.bodid = self.id
+        self.activeArts.push(shocher2)
+        self.cooldowns[1] = 40 * 6
+      } else {
+        let manaCost = 60
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 30
+        let shocher = new Circle(self.body.x, self.body.y, 35, "#00ff0033")
+        shocher.growth = 1.055
         shocher.root = self.body
         shocher.life = lifeLength
         shocher.update = 1
-        shocher.damage = 25
-        shocher.slow = .05
         shocher.bod = 1
         shocher.bodi = 1
-        shocher.anchorToPlayer = 1
         shocher.bodid = self.id
+        shocher.anchorToPlayer = 1
+        shocher.damage = 3.5
         self.activeArts.push(shocher)
-        self.cooldowns[3] = 40 * 1
+        let shocher2 = new Circle(self.body.x, self.body.y, 28, "#FFffFF22")
+        shocher2.growth = 1.055
+        shocher2.root = self.body
+        shocher2.life = lifeLength
+        shocher2.damage = 3.5
+        shocher2.update = 1
+        shocher2.bod = 1
+        shocher2.bodi = 1
+        shocher2.bodid = self.id
+        shocher2.anchorToPlayer = 1
+        self.activeArts.push(shocher2)
+        self.cooldowns[1] = 40 * 6
       }
+    }
+    shockwaveP(self, x, y) {
+      let manaCost = 40
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 9
+      let shocher = new Circle(self.body.x, self.body.y, 35, "#00ffff40")
+      shocher.growth = 1.17
+      shocher.root = self.body
+      shocher.life = lifeLength
+      shocher.update = 1
+      shocher.damage = 25
+      shocher.slow = .05
+      shocher.bod = 1
+      shocher.bodi = 1
+      shocher.anchorToPlayer = 1
+      shocher.bodid = self.id
+      self.activeArts.push(shocher)
+      self.cooldowns[3] = 40 * 1
+    }
 
-      psyblast(self, x, y) {
-        if (self.sleep == 1) {
-          let manaCost = 130
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 60
-          let dx = new Circle(self.body.x, self.body.y, 150, "#FF00FF88")
-          dx.life = lifeLength
-          dx.update = 1
-          dx.growth = 1
-          dx.damage = 20
-          dx.bod = 1
-          dx.bodi = 1
-          dx.bodid = self.id
-          dx.anchorToPlayer = 1
-          dx.root = self.body
-          self.activeArts.push(dx)
-          self.cooldowns[0] = 40 * 10
+    psyblast(self, x, y) {
+      if (self.sleep == 1) {
+        let manaCost = 130
+        if (self.mana < manaCost) {
+          return
         } else {
-          let manaCost = 130
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 100
-          let d = new Circle(x, y, 10, "magenta")
-          d.echo = 1
-          d.growth = 1
-          d.life = lifeLength
-          d.bodo = 1
-          d.maxDis = 300
-          d.tipo = 1
-          d.local = 1
-          d.root = TIP_engine
-          d.follow = 1
-          d.update = 1
-          d.damage = 2
-          self.activeArts.push(d)
-          let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
-          dx.echo = 1
-          dx.life = lifeLength
-          dx.update = 1
-          dx.root = self.body
-          dx.bod = 1
-          dx.bodi = 1
-          dx.bodid = self.id
-          dx.local = 1
-          dx.damage = 2
-          dx.maxDis = 300
-          dx.follow = 1
-          dx.anchorToPlayer = 1
-          dx.growth = 1
-          self.activeArts.push(dx)
-          let dxi = new Circle(self.body.x, self.body.y, 7, "white")
-          dxi.echo = 1
-          dxi.life = lifeLength
-          dxi.update = 1
-          dxi.root = self.body
-          dxi.local = 1
-          dxi.bod = 1
-          dxi.bodi = 1
-          dxi.bodid = self.id
-          dxi.anchorToPlayer = 1
+          self.mana -= manaCost
+        }
+        let lifeLength = 60
+        let dx = new Circle(self.body.x, self.body.y, 150, "#FF00FF88")
+        dx.life = lifeLength
+        dx.update = 1
+        dx.growth = 1
+        dx.damage = 20
+        dx.bod = 1
+        dx.bodi = 1
+        dx.bodid = self.id
+        dx.anchorToPlayer = 1
+        dx.root = self.body
+        self.activeArts.push(dx)
+        self.cooldowns[0] = 40 * 10
+      } else {
+        let manaCost = 130
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 100
+        let d = new Circle(x, y, 10, "magenta")
+        d.echo = 1
+        d.growth = 1
+        d.life = lifeLength
+        d.bodo = 1
+        d.maxDis = 300
+        d.tipo = 1
+        d.local = 1
+        d.root = TIP_engine
+        d.follow = 1
+        d.update = 1
+        d.damage = 2
+        self.activeArts.push(d)
+        let dx = new Circle(self.body.x, self.body.y, 10, "magenta")
+        dx.echo = 1
+        dx.life = lifeLength
+        dx.update = 1
+        dx.root = self.body
+        dx.bod = 1
+        dx.bodi = 1
+        dx.bodid = self.id
+        dx.local = 1
+        dx.damage = 2
+        dx.maxDis = 300
+        dx.follow = 1
+        dx.anchorToPlayer = 1
+        dx.growth = 1
+        self.activeArts.push(dx)
+        let dxi = new Circle(self.body.x, self.body.y, 7, "white")
+        dxi.echo = 1
+        dxi.life = lifeLength
+        dxi.update = 1
+        dxi.root = self.body
+        dxi.local = 1
+        dxi.bod = 1
+        dxi.bodi = 1
+        dxi.bodid = self.id
+        dxi.anchorToPlayer = 1
 
-          dxi.damage = 2
-          dxi.growth = 1
-          dxi.maxDis = 300
-          dxi.follow = 1
-          self.activeArts.push(dxi)
-          let di = new Circle(x, y, 7, "white")
-          di.echo = 1
-          di.life = lifeLength
-          di.update = 1
-          di.root = TIP_engine
-          di.tip = 1
-          di.local = 1
+        dxi.damage = 2
+        dxi.growth = 1
+        dxi.maxDis = 300
+        dxi.follow = 1
+        self.activeArts.push(dxi)
+        let di = new Circle(x, y, 7, "white")
+        di.echo = 1
+        di.life = lifeLength
+        di.update = 1
+        di.root = TIP_engine
+        di.tip = 1
+        di.local = 1
 
-          di.follow = 1
-          di.bodo = 1
-          di.maxDis = 300
-          di.damage = 2
-          di.growth = 1
-          self.activeArts.push(di)
-          ////////////////////console.log(zp)
-          if (true) {
-            let zp = new LineOP(self.body, d, "magenta", 16)
-            zp.echo = 1
-            zp.growth = 1
-            zp.life = lifeLength
-            zp.bodo = 1  //hitsbodo
-            zp.maxDis = 300
-            zp.tipo = 1
-            zp.follow = 1
-            zp.update = 1
-            zp.damage = 2
-            self.activeArts.push(zp)
-            self.cooldowns[0] = 40 * 10
-            ////////////////////console.log(zp)
-            ////////////////////console.log(self.activeArts)
-          }
-
-          let zp = new LineOP(self.body, d, "white", 10)
+        di.follow = 1
+        di.bodo = 1
+        di.maxDis = 300
+        di.damage = 2
+        di.growth = 1
+        self.activeArts.push(di)
+        ////////////////////console.log(zp)
+        if (true) {
+          let zp = new LineOP(self.body, d, "magenta", 16)
           zp.echo = 1
           zp.growth = 1
           zp.life = lifeLength
@@ -4643,30 +4673,46 @@
           zp.damage = 2
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
+          ////////////////////console.log(zp)
+          ////////////////////console.log(self.activeArts)
         }
-      }
-      yspike(self, x, y) {
 
-        let manaCost = 45
-        if (self.mana < manaCost) {
-          return
-        } else {
-          self.mana -= manaCost
-        }
-        let lifeLength = 90
-        let d = new YSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "gray")
-        d.echo = 1
-        d.life = lifeLength
-        d.line = 1
-        d.growth = 1
-        d.growth = 1.25
-        d.root = self.body
-        d.maxDis = 150
-        d.damage = 5
-        d.update = 1
-        self.activeArts.push(d)
-        self.cooldowns[1] = 40 * 10
+        let zp = new LineOP(self.body, d, "white", 10)
+        zp.echo = 1
+        zp.growth = 1
+        zp.life = lifeLength
+        zp.bodo = 1  //hitsbodo
+        zp.maxDis = 300
+        zp.tipo = 1
+        zp.follow = 1
+        zp.update = 1
+        zp.damage = 2
+        self.activeArts.push(zp)
+        self.cooldowns[0] = 40 * 10
       }
+    }
+    yspike(self, x, y) {
+
+      let manaCost = 45
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 90
+      let d = new YSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "gray")
+      d.echo = 1
+      d.life = lifeLength
+      d.line = 1
+      d.growth = 1
+      d.growth = 1.25
+      d.root = self.body
+      d.maxDis = 150
+      d.damage = 5
+      d.update = 1
+      self.activeArts.push(d)
+      self.cooldowns[1] = 40 * 10
+    }
 
     }
 
@@ -5697,6 +5743,7 @@
             guyz.body.x += k
             guyz.send = 1
             guyz.tar = k
+            guyz.zop = 0
             players.push(guyz)
             champids.push(guyz.id)
             champtimes.push(2000000000)
@@ -5714,7 +5761,8 @@
             guy2z.body.y = 1970 * 2
             guy2z.body.x += k
             guy2z.send = 1
-            guy2z.tar = k+6
+            guy2z.tar = k + 6
+            guy2z.zop = 1
             // guyz.body.x += k
             // players.push(guyz)
             players.push(guy2z)
