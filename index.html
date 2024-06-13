@@ -1153,7 +1153,7 @@
         }
         main()
         // if (Math.random() < .01) {
-        //   ////console.log(datalong + " Bytes", (-(tnowime - Date.now()) / 1000) + " Seconds", (-(datalong / (1024)) / ((tnowime - Date.now()) / 1000)) + " KBps")
+        //   console.log(datalong + " Bytes", (-(tnowime - Date.now()) / 1000) + " Seconds", (-(datalong / (1024)) / ((tnowime - Date.now()) / 1000)) + " KBps")
 
         // }
         if (keysPressed['-'] && recording == 0) {
@@ -3261,8 +3261,8 @@
             let json = {}
             json.rewardid = enemy.id
             json.splicid = this.id
-            json.x = this.body.x
-            json.y = this.body.y
+            json.x = Math.round(this.body.x)
+            json.y = Math.round(this.body.y)
             json.reward = 50 + Math.floor(Math.random() * 11)
             if (this.send == 1) {
               logBinarySize(JSON.stringify(json))
@@ -3274,8 +3274,8 @@
               let json = {}
               json.rewardid = enemy.id
               json.splicid = this.id
-              json.x = this.body.x
-              json.y = this.body.y
+              json.x = Math.round(this.body.x)
+              json.y = Math.round(this.body.y)
               json.reward = 100 + Math.floor(Math.random() * 11) + Math.floor(this.goldtotal / 60)
               if (this.send == 1) {
                 logBinarySize(JSON.stringify(json))
@@ -3285,8 +3285,8 @@
             } else {
               let json = {}
               json.reward = 100
-              json.x = this.body.x
-              json.y = this.body.y
+              json.x = Math.round(this.body.x)
+              json.y = Math.round(this.body.y)
               json.rewardid = enemy.id
               json.splicid = this.id
               if (this.send == 1) {
@@ -3337,15 +3337,17 @@
               let json = {} //new message
               if (this.type == -1) { //minion
                 json.minion = 1 //flag minion 
-                json.health = this.health //carry health for UI
-                json.x = this.body.x //positional x
-                json.y = this.body.y //positional y
+                json.health = Math.round(this.health) //carry health for UI
+                json.x = Math.round(this.body.x) //positional x
+                json.y = Math.round(this.body.y) //positional y
                 json.shield = this.shield //positional y
                 json.id = this.id //id for lookup hits
                 json.slowedByFloor = this.slowedByFloor
                 json.top = this.team.top //id for lookup hits
+                if(time%2==0){
                 logBinarySize(JSON.stringify(json))
                 ws.send(JSON.stringify(json)) //send object to other players
+                }
               } else {
                 json.champ = 1 //flag for character
                 json.team = (this.team.top - 1) * -1//somehow only send the players team
@@ -3363,23 +3365,62 @@
                 }
                 json.packet = JSON.stringify(this) // pack message
                 let packetz = JSON.parse(json.packet) // pack message
-                packetz.UI = []
-                packetz.healthBar = {}
-                packetz.healthBarBack = {}
-                packetz.healthBarOut = {}
-                packetz.manaBar = {}
-                packetz.manaBarBack = {}
-                packetz.manaBarOut = {}
-                packetz.gaerboosts = {}
-                packetz.cooldowns = []
-                packetz.abilities = []
-                delete packetz.selected
-                let b = new Point(this.body.x, this.body.y)
-                let gm = new Point(this.goal.x, this.goal.y)
-                b.radius = this.body.radius
-                packetz.body = b
-                packetz.goal = gm
-                json.packet = JSON.stringify(packetz)
+            
+            delete  packetz.UI
+            delete  packetz.healthBar 
+            delete  packetz.healthBarBack 
+            delete  packetz.healthBarOut
+            delete  packetz.manaBar 
+            delete  packetz.manaBarBack 
+            delete  packetz.manaBarOut 
+            delete  packetz.gaerboosts 
+            delete packetz.cooldowns 
+            delete packetz.abilities 
+            delete packetz.selected
+            delete packetz.hitlane
+            delete packetz.smackline
+            delete packetz.zop
+            delete packetz.tar
+            delete packetz.send
+            delete packetz.healthbar
+            delete packetz.tar
+            delete packetz.tar
+            delete packetz.tar
+            delete packetz.sleep
+            delete packetz.rate
+            delete packetz.chunk
+            delete packetz.tempSpeed
+            delete packetz.tempMeleeRange
+            delete packetz.tempManaRegen
+            delete packetz.tempHealthRegen
+            delete packetz.speed
+            delete packetz.meleeRange
+            delete packetz.manaRegen
+            delete packetz.healthRegen
+            delete packetz.slimeToggle
+            delete packetz.local
+            delete packetz.maxHealth
+            delete packetz.drops
+            delete packetz.boosts
+            delete packetz.step
+            delete packetz.tempHealth
+            delete packetz.team
+            delete packetz.body
+            delete packetz.activeArts
+            delete packetz.slowedByFloor
+            delete packetz.last
+            packetz.health = Math.round(packetz.health)
+            packetz.mana = Math.round(packetz.mana)
+            packetz.body = {}
+            packetz.body.x = Math.round(this.body.x)
+            packetz.body.y = Math.round(this.body.y)
+            packetz.body.radius = this.body.radius
+            let b = new Point(this.body.x, this.body.y)
+            let gm = new Point(this.goal.x, this.goal.y)
+            b.radius = this.body.radius
+            packetz.body = b
+            packetz.goal = gm
+            json.packet = JSON.stringify(packetz)
                 //////console.log(JSON.parse(json.packet), packetz)
 
                 this.team.players = [...k] // recyclize team
@@ -3387,8 +3428,10 @@
                 this.activeArts = [...a]// recyclize colliders
                 this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
                 json.id = this.id//id for lookup hits
+                if(time%2==0){
                 logBinarySize(JSON.stringify(json))
-                ws.send(JSON.stringify(json))//send object to other players
+                ws.send(JSON.stringify(json)) //send object to other players
+                }
               }
             }
           }
@@ -3589,15 +3632,17 @@
         let json = {} //new message
         if (this.type == -1) { //minion
           json.minion = 1 //flag minion 
-          json.health = this.health //carry health for UI
-          json.x = this.body.x //positional x
-          json.y = this.body.y //positional y
+          json.health = Math.round(this.health) //carry health for UI
+          json.x = Math.round(this.body.x) //positional x
+          json.y = Math.round(this.body.y) //positional y
           json.shield = this.shield //positional y
           json.id = this.id //id for lookup hits
           json.top = this.team.top //id for lookup hits
           json.slowedByFloor = this.slowedByFloor
-          logBinarySize(JSON.stringify(json))
-          ws.send(JSON.stringify(json)) //send object to other players
+                if(time%2==0){
+                logBinarySize(JSON.stringify(json))
+                ws.send(JSON.stringify(json)) //send object to other players
+                }
         } else {
           json.champ = 1 //flag for character
           json.team = (this.team.top - 1) * -1//somehow only send the players team
@@ -3614,23 +3659,62 @@
           }
           json.packet = JSON.stringify(this) // pack message
           let packetz = JSON.parse(json.packet) // pack message
-          packetz.UI = []
-          packetz.healthBar = {}
-          packetz.healthBarBack = {}
-          packetz.healthBarOut = {}
-          packetz.manaBar = {}
-          packetz.manaBarBack = {}
-          packetz.manaBarOut = {}
-          packetz.gaerboosts = {}
-          packetz.cooldowns = []
-          packetz.abilities = []
-          delete packetz.selected
-          let b = new Point(this.body.x, this.body.y)
-          let gm = new Point(this.goal.x, this.goal.y)
-          b.radius = this.body.radius
-          packetz.body = b
-          packetz.goal = gm
-          json.packet = JSON.stringify(packetz)
+            
+            delete  packetz.UI
+            delete  packetz.healthBar 
+            delete  packetz.healthBarBack 
+            delete  packetz.healthBarOut
+            delete  packetz.manaBar 
+            delete  packetz.manaBarBack 
+            delete  packetz.manaBarOut 
+            delete  packetz.gaerboosts 
+            delete packetz.cooldowns 
+            delete packetz.abilities 
+            delete packetz.selected
+            delete packetz.hitlane
+            delete packetz.smackline
+            delete packetz.zop
+            delete packetz.tar
+            delete packetz.send
+            delete packetz.healthbar
+            delete packetz.tar
+            delete packetz.tar
+            delete packetz.tar
+            delete packetz.sleep
+            delete packetz.rate
+            delete packetz.chunk
+            delete packetz.tempSpeed
+            delete packetz.tempMeleeRange
+            delete packetz.tempManaRegen
+            delete packetz.tempHealthRegen
+            delete packetz.speed
+            delete packetz.meleeRange
+            delete packetz.manaRegen
+            delete packetz.healthRegen
+            delete packetz.slimeToggle
+            delete packetz.local
+            delete packetz.maxHealth
+            delete packetz.drops
+            delete packetz.boosts
+            delete packetz.step
+            delete packetz.tempHealth
+            delete packetz.team
+            delete packetz.body
+            delete packetz.activeArts
+            delete packetz.slowedByFloor
+            delete packetz.last
+            packetz.health = Math.round(packetz.health)
+            packetz.mana = Math.round(packetz.mana)
+            packetz.body = {}
+            packetz.body.x = Math.round(this.body.x)
+            packetz.body.y = Math.round(this.body.y)
+            packetz.body.radius = this.body.radius
+            let b = new Point(this.body.x, this.body.y)
+            let gm = new Point(this.goal.x, this.goal.y)
+            b.radius = this.body.radius
+            packetz.body = b
+            packetz.goal = gm
+            json.packet = JSON.stringify(packetz)
           //////console.log(JSON.parse(json.packet), packetz)
           this.team.players = [...k] // recyclize team
           this.team = t// recyclize team
@@ -3638,8 +3722,10 @@
           this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
           json.id = this.id//id for lookup hits
           json.slowedByFloor = this.slowedByFloor
-          logBinarySize(JSON.stringify(json))
-          ws.send(JSON.stringify(json))//send object to other players
+                if(time%2==0){
+                logBinarySize(JSON.stringify(json))
+                ws.send(JSON.stringify(json)) //send object to other players
+                }
         }
       }
     }
