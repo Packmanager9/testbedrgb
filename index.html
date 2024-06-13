@@ -2310,28 +2310,34 @@
     }
 
     class PsychoSolar{
-      constructor(track = { x: 0, y: 0 }, angle = 1, color = "red") {
+      constructor(track = 0, angle = 1, color = "red") {
         this.name = "PsychoSolar"
         this.track = track
-        this.x = this.track.x
-        this.y = this.track.y
+        this.x = players[this.track].body.x 
+        this.y = players[this.track].body.y
         this.angle = angle
         this.color = color
         this.radius = 200
         this.local = 1
+        this.solar = 1
         this.moveAngle = 0
         this.id = Math.floor(Math.random() * 9000000)
       }
       move(){
 
-      }
+      } 
       draw(){
-        this.angle = (new LineOP(this.track, TIP_engine)).angle()+Math.PI
-        let p1 = new Circle(this.track.x+(Math.cos(this.angle+.5)* 100), this.track.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
-        let p2 = new Circle(this.track.x+(Math.cos(this.angle-.5)* 100), this.track.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
-        let end = new Circle(this.track.x+(Math.cos(this.angle)* 200), this.track.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
-        let linkp1 = new LineOP(this.track, p1,"#FFAA22", 20)
-        let linkp2 = new LineOP(this.track, p2,"#FFAA22",20)
+        if(this.local == 1){
+          this.x = players[this.track].body.x
+          this.y = players[this.track].body.y
+          this.lock = new Point(TIP_engine.x,TIP_engine.y)
+        }
+        this.angle = (new LineOP(players[this.track].body, this.lock)).angle()+Math.PI
+        let p1 = new Circle(players[this.track].body.x+(Math.cos(this.angle+.5)* 100), players[this.track].body.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
+        let p2 = new Circle(players[this.track].body.x+(Math.cos(this.angle-.5)* 100), players[this.track].body.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
+        let end = new Circle(players[this.track].body.x+(Math.cos(this.angle)* 200), players[this.track].body.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
+        let linkp1 = new LineOP(players[this.track].body, p1,"#FFAA22", 20)
+        let linkp2 = new LineOP(players[this.track].body, p2,"#FFAA22",20)
         let endp1 = new LineOP(end, p1,"#FFAA22",20)
         let endp2 = new LineOP(end, p2,"#FFAA22",20)
         p1.draw()
@@ -2368,12 +2374,12 @@
       }
       doesPerimeterTouch(guybody){
 
-        this.angle = (new LineOP(this.track, TIP_engine)).angle()+Math.PI
-        let p1 = new Circle(this.track.x+(Math.cos(this.angle+.5)* 100), this.track.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
-        let p2 = new Circle(this.track.x+(Math.cos(this.angle-.5)* 100), this.track.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
-        let end = new Circle(this.track.x+(Math.cos(this.angle)* 200), this.track.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
-        let linkp1 = new LineOP(this.track, p1,"#FFAA22", 20)
-        let linkp2 = new LineOP(this.track, p2,"#FFAA22",20)
+        this.angle = (new LineOP(players[this.track].body, TIP_engine)).angle()+Math.PI
+        let p1 = new Circle(players[this.track].body.x+(Math.cos(this.angle+.5)* 100), players[this.track].body.y+(Math.sin(this.angle+.5)* 100), 10, "#FFAA22")
+        let p2 = new Circle(players[this.track].body.x+(Math.cos(this.angle-.5)* 100), players[this.track].body.y+(Math.sin(this.angle-.5)* 100), 10, "#FFAA22")
+        let end = new Circle(players[this.track].body.x+(Math.cos(this.angle)* 200), players[this.track].body.y+(Math.sin(this.angle)* 200), 10, "#FFAA22")
+        let linkp1 = new LineOP(players[this.track].body, p1,"#FFAA22", 20)
+        let linkp2 = new LineOP(players[this.track].body, p2,"#FFAA22",20)
         let endp1 = new LineOP(end, p1,"#FFAA22",20)
         let endp2 = new LineOP(end, p2,"#FFAA22",20)
 
@@ -3635,7 +3641,8 @@
                   lum = this.activeArts[t].life
                   this.activeArts[t].life = 1
                 }
-                json.packet = JSON.stringify(this.activeArts[t])
+                console.log(this.activeArts[t])
+                json.packet = JSON.stringify(this.activeArts[t])  
                 this.activeArts[t].life = lum
 
                 if (this.activeArts[t].root) {
@@ -3666,6 +3673,10 @@
 
                   let f = new Point(this.body.x - (Math.cos(a) * Math.min(l.hypotenuse(), this.activeArts[t].maxDis)), this.body.y - (Math.sin(a) * Math.min(l.hypotenuse(), this.activeArts[t].maxDis)))
                   json.mouse = JSON.stringify({ x: f.x, y: f.y })
+                }
+                if(this.activeArts[t].solar == 1){
+                  json.solar = 1
+                  json.mouse = JSON.stringify({ x: TIP_engine.x, y: TIP_engine.y })
                 }
                 json.bod = JSON.stringify({ x: this.body.x, y: this.body.y })
                 json.bodo = this.activeArts[t].bodo
@@ -4596,6 +4607,12 @@
       }
       artDraw() {
         if (this.type == -1) {
+          this.body.radius = 20
+        }else{
+          this.body.radius = 32
+        }
+        
+        if (this.type == -1) {
           if (this.team.top == 1) {
             canvas_context.drawImage(ie1, ((this.step % (ie1.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
           } else {
@@ -4879,19 +4896,19 @@
         shocher.root = self.body
         shocher.life = lifeLength
         shocher.update = 1
-        shocher.damage = 1
+        shocher.damage = .8
         shocher.slow = .95
         shocher.bod = 1
         shocher.bodi = 1
         shocher.anchorToPlayer = 1
         shocher.bodid = self.id
         self.activeArts.push(shocher)
-        self.cooldowns[0] = 60 * 1
+        self.cooldowns[0] = 90 * 1
       }
       fusion(self){
         if(self.health > 50){
           self.health -= 50
-          self.mana += 100
+          self.mana += 120
           self.cooldowns[1] = 30 * 5
         }
       }
@@ -4902,15 +4919,14 @@
         } else {
           self.mana -= manaCost
         }
-        let lifeLength = 200
-        let d = new PsychoSolar(self.body, (new LineOP(self.body, new Point(x, y)).angle()))
+        let lifeLength = 120
+        let d = new PsychoSolar(players.indexOf(self), (new LineOP(self.body, new Point(x, y)).angle()))
         d.echo = 1 
         d.life = lifeLength
         d.line = 1
         d.moveAngle = 1
-        d.growth = 1
         d.growth = 1.3
-        d.root = self.body
+        // d.root = self.body
         d.anchorToPlayer = 1
         d.maxDis = 100
         d.damage = 3
@@ -5809,6 +5825,7 @@
                 box.bodo = (JSON.parse(data).bodo)
                 box.name = (JSON.parse(data).name)
                 box.bodid = (JSON.parse(data).bodid)
+                box.solar = (JSON.parse(data).solar)
                 box.tip = (JSON.parse(data).tip)
                 //////////////////////console.log(box)
                 box.track = guy.body
@@ -5822,6 +5839,10 @@
                   box.track = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                   box.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                   //////////////////////////console.log(box)
+                }
+                if (box.solar == 1) {
+                  box.track = champids.indexOf(JSON.parse(data).champid)
+                  box.local = 0
                 }
                 if (box.bodi == 1) {
                   let j = -1
@@ -5872,6 +5893,7 @@
                 box.bodz = (JSON.parse(data).bodz)
                 box.bodo = (JSON.parse(data).bodo)
                 box.name = (JSON.parse(data).name)
+                box.solar = (JSON.parse(data).solar)
                 //////////////////////console.log(box)
                 box.bodid = (JSON.parse(data).bodid)
                 box.tip = (JSON.parse(data).tip)
@@ -5887,6 +5909,10 @@
                   box.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                   //////////////////////////console.log(box)
                 }
+                if (box.solar == 1) {
+                  box.track = champids.indexOf(JSON.parse(data).champid)
+                  box.local = 0
+                }
                 if (box.bodi == 1) {
                   let j = -1
                   for (let z = 0; z < players.length; z++) {
@@ -5899,6 +5925,10 @@
                   ////////////////////////console.log(j)
                   box.track = new Circle(players[j].body.x, players[j].body.y)
                   box.root = new Circle(players[j].body.x, players[j].body.y)
+                }
+
+                if (box.bod == 1) {
+                  box.lock = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                 }
                 if (box.bodo == 1) {
                   //////////////////////console.log(box)
