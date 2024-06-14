@@ -529,7 +529,9 @@
         this.id = Math.floor(Math.random() * 9000000)
       }
       draw() {
-        if (this.solar == 1) {
+        if (this.solar == 1 && this.guyid > -1) {
+
+          this.guyIndex = champids.indexOf(this.guyid)
           if (players[this.guyIndex]) {
           } else {
             return
@@ -2001,6 +2003,7 @@
       constructor(guyIndex = 0, angle = 0, color = "red") {
         this.name = "YSpike"
         this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         this.angle = angle
@@ -2013,6 +2016,8 @@
 
       move() { }
       draw() {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2047,6 +2052,8 @@
 
       }
       doesPerimeterTouch(circle) {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2175,6 +2182,7 @@
       constructor(guyIndex = 0, angle = 0, color = "red") {
         this.name = "NhaiSpike"
         this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         this.angle = angle
@@ -2188,6 +2196,8 @@
 
       move() { }
       draw() {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2222,6 +2232,8 @@
 
       }
       doesPerimeterTouch(circle) {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2345,6 +2357,7 @@
       constructor(guyIndex = 0, angle = 1, color = "red") {
         this.name = "PsychoSolar"
         this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         this.angle = angle
@@ -2359,6 +2372,8 @@
 
       }
       draw() {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2409,6 +2424,8 @@
 
       }
       doesPerimeterTouch(guybody) {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2441,6 +2458,7 @@
       constructor(guyIndex = 0, angle = 1, color = "red") {
         this.name = "SolarFlares"
         this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.angle = angle
         this.color = color
         this.radius = 200
@@ -2453,6 +2471,8 @@
       move() { }
       draw() {
         this.angle = 0
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2491,6 +2511,8 @@
 
       }
       doesPerimeterTouch(circle) {
+
+        this.guyIndex = champids.indexOf(this.guyid)
 
         if (players[this.guyIndex]) {
         } else {
@@ -2624,6 +2646,7 @@
       constructor(guyIndex = 0, length = 1, angle = 1, color = "red") {
         this.name = "BoomSpike"
         this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         this.angle = angle
@@ -2637,6 +2660,8 @@
 
       move() { }
       draw() {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2671,6 +2696,8 @@
 
       }
       doesPerimeterTouch(circle) {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -2780,6 +2807,7 @@
       constructor(guyIndex = 0, length = 1, angle = 1, color = "red") { //refactor
         this.name = "MeleeSpike"
         this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.x = this.guyIndex.x
         this.y = this.guyIndex.y
         this.angle = angle
@@ -2792,6 +2820,8 @@
 
       move() { }
       draw() {
+
+        this.guyIndex = champids.indexOf(this.guyid)
 
         if (players[this.guyIndex]) {
         } else {
@@ -2827,6 +2857,8 @@
 
       }
       doesPerimeterTouch(circle) {
+        this.guyIndex = champids.indexOf(this.guyid)
+
         if (players[this.guyIndex]) {
         } else {
           return
@@ -4984,6 +5016,7 @@
         shocher.bod = 1
         shocher.bodi = 1
         shocher.guyIndex = players.indexOf(self)
+        shocher.guyid = self.id
         shocher.solar = 1
         shocher.bodid = self.id
         self.activeArts.push(shocher)
@@ -5374,6 +5407,7 @@
           shocher.bod = 1
           shocher.bodi = 1
           shocher.guyIndex = players.indexOf(self)
+          shocher.guyid = self.id
           shocher.bodid = self.id
           self.activeArts.push(shocher)
           let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FFffFF22")
@@ -5384,6 +5418,7 @@
           shocher2.update = 1
           shocher2.bod = 1
           shocher2.guyIndex = players.indexOf(self)
+          shocher2.guyid = self.id
           shocher2.bodi = 1
           shocher2.bodid = self.id
           self.activeArts.push(shocher2)
@@ -5404,6 +5439,7 @@
           shocher.bod = 1
           shocher.bodi = 1
           shocher.guyIndex = players.indexOf(self)
+          shocher.guyid = self.id
           shocher.bodid = self.id
           // shocher.anchorToPlayer = 1
           shocher.solar = 1
@@ -5416,6 +5452,7 @@
           shocher2.damage = 3.5
           shocher2.update = 1
           shocher2.guyIndex = players.indexOf(self)
+          shocher2.guyid = self.id
           shocher2.solar = 1
           shocher2.bod = 1
           shocher2.bodi = 1
@@ -5442,6 +5479,7 @@
         shocher.slow = .05
         shocher.bod = 1
         shocher.guyIndex = players.indexOf(self)
+        shocher.guyid = self.id
         shocher.bodi = 1
         // shocher.anchorToPlayer = 1
         shocher.solar = 1
@@ -5473,6 +5511,7 @@
         shocher.bodi = 1
         // shocher.anchorToPlayer = 1
         shocher.guyIndex = players.indexOf(self)
+        shocher.guyid = self.id
         shocher.bodid = self.id
         shocher.solar = 1
         self.activeArts.push(shocher)
@@ -5513,6 +5552,7 @@
         dx.follow = 1
         // dx.anchorToPlayer = 1
         dx.guyIndex = players.indexOf(self)
+        dx.guyid = self.id
         dx.solar = 1
         dx.growth = 1
         self.activeArts.push(dx)
@@ -5527,6 +5567,7 @@
         dxi.bodid = self.id
         dxi.solar = 1
         dxi.guyIndex = players.indexOf(self)
+        dxi.guyid = self.id
         // dxi.anchorToPlayer = 1
 
         dxi.damage = -2
@@ -5599,6 +5640,7 @@
           // dx.anchorToPlayer = 1
           dx.solar = 1
           dx.guyIndex = players.indexOf(self)
+          dx.guyid = self.id
           dx.root = self.body
           self.activeArts.push(dx)
           self.cooldowns[0] = 40 * 10
@@ -5638,6 +5680,7 @@
           // dx.anchorToPlayer = 1
           dx.solar = 1
           dx.guyIndex = players.indexOf(self)
+          dx.guyid = self.id
           dx.growth = 1
           self.activeArts.push(dx)
           let dxi = new Circle(self.body.x, self.body.y, 7, "white")
@@ -5650,6 +5693,8 @@
           dxi.bodi = 1
           dxi.bodid = self.id
           dxi.guyIndex = players.indexOf(self)
+          dxi.guyid = self.id
+          
           // dxi.anchorToPlayer = 1
           dxi.solar = 1
 
