@@ -4925,7 +4925,7 @@
 
 
         self.slimeTime++
-        if (self.slimeTime % 10 == 0) {
+        if (self.slimeTime % 16 == 0) {
           let l = new LineOP(self.body, new Point(x, y))
           let manaCost = 10
           if (self.mana < manaCost) {
@@ -4940,10 +4940,10 @@
           shocher.life = lifeLength
           shocher.slow = .5
           shocher.collide = 1
-          shocher.damage = 15
+          shocher.damage = 12
           shocher.update = 1
           shocher.pop = 1
-          shocher.popdam = 5
+          shocher.popdam = 4
           shocher.poprays = 5
           shocher.poprate = 10
           shocher.popradius = 5
