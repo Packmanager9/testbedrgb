@@ -3914,7 +3914,7 @@
                 json.id = this.id //id for lookup hits
                 json.slowedByFloor = this.slowedByFloor
                 json.top = this.team.top //id for lookup hits
-                if (time % 2 == 1) {
+                if (time % 2 != 0) {
                   logBinarySize(JSON.stringify(json))
                   ws.send(JSON.stringify(json)) //send object to other players
                 }
@@ -3999,7 +3999,8 @@
                 this.activeArts = [...a]// recyclize colliders
                 this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
                 json.id = this.id//id for lookup hits
-                if (time % 2 == 1) {
+                if (time % 2 != 0) {
+                  console.log("huh")
                   logBinarySize(JSON.stringify(json))
                   ws.send(JSON.stringify(json)) //send object to other players
                 }
@@ -4210,7 +4211,7 @@
               json.id = this.id //id for lookup hits
               json.top = this.team.top //id for lookup hits
               json.slowedByFloor = this.slowedByFloor
-              if (time % 2 == 1) {
+              if (time % 2 != 0) {
                 logBinarySize(JSON.stringify(json))
                 ws.send(JSON.stringify(json)) //send object to other players
               }
@@ -4294,7 +4295,7 @@
               this.gear = [new Gear(this.gear[0], this, 0), new Gear(this.gear[1], this, 1), new Gear(this.gear[2], this, 2), new Gear(this.gear[3], this, 3)]//reconstruct and recyclize gear
               json.id = this.id//id for lookup hits
               json.slowedByFloor = this.slowedByFloor
-              if (time % 2 == 1) {
+              if (time % 2 != 0) {
                 logBinarySize(JSON.stringify(json))
                 ws.send(JSON.stringify(json)) //send object to other players
               }
