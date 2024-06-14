@@ -5470,6 +5470,7 @@
         shocher.bod = 1
         shocher.bodi = 1
         // shocher.anchorToPlayer = 1
+        shocher.guyIndex = players.indexOf(self)
         shocher.bodid = self.id
         shocher.solar = 1
         self.activeArts.push(shocher)
@@ -5509,6 +5510,7 @@
         dx.maxDis = 300
         dx.follow = 1
         // dx.anchorToPlayer = 1
+        dx.guyIndex = players.indexOf(self)
         dx.solar = 1
         dx.growth = 1
         self.activeArts.push(dx)
@@ -5522,6 +5524,7 @@
         dxi.bodi = 1
         dxi.bodid = self.id
         dxi.solar = 1
+        dxi.guyIndex = players.indexOf(self)
         // dxi.anchorToPlayer = 1
 
         dxi.damage = -2
@@ -5593,6 +5596,7 @@
           dx.bodid = self.id
           // dx.anchorToPlayer = 1
           dx.solar = 1
+          dx.guyIndex = players.indexOf(self)
           dx.root = self.body
           self.activeArts.push(dx)
           self.cooldowns[0] = 40 * 10
@@ -5631,6 +5635,7 @@
           dx.follow = 1
           // dx.anchorToPlayer = 1
           dx.solar = 1
+          dx.guyIndex = players.indexOf(self)
           dx.growth = 1
           self.activeArts.push(dx)
           let dxi = new Circle(self.body.x, self.body.y, 7, "white")
@@ -5642,6 +5647,7 @@
           dxi.bod = 1
           dxi.bodi = 1
           dxi.bodid = self.id
+          dxi.guyIndex = players.indexOf(self)
           // dxi.anchorToPlayer = 1
           dxi.solar = 1
 
@@ -5715,6 +5721,7 @@
         d.maxDis = 150
         // d.anchorToPlayer = 1
         d.solar = 1
+        d.guyIndex = players.indexOf(self)
         d.damage = 7
         d.update = 1
         self.activeArts.push(d)
