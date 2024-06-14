@@ -660,6 +660,16 @@
         this.y -= this.ymom
       }
       isPointInside(point) {
+        if (this.solar == 1 && this.guyid > -1) {
+
+          this.guyIndex = champids.indexOf(this.guyid)
+          if (players[this.guyIndex]) {
+          } else {
+            return
+          }
+          this.x = players[this.guyIndex].body.x
+          this.y = players[this.guyIndex].body.y
+        }
         let areaY = point.y - this.y
         let areaX = point.x - this.x
         if (((areaX * areaX) + (areaY * areaY)) <= (this.radius * this.radius)) {
@@ -668,6 +678,16 @@
         return false
       }
       doesPerimeterTouch(point) {
+        if (this.solar == 1 && this.guyid > -1) {
+
+          this.guyIndex = champids.indexOf(this.guyid)
+          if (players[this.guyIndex]) {
+          } else {
+            return
+          }
+          this.x = players[this.guyIndex].body.x
+          this.y = players[this.guyIndex].body.y
+        }
         let areaY = point.y - this.y
         let areaX = point.x - this.x
         if (((areaX * areaX) + (areaY * areaY)) <= ((this.radius + point.radius) * (this.radius + point.radius))) {
@@ -2509,19 +2529,21 @@
           k.draw()
           this.angle += (Math.PI * 2) / 5
         }
+        this.angle = 0
 
       }
       doesPerimeterTouch(circle) {
 
+        this.angle = 0
         this.guyIndex = champids.indexOf(this.guyid)
 
         if (players[this.guyIndex]) {
         } else {
-          return
+          this.angle = 0
+          return false
         }
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
-        this.angle = 0
         for (let t = 0; t < 5; t++) {
           let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
           let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
@@ -2564,6 +2586,17 @@
           trapper = 1
         }
         if (wet == 1) {
+
+        this.angle = 0
+        this.guyIndex = champids.indexOf(this.guyid)
+
+        if (players[this.guyIndex]) {
+        } else {
+          this.angle = 0
+          return false
+        }
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
 
           for (let t = 0; t < 5; t++) {
 
@@ -2634,11 +2667,15 @@
             this.angle += (Math.PI * 2) / 5
           }
 
+          this.angle = 0
           return true
         }
+        this.angle = 0
         return false
 
       }
+
+      this.angle = 0
     }
 
 
@@ -2862,7 +2899,7 @@
 
         if (players[this.guyIndex]) {
         } else {
-          return
+          return false
         }
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
@@ -5070,7 +5107,8 @@
         d.moveAngle = 1
         d.growth = 1
         d.growth = 1.3
-        d.root = self.body
+        d.root = self.body 
+        d.guyid = self.id
         // d.anchorToPlayer = 1
         d.maxDis = 100
         d.damage = 3
