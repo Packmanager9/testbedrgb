@@ -2428,7 +2428,7 @@
 
         if (players[this.guyIndex]) {
         } else {
-          return
+          return false
         }
         if (this.local == 1) {
           this.x = players[this.guyIndex].body.x
@@ -2451,6 +2451,7 @@
           }
         }
 
+        return false
       }
     }
 
