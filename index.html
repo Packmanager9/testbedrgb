@@ -1445,14 +1445,14 @@
         for (let t = 0; t < players[0].gear.length; t++) {
             if(players[0].gear[t].toolcheck(TIP_engine).fact == 1){
               tooling = 1
-              toolpoint = new Point(TIP_engine.x, TIP_engine.y)
+              toolpoint = new Point(TIP_engine.x-players[0].body.x, TIP_engine.y-players[0].body.y)
               tooltext = players[0].gear[t].toolcheck(TIP_engine)
               return
             }
           }
             if(players[0].toolcheck(TIP_engine).fact == 1){ 
               tooling = 1
-              toolpoint = new Point(TIP_engine.x, TIP_engine.y)
+              toolpoint = new Point(TIP_engine.x-players[0].body.x, TIP_engine.y-players[0].body.y)
               tooltext = players[0].toolcheck(TIP_engine)
               return
             }
@@ -7487,7 +7487,7 @@
         }
       }
       if(tooling == 1){
-        let rectangle = new Rectangle(toolpoint.x, toolpoint.y-200, 300, 200, "#444444")
+        let rectangle = new Rectangle(players[0].body.x+toolpoint.x, players[0].body.y+toolpoint.y-200, 300, 200, "#444444")
         rectangle.draw()
         canvas_context.fillStyle = "gold"
         canvas_context.font = "20px comic sans ms"
