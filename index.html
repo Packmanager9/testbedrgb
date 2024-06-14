@@ -6991,7 +6991,7 @@
           }
         }
       }
-      if (megaSnap) {
+      if (megaSnap && respawn == 0) {
         megaSnap = false
         respawn = Math.min(Math.floor(time / 30), 1000)
       }
