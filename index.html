@@ -2082,6 +2082,11 @@
         this.y = players[this.guyIndex].body.y
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
+
+        let link = new LineOP(this, circle)
+        if(link.hypotenuse() > this.radius + 15){
+          return false
+        }
         let p = new Circle(this.x - (Math.cos(this.angle - 1) * 8), this.y - (Math.sin(this.angle - 1) * 8), 3, "red")
         let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .75) * 8), 3, "red")
         let k = new Circle(this.x - (Math.cos(this.angle - .875) * this.radius), this.y - (Math.sin(this.angle - .875) * this.radius), 3, "white")
@@ -2260,6 +2265,11 @@
         }
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
+
+        let link = new LineOP(this, circle)
+        if(link.hypotenuse() > this.radius + 15){
+          return false
+        }
         let p = new Circle(this.x - (Math.cos(this.angle - 1) * 8), this.y - (Math.sin(this.angle - 1) * 8), 3, "red")
         let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .75) * 8), 3, "red")
         let k = new Circle(this.x - (Math.cos(this.angle - .875) * this.radius), this.y - (Math.sin(this.angle - .875) * this.radius), 3, "white")
@@ -2455,6 +2465,10 @@
           this.y = players[this.guyIndex].body.y
           this.lock = new Point(TIP_engine.x, TIP_engine.y)
         }
+        let link = new LineOP(this, guybody)
+        if(link.hypotenuse() > 215){
+          return false
+        }
         this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
         let p1 = new Circle(players[this.guyIndex].body.x + (Math.cos(this.angle + .5) * 100), players[this.guyIndex].body.y + (Math.sin(this.angle + .5) * 100), 10, "#FFAA22")
         let p2 = new Circle(players[this.guyIndex].body.x + (Math.cos(this.angle - .5) * 100), players[this.guyIndex].body.y + (Math.sin(this.angle - .5) * 100), 10, "#FFAA22")
@@ -2544,6 +2558,10 @@
         }
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
+        let link = new LineOP(this, circle)
+        if(link.hypotenuse() > this.radius + 15){
+          return false
+        }
         for (let t = 0; t < 5; t++) {
           let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
           let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
@@ -2598,6 +2616,10 @@
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
 
+        let link = new LineOP(this, circle)
+        if(link.hypotenuse() > this.radius + 15){
+          return false
+        }
           for (let t = 0; t < 5; t++) {
 
             let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
@@ -2741,6 +2763,10 @@
         }
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
+        let link = new LineOP(this, circle)
+        if(link.hypotenuse() > this.radius + 15){
+          return false
+        }
         let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
         let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
         let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 15, "yellow")
@@ -2902,6 +2928,10 @@
         }
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
+        let link = new LineOP(this, circle)
+        if(link.hypotenuse() > this.radius + 15){
+          return false
+        }
         let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "gray")
         let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "gray")
         let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 6, "gray")
