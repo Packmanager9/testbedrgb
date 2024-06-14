@@ -3341,7 +3341,7 @@
           this.healthRegen = 3 / 100
         }
         if (type == 4) {
-          this.healthRegen = 10 / 100
+          this.healthRegen = 1 / 100
         }
         if (type == 5) {
           this.healthRegen = 13 / 100
@@ -3752,6 +3752,7 @@
                 }
                 if (this.activeArts[t].solar == 1) {
                   json.solar = 1
+                  json.guyIndex = this.activeArts[t].guyIndex
                   json.mouse = JSON.stringify({ x: TIP_engine.x, y: TIP_engine.y })
                 }
                 json.bod = JSON.stringify({ x: this.body.x, y: this.body.y })
@@ -5719,7 +5720,7 @@
         d.moveAngle = 1
         d.root = self.body
         d.maxDis = 150
-        // d.anchorToPlayer = 1
+        d.anchorToPlayer = 1
         d.solar = 1
         d.guyIndex = players.indexOf(self)
         d.damage = 7
@@ -5994,8 +5995,10 @@
                 }
                 //////////////////////////////////////console.log(box)
                 guy.shield = box.shield
-                guy.activeArts.push(box)
-                list[list.indexOf(box.id)] = box
+                // guy.activeArts.push(box)
+                guy.activeArts[list.indexOf(box.id)] = box
+
+
               } else {
                 box.collide = (JSON.parse(data).collide)
                 box.bodi = (JSON.parse(data).bodi)
