@@ -5993,6 +5993,7 @@
               guy.body.x = JSON.parse(data).x
               guy.body.y = JSON.parse(data).y
               guy.shield = JSON.parse(data).shield
+              guy.send = 0
               guy.health = Math.min(JSON.parse(data).health, guy.health)
               players[champids.indexOf(JSON.parse(data).id)].activeArts = [...junk]
               champtimes[champids.indexOf(JSON.parse(data).id)] = 20
@@ -6176,6 +6177,7 @@
             guy.id = JSON.parse(data).id
             guy.body.y = JSON.parse(data).y
             guy.shield = JSON.parse(data).shield
+            guy.send = 0
             guy.health = Math.min(JSON.parse(data).health, guy.health)
             champids.push(JSON.parse(data).id)
             champtimes[champids.length - 1] = 25
