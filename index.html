@@ -5955,7 +5955,6 @@
           }
 
         } else if (JSON.parse(data).rewardid >= 0) {
-          let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, parseInt(JSON.parse(data).reward, 10))
           ////////////console.log(pop)
           let guy = players[champids.indexOf(JSON.parse(data).rewardid)]
           if (!guy) {
@@ -5967,7 +5966,14 @@
             }
             return
           }
+          if(guy.type != -1){
+            let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, parseInt(JSON.parse(data).reward, 10))
+            worldpops.push(pop)
+          }else{
+
+          let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, "")
           worldpops.push(pop)
+          }
           guy.gold += parseInt(JSON.parse(data).reward, 10)
           guy.goldtotal += parseInt(JSON.parse(data).reward, 10)
 
