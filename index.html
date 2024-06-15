@@ -4399,8 +4399,10 @@
           canvas_context.drawImage(suncons, this.UI[0].x, this.UI[0].y)
         } else if (this.type == 6) {
           canvas_context.drawImage(banicons, this.UI[0].x, this.UI[0].y)
+        } else if (this.type == 7) {
+          canvas_context.drawImage(xlicons, this.UI[0].x, this.UI[0].y)
         }
-
+        
         for (let t = 0; t < this.UI.length; t++) {
           if (this.cooldowns[t] > 0) {
             this.UI[t].color = "#FFFFFF99"
@@ -6592,6 +6594,9 @@
 
     let banicons = new Image()
     banicons.src = "https://ditzbitz.com/banicons.png"
+
+    let xlicons = new Image()
+    xlicons.src = "https://ditzbitz.com/xlicons.png"
 
 
 
