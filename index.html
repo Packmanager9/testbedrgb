@@ -7859,6 +7859,11 @@
         for (let t = players.length - 1; t >= 0; t--) {
           if (!players[t].body.doesPerimeterTouch(arenaField) && players[t].body.doesPerimeterTouch(arenaField2)) {
             players[t].health -= 100
+            if(players[t].health <= 0){
+              if(t == 0){
+                megaSnap = true
+              }
+            }
           } else {
 
           }
@@ -7914,6 +7919,7 @@
       } else {
 
       }
+      
       if (respawn > 0) {
         canvas_context.fillStyle = "white"
         canvas_context.font = "70px comic sans ms"
@@ -7924,6 +7930,7 @@
         players[0].goal.y = players[0].body.y
 
         respawn--
+
         if (respawn == 0) {
 
           canvas_context.resetTransform()
