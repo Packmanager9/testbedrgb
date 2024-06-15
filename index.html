@@ -21,8 +21,8 @@
       }
     }
     let toolpoint = {}
-    let tooling =0 
-    let tooltext = {lines:[]}
+    let tooling = 0
+    let tooltext = { lines: [] }
     let tnowime = Date.now()
     let datalong = 0
     function logBinarySize(string) {
@@ -1236,19 +1236,19 @@
         TIP_engine.y = YS_engine - translator.y
         TIP_engine.body = TIP_engine
 
-        if(players[0].UI[0].isPointInside(TIP_engine)){
+        if (players[0].UI[0].isPointInside(TIP_engine)) {
           players[0].qflag = 1
           return
         }
-        if(players[0].UI[1].isPointInside(TIP_engine)){
+        if (players[0].UI[1].isPointInside(TIP_engine)) {
           players[0].wflag = 1
           return
         }
-        if(players[0].UI[2].isPointInside(TIP_engine)){
+        if (players[0].UI[2].isPointInside(TIP_engine)) {
           players[0].eflag = 1
           return
         }
-        if(players[0].UI[3].isPointInside(TIP_engine)){
+        if (players[0].UI[3].isPointInside(TIP_engine)) {
           players[0].rflag = 1
           return
         }
@@ -1256,25 +1256,25 @@
 
         if (storeUI1.shop == 1) {
           for (let t = 0; t < players[0].gear.length; t++) {
-            if(players[0].gear[t].check(TIP_engine)){
+            if (players[0].gear[t].check(TIP_engine)) {
               return
             }
           }
-          if(storeUI1.check(TIP_engine)){
+          if (storeUI1.check(TIP_engine)) {
             return
           }
-        }else if (storeUI2.shop == 1) {
+        } else if (storeUI2.shop == 1) {
           for (let t = 0; t < players[0].gear.length; t++) {
-            if(players[0].gear[t].check(TIP_engine)){
+            if (players[0].gear[t].check(TIP_engine)) {
               return
             }
           }
-          if(storeUI2.check(TIP_engine)){
+          if (storeUI2.check(TIP_engine)) {
             return
           }
-        }else{
+        } else {
           for (let t = 0; t < players[0].gear.length; t++) {
-            if(players[0].gear[t].subcheck(TIP_engine)){
+            if (players[0].gear[t].subcheck(TIP_engine)) {
               return
             }
           }
@@ -1320,6 +1320,9 @@
           }
           if (butguy6.isPointInside(TIP_engine)) {
             guymaker = 5
+          }
+          if (butguy7.isPointInside(TIP_engine)) {
+            guymaker = 6
           }
 
           if (team0.isPointInside(TIP_engine)) {
@@ -1441,21 +1444,21 @@
         TIP_engine.y = YS_engine - translator.y
         TIP_engine.body = TIP_engine
         tooling = 0
-   
+
         for (let t = 0; t < players[0].gear.length; t++) {
-            if(players[0].gear[t].toolcheck(TIP_engine).fact == 1){
-              tooling = 1
-              toolpoint = new Point(TIP_engine.x-players[0].body.x, TIP_engine.y-players[0].body.y)
-              tooltext = players[0].gear[t].toolcheck(TIP_engine)
-              return
-            }
+          if (players[0].gear[t].toolcheck(TIP_engine).fact == 1) {
+            tooling = 1
+            toolpoint = new Point(TIP_engine.x - players[0].body.x, TIP_engine.y - players[0].body.y)
+            tooltext = players[0].gear[t].toolcheck(TIP_engine)
+            return
           }
-            if(players[0].toolcheck(TIP_engine).fact == 1){ 
-              tooling = 1
-              toolpoint = new Point(TIP_engine.x-players[0].body.x, TIP_engine.y-players[0].body.y)
-              tooltext = players[0].toolcheck(TIP_engine)
-              return
-            }
+        }
+        if (players[0].toolcheck(TIP_engine).fact == 1) {
+          tooling = 1
+          toolpoint = new Point(TIP_engine.x - players[0].body.x, TIP_engine.y - players[0].body.y)
+          tooltext = players[0].toolcheck(TIP_engine)
+          return
+        }
 
       }
     }
@@ -2136,7 +2139,7 @@
         this.y = players[this.guyIndex].body.y
 
         let link = new LineOP(this, circle)
-        if(link.hypotenuse() > this.radius + 15){
+        if (link.hypotenuse() > this.radius + 64) {
           return false
         }
         let p = new Circle(this.x - (Math.cos(this.angle - 1) * 8), this.y - (Math.sin(this.angle - 1) * 8), 3, "red")
@@ -2319,7 +2322,7 @@
         this.y = players[this.guyIndex].body.y
 
         let link = new LineOP(this, circle)
-        if(link.hypotenuse() > this.radius + 15){
+        if (link.hypotenuse() > this.radius + 64) {
           return false
         }
         let p = new Circle(this.x - (Math.cos(this.angle - 1) * 8), this.y - (Math.sin(this.angle - 1) * 8), 3, "red")
@@ -2435,6 +2438,78 @@
       }
     }
 
+
+    class Bananas {
+      constructor(guyIndex = 0, angle = 0, color = "red") {
+        this.name = "Bananas"
+        this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
+        this.angle = angle
+        this.color = color
+        this.solar = 1
+        this.radius = 64
+        this.local = 1
+        // this.moveAngle = 1
+        this.id = Math.floor(Math.random() * 9000000)
+      }
+
+      move() { }
+      draw() {
+        this.guyIndex = champids.indexOf(this.guyid)
+
+        if (players[this.guyIndex]) {
+        } else {
+          return
+        }
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
+
+        this.angle += 1* (Math.PI / 24)
+        let pile = []
+        for (let t = 0; t < 3; t++) {
+          let x = this.x + (Math.cos(this.angle) * this.radius)
+          let y = this.y + (Math.sin(this.angle) * this.radius)
+          let d1 = new Circle(x, y, 16, "yellow")
+          d1.draw()
+          this.angle += (Math.PI * 2) / 3
+        }
+
+      }
+      doesPerimeterTouch(circle) {
+        this.guyIndex = champids.indexOf(this.guyid)
+
+        if (players[this.guyIndex]) {
+        } else {
+          return
+        }
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
+
+        let link = new LineOP(this, circle)
+        if (link.hypotenuse() > this.radius + 64) {
+          return false
+        }
+
+        // this.angle += 1* (Math.PI / 24)
+        let pile = []
+        let wet = 0
+        for (let t = 0; t < 3; t++) {
+          let x = this.x + (Math.cos(this.angle) * this.radius)
+          let y = this.y + (Math.sin(this.angle) * this.radius)
+          let d1 = new Circle(x, y, 16, "yellow")
+          this.angle += (Math.PI * 2) / 3
+          if (d1.doesPerimeterTouch(circle)) {
+            wet = 1
+          }
+        }
+        if(wet == 1){
+            return true
+          }
+        return false
+      }
+    }
     class PsychoSolar {
       constructor(guyIndex = 0, angle = 1, color = "red") {
         this.name = "PsychoSolar"
@@ -2518,7 +2593,7 @@
           this.lock = new Point(TIP_engine.x, TIP_engine.y)
         }
         let link = new LineOP(this, guybody)
-        if(link.hypotenuse() > 215){
+        if (link.hypotenuse() > 215) {
           return false
         }
         this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
@@ -2611,7 +2686,7 @@
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         let link = new LineOP(this, circle)
-        if(link.hypotenuse() > this.radius + 15){
+        if (link.hypotenuse() > this.radius + 64) {
           return false
         }
         for (let t = 0; t < 5; t++) {
@@ -2657,21 +2732,21 @@
         }
         if (wet == 1) {
 
-        this.angle = 0
-        this.guyIndex = champids.indexOf(this.guyid)
-
-        if (players[this.guyIndex]) {
-        } else {
           this.angle = 0
-          return false
-        }
-        this.x = players[this.guyIndex].body.x
-        this.y = players[this.guyIndex].body.y
+          this.guyIndex = champids.indexOf(this.guyid)
 
-        let link = new LineOP(this, circle)
-        if(link.hypotenuse() > this.radius + 15){
-          return false
-        }
+          if (players[this.guyIndex]) {
+          } else {
+            this.angle = 0
+            return false
+          }
+          this.x = players[this.guyIndex].body.x
+          this.y = players[this.guyIndex].body.y
+
+          let link = new LineOP(this, circle)
+          if (link.hypotenuse() > this.radius + 64) {
+            return false
+          }
           for (let t = 0; t < 5; t++) {
 
             let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
@@ -2816,7 +2891,7 @@
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         let link = new LineOP(this, circle)
-        if(link.hypotenuse() > this.radius + 15){
+        if (link.hypotenuse() > this.radius + 64) {
           return false
         }
         let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
@@ -2981,7 +3056,7 @@
         this.x = players[this.guyIndex].body.x
         this.y = players[this.guyIndex].body.y
         let link = new LineOP(this, circle)
-        if(link.hypotenuse() > this.radius + 15){
+        if (link.hypotenuse() > this.radius + 64) {
           return false
         }
         let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "gray")
@@ -3274,19 +3349,19 @@
         this.x = (-translator.x) + (60 * this.index)
         this.y = (-translator.y) + 660
         this.box = new Rectangle(this.x, this.y, 60, 60, "gray")
-          if (this.box.isPointInside(point)) {
-            let tool = {}
-            tool.lines = []
-            tool.fact = 1
-            tool.lines.push(this.name)
-            tool.lines.push("Damage: "+Math.round((this.damage-1)*100)+"%")
-            tool.lines.push("Armor: "+Math.round((this.armor-1)*100)+"%")
-            tool.lines.push("Speed: "+Math.round((this.speed-1)*100)+"%")
-            tool.lines.push("Mealthregen: "+Math.round((this.healthregen-1)*100)+"%")
-            tool.lines.push("Manaregen: "+Math.round((this.manaregen-1)*100)+"%")
+        if (this.box.isPointInside(point)) {
+          let tool = {}
+          tool.lines = []
+          tool.fact = 1
+          tool.lines.push(this.name)
+          tool.lines.push("Damage: " + Math.round((this.damage - 1) * 100) + "%")
+          tool.lines.push("Armor: " + Math.round((this.armor - 1) * 100) + "%")
+          tool.lines.push("Speed: " + Math.round((this.speed - 1) * 100) + "%")
+          tool.lines.push("Mealthregen: " + Math.round((this.healthregen - 1) * 100) + "%")
+          tool.lines.push("Manaregen: " + Math.round((this.manaregen - 1) * 100) + "%")
 
-            return tool
-          }
+          return tool
+        }
 
         return false
       }
@@ -3294,13 +3369,13 @@
         this.x = (-translator.x) + (60 * this.index)
         this.y = (-translator.y) + 660
         this.box = new Rectangle(this.x, this.y, 60, 60, "gray")
-          if (this.box.isPointInside(point)) {
-            return true
-          }
+        if (this.box.isPointInside(point)) {
+          return true
+        }
 
         return false
       }
-   
+
       check(point) {
         this.x = (-translator.x) + (60 * this.index)
         this.y = (-translator.y) + 660
@@ -3430,158 +3505,181 @@
         this.slowedByFloor = 1
         this.selected = 0
       }
-      toolcheck(point){
-        
+      toolcheck(point) {
+
         this.UI = [new Rectangle(240, 660, 60, 60, "#880000"), new Rectangle(300, 660, 60, 60, "#880000"), new Rectangle(360, 660, 60, 60, "#880000"), new Rectangle(420, 660, 60, 60, "#880000")]
 
-        for(let t= 0;t<this.UI.length;t++){
-          this.UI[t].x -=translator.x
-          this.UI[t].y -=translator.y
-          if(this.UI[t].isPointInside(point)){
+        for (let t = 0; t < this.UI.length; t++) {
+          this.UI[t].x -= translator.x
+          this.UI[t].y -= translator.y
+          if (this.UI[t].isPointInside(point)) {
             let tool = {}
             tool.lines = []
             tool.fact = 1
-            if(this.type == 0){
-              if(t == 0){
-              tool.lines.push("Psyblast")
-              tool.lines.push("130 Mana")
-              tool.lines.push("400 Frame Cooldown")
-              tool.lines.push("A powerful beam/wave")
-              }else if (t == 1){
-              tool.lines.push("Shockwave")
-              tool.lines.push("60 Mana")
-              tool.lines.push("40 Frame Cooldown")
-              tool.lines.push("A growing shockwave")
-              }else if (t == 2){
-              tool.lines.push("Sleep/Awake")
-              tool.lines.push("Toggle for Mana and Health")
-              tool.lines.push("80 Frame Cooldown")
-              tool.lines.push("Toggle your moveset")
-              tool.lines.push("by sleeping or waking up")
-              }else if (t == 3){
-              tool.lines.push("Shield")
-              tool.lines.push("100 mana")
-              tool.lines.push("300-400 frame cooldown")
-              tool.lines.push("Shield self and minions")
+            if (this.type == 0) {
+              if (t == 0) {
+                tool.lines.push("Psyblast")
+                tool.lines.push("130 Mana")
+                tool.lines.push("400 Frame Cooldown")
+                tool.lines.push("A powerful beam/wave")
+              } else if (t == 1) {
+                tool.lines.push("Shockwave")
+                tool.lines.push("60 Mana")
+                tool.lines.push("40 Frame Cooldown")
+                tool.lines.push("A growing shockwave")
+              } else if (t == 2) {
+                tool.lines.push("Sleep/Awake")
+                tool.lines.push("Toggle for Mana and Health")
+                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("Toggle your moveset")
+                tool.lines.push("by sleeping or waking up")
+              } else if (t == 3) {
+                tool.lines.push("Shield")
+                tool.lines.push("100 mana")
+                tool.lines.push("300-400 frame cooldown")
+                tool.lines.push("Shield self and minions")
               }
             }
-            if(this.type == 1){
-              if(t == 0){
-              tool.lines.push("Slugmax")
-              tool.lines.push("100 Mana")
-              tool.lines.push("400 Frame Cooldown")
-              tool.lines.push("Drop a big pile of slime")
-              tool.lines.push("That slows and damages")
-              }else if (t == 1){
-              tool.lines.push("Mating Horns")
-              tool.lines.push("60 Mana")
-              tool.lines.push("40 Frame Cooldown")
-              tool.lines.push("Extend damaging horns")
-              }else if (t == 2){
-              tool.lines.push("Rush")
-              tool.lines.push("25 Mana")
-              tool.lines.push("80 Frame Cooldown")
-              tool.lines.push("Gain movement speed")
-              }else if (t == 3){
-              tool.lines.push("Drop Slime")
-              tool.lines.push("10 mana/drop")
-              tool.lines.push("10 Frame/drop")
-              tool.lines.push("30 frame toggle")
-              tool.lines.push("Leave a trail of damage")
+            if (this.type == 1) {
+              if (t == 0) {
+                tool.lines.push("Slugmax")
+                tool.lines.push("100 Mana")
+                tool.lines.push("400 Frame Cooldown")
+                tool.lines.push("Drop a big pile of slime")
+                tool.lines.push("That slows and damages")
+              } else if (t == 1) {
+                tool.lines.push("Mating Horns")
+                tool.lines.push("60 Mana")
+                tool.lines.push("40 Frame Cooldown")
+                tool.lines.push("Extend damaging horns")
+              } else if (t == 2) {
+                tool.lines.push("Rush")
+                tool.lines.push("25 Mana")
+                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("Gain movement speed")
+              } else if (t == 3) {
+                tool.lines.push("Drop Slime")
+                tool.lines.push("10 mana/drop")
+                tool.lines.push("10 Frame/drop")
+                tool.lines.push("30 frame toggle")
+                tool.lines.push("Leave a trail of damage")
               }
             }
-            if(this.type == 2){
-              if(t == 0){
-              tool.lines.push("Spit Egg")
-              tool.lines.push("60 Mana")
-              tool.lines.push("200 Frame Cooldown")
-              tool.lines.push("Long range projectile")
-              }else if (t == 1){
-              tool.lines.push("Tongue Snatch")
-              tool.lines.push("70 Mana")
-              tool.lines.push("40 Frame Cooldown")
-              tool.lines.push("Bring your enemy to you")
-              tool.lines.push("By grabbing them")
-              }else if (t == 2){
-              tool.lines.push("Rush")
-              tool.lines.push("25 Mana")
-              tool.lines.push("80 Frame Cooldown")
-              tool.lines.push("Gain movement speed")
-              }else if (t == 3){
-              tool.lines.push("Ground Pound")
-              tool.lines.push("50 Mana")
-              tool.lines.push("40 frame cooldown")
-              tool.lines.push("Send out a circular shockwave")
+            if (this.type == 2) {
+              if (t == 0) {
+                tool.lines.push("Spit Egg")
+                tool.lines.push("60 Mana")
+                tool.lines.push("200 Frame Cooldown")
+                tool.lines.push("Long range projectile")
+              } else if (t == 1) {
+                tool.lines.push("Tongue Snatch")
+                tool.lines.push("70 Mana")
+                tool.lines.push("40 Frame Cooldown")
+                tool.lines.push("Bring your enemy to you")
+                tool.lines.push("By grabbing them")
+              } else if (t == 2) {
+                tool.lines.push("Rush")
+                tool.lines.push("25 Mana")
+                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("Gain movement speed")
+              } else if (t == 3) {
+                tool.lines.push("Ground Pound")
+                tool.lines.push("50 Mana")
+                tool.lines.push("40 frame cooldown")
+                tool.lines.push("Send out a circular shockwave")
               }
             }
-            if(this.type == 3){
-              if(t == 0){
-              tool.lines.push("Big Bomb")
-              tool.lines.push("100 Mana")
-              tool.lines.push("120 Frame Cooldown")
-              tool.lines.push("Long range projectile")
-              }else if (t == 1){
-              tool.lines.push("Minefield")
-              tool.lines.push("100 Mana")
-              tool.lines.push("200 Frame Cooldown")
-              tool.lines.push("Lay out a minefield")
-              }else if (t == 2){
-              tool.lines.push("Rocket Zoom")
-              tool.lines.push("30 Mana, 10% max health")
-              tool.lines.push("150 Frame Cooldown")
-              tool.lines.push("Gain movement speed")
-              }else if (t == 3){
-              tool.lines.push("Geiger Slam")
-              tool.lines.push("100 Mana")
-              tool.lines.push("400 frame cooldown")
-              tool.lines.push("A damaging rod to use")
+            if (this.type == 3) {
+              if (t == 0) {
+                tool.lines.push("Big Bomb")
+                tool.lines.push("100 Mana")
+                tool.lines.push("120 Frame Cooldown")
+                tool.lines.push("Long range projectile")
+              } else if (t == 1) {
+                tool.lines.push("Minefield")
+                tool.lines.push("100 Mana")
+                tool.lines.push("200 Frame Cooldown")
+                tool.lines.push("Lay out a minefield")
+              } else if (t == 2) {
+                tool.lines.push("Rocket Zoom")
+                tool.lines.push("30 Mana, 10% max health")
+                tool.lines.push("150 Frame Cooldown")
+                tool.lines.push("Gain movement speed")
+              } else if (t == 3) {
+                tool.lines.push("Geiger Slam")
+                tool.lines.push("100 Mana")
+                tool.lines.push("400 frame cooldown")
+                tool.lines.push("A damaging rod to use")
               }
             }
-            if(this.type == 4){
-              if(t == 0){
-              tool.lines.push("Healing Beam")
-              tool.lines.push("100 Mana")
-              tool.lines.push("120 Frame Cooldown")
-              tool.lines.push("Heal minions and team")
-              }else if (t == 1){
-              tool.lines.push("Grapeshot")
-              tool.lines.push("10 mana/drop")
-              tool.lines.push("16 Frame/drop")
-              tool.lines.push("20 frame toggle")
-              tool.lines.push("Short range projectile")
-              }else if (t == 2){
-              tool.lines.push("Lemon Fingers")
-              tool.lines.push("45 Mana")
-              tool.lines.push("200 Frame Cooldown")
-              tool.lines.push("Extend damaging fingers")
-              }else if (t == 3){
-              tool.lines.push("Battle Control")
-              tool.lines.push("Gain 40 Mana, heal near allies")
-              tool.lines.push("500 frame cooldown")
-              tool.lines.push("A shockwave of health / harm")
+            if (this.type == 4) {
+              if (t == 0) {
+                tool.lines.push("Healing Beam")
+                tool.lines.push("100 Mana")
+                tool.lines.push("120 Frame Cooldown")
+                tool.lines.push("Heal minions and team")
+              } else if (t == 1) {
+                tool.lines.push("Grapeshot")
+                tool.lines.push("10 mana/drop")
+                tool.lines.push("16 Frame/drop")
+                tool.lines.push("20 frame toggle")
+                tool.lines.push("Short range projectile")
+              } else if (t == 2) {
+                tool.lines.push("Lemon Fingers")
+                tool.lines.push("45 Mana")
+                tool.lines.push("200 Frame Cooldown")
+                tool.lines.push("Extend damaging fingers")
+              } else if (t == 3) {
+                tool.lines.push("Battle Control")
+                tool.lines.push("Gain 40 Mana, heal near allies")
+                tool.lines.push("500 frame cooldown")
+                tool.lines.push("A shockwave of health / harm")
               }
             }
-            if(this.type == 5){
-              if(t == 0){
-              tool.lines.push("Burnout")
-              tool.lines.push("50 Mana, 25 health")
-              tool.lines.push("40 Frame Cooldown")
-              tool.lines.push("A slow large shockwave")
-              }else if (t == 1){
-              tool.lines.push("Fusion")
-              tool.lines.push("For 120 Mana trade 50 health")
-              tool.lines.push("80 frame toggle")
-              tool.lines.push("Trade health for mana")
-              }else if (t == 2){
-              tool.lines.push("Psychosolar")
-              tool.lines.push("100 Mana")
-              tool.lines.push("300 Frame Cooldown")
-              tool.lines.push("A bifurcated beam")
-              }else if (t == 3){
-              tool.lines.push("Solar Flares")
-              tool.lines.push("100 Mana")
-              tool.lines.push("280 frame cooldown")
-              tool.lines.push("Five pointy protectors")
+            if (this.type == 5) {
+              if (t == 0) {
+                tool.lines.push("Burnout")
+                tool.lines.push("50 Mana, 25 health")
+                tool.lines.push("40 Frame Cooldown")
+                tool.lines.push("A slow large shockwave")
+              } else if (t == 1) {
+                tool.lines.push("Fusion")
+                tool.lines.push("For 120 Mana trade 50 health")
+                tool.lines.push("80 frame toggle")
+                tool.lines.push("Trade health for mana")
+              } else if (t == 2) {
+                tool.lines.push("Psychosolar")
+                tool.lines.push("100 Mana")
+                tool.lines.push("300 Frame Cooldown")
+                tool.lines.push("A bifurcated beam")
+              } else if (t == 3) {
+                tool.lines.push("Solar Flares")
+                tool.lines.push("100 Mana")
+                tool.lines.push("280 frame cooldown")
+                tool.lines.push("Five pointy protectors")
+              }
+            }
+            if (this.type == 6) {
+              if (t == 0) {
+                tool.lines.push("Banana Boundary")
+                tool.lines.push("50 Mana")
+                tool.lines.push("400 Frame Cooldown")
+                tool.lines.push("A rotating shell of defense")
+              } else if (t == 1) {
+                tool.lines.push("Bananarang")
+                tool.lines.push("40 Mana")
+                tool.lines.push("60 frame cooldown")
+                tool.lines.push("A boomerang projectile")
+              } else if (t == 2) {
+                tool.lines.push("Rush")
+                tool.lines.push("25 Mana")
+                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("Gain movement speed")
+              } else if (t == 3) {
+                tool.lines.push("Banana Field")
+                tool.lines.push("100 Mana")
+                tool.lines.push("240 frame cooldown")
+                tool.lines.push("A curved line of mines")
               }
             }
 
@@ -3620,6 +3718,9 @@
         if (type == 5) {
           this.mana = 666
         }
+        if (type == 6) {
+          this.mana = 420
+        }
         return this.mana
       }
 
@@ -3647,6 +3748,9 @@
         if (type == 5) {
           this.health = 451
         }
+        if (type == 6) {
+          this.health = 550
+        }
         return this.health
       }
       meleeRangeMaker(type) {
@@ -3671,6 +3775,9 @@
         }
         if (type == 5) {
           this.meleeRange = 165
+        }
+        if (type == 6) {
+          this.meleeRange = 100
         }
         return this.meleeRange
       }
@@ -3697,6 +3804,9 @@
         if (type == 5) {
           this.healthRegen = 13 / 100
         }
+        if (type == 6) {
+          this.healthRegen = 7 / 100
+        }
         return this.healthRegen
       }
       manaRegenMaker(type) {
@@ -3721,6 +3831,9 @@
         }
         if (type == 5) {
           this.manaRegen = .06
+        }
+        if (type == 6) {
+          this.manaRegen = .125
         }
         return this.manaRegen
       }
@@ -3747,6 +3860,9 @@
         }
         if (type == 5) {
           this.speed = 1.8
+        }
+        if (type == 6) {
+          this.speed = 4.2
         }
         return this.speed
       }
@@ -3985,6 +4101,13 @@
           if (this.activeArts[t].growth >= 0) {
             this.activeArts[t].radius *= this.activeArts[t].growth
           }
+          if (this.activeArts[t].reverse == 1) {
+            if(this.activeArts[t].life == 20){
+              this.activeArts[t].xmom*=-1
+              this.activeArts[t].ymom*=-1
+            }
+          }
+
           this.activeArts[t].move()
           if (!(this.activeArts[t].id > 0)) {
             this.activeArts[t].id = Math.floor(Math.random() * 9000000)
@@ -4239,21 +4362,24 @@
         for (let t = 0; t < this.UI.length; t++) {
           this.UI[t].x -= translator.x
           this.UI[t].y -= translator.y
-            this.UI[t].draw()
+          this.UI[t].draw()
         }
-        if(this.type == 0){
+        if (this.type == 0) {
           canvas_context.drawImage(psycons, this.UI[0].x, this.UI[0].y)
-        }else if(this.type == 1){
+        } else if (this.type == 1) {
           canvas_context.drawImage(slugcons, this.UI[0].x, this.UI[0].y)
-        }else if(this.type == 2){
+        } else if (this.type == 2) {
           canvas_context.drawImage(pomcons, this.UI[0].x, this.UI[0].y)
-        }else if(this.type == 3){
+        } else if (this.type == 3) {
           canvas_context.drawImage(miscons, this.UI[0].x, this.UI[0].y)
-        }else if(this.type == 4){
+        } else if (this.type == 4) {
           canvas_context.drawImage(nhaicons, this.UI[0].x, this.UI[0].y)
-        }else if(this.type == 5){
+        } else if (this.type == 5) {
           canvas_context.drawImage(suncons, this.UI[0].x, this.UI[0].y)
+        }else if (this.type == 6) {
+          canvas_context.drawImage(banicons, this.UI[0].x, this.UI[0].y)
         }
+        
         for (let t = 0; t < this.UI.length; t++) {
           if (this.cooldowns[t] > 0) {
             this.UI[t].color = "#FFFFFF99"
@@ -4976,8 +5102,12 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -300), this.body.y + (Math.sin(link.angle()) * -300))
           }
+          if (this.type == 6) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -300), this.body.y + (Math.sin(link.angle()) * -300))
+          }
         }
-        if ((keysPressed['w'] || this.wflag == 1)&& this.cooldowns[1] <= 0) {
+        if ((keysPressed['w'] || this.wflag == 1) && this.cooldowns[1] <= 0) {
           this.wflag = 0
           if (this.type == 0) {
             this.abilities[1](this, this.body.x, this.body.y)
@@ -5001,8 +5131,12 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
+          if (this.type == 6) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
         }
-        if ((keysPressed['e'] || this.eflag == 1)&& this.cooldowns[2] <= 0) {
+        if ((keysPressed['e'] || this.eflag == 1) && this.cooldowns[2] <= 0) {
           this.eflag = 0
           if (this.type == 0) {
             this.abilities[2](this)
@@ -5027,8 +5161,12 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
           }
+          if (this.type == 6) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+          }
         }
-        if ((keysPressed['r'] || this.rflag == 1)&& this.cooldowns[3] <= 0) {
+        if ((keysPressed['r'] || this.rflag == 1) && this.cooldowns[3] <= 0) {
           this.rflag = 0
           if (this.type == 0) {
             this.abilities[3](this)
@@ -5048,6 +5186,10 @@
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
           }
           if (this.type == 5) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
+          }
+          if (this.type == 6) {
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -100), this.body.y + (Math.sin(link.angle()) * -100))
           }
@@ -5089,6 +5231,9 @@
         if (this.type == 5) {
           canvas_context.drawImage(i6, ((this.step % (i6.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
         }
+        if (this.type == 6) {
+          canvas_context.drawImage(i7, ((this.step % (i7.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
 
       }
 
@@ -5115,6 +5260,9 @@
         if (type == 5) {
           return this.solarflares
         }
+        if (type == 6) {
+          return this.bananafield
+        }
       }
       power3(type) {
         if (type == -1) {
@@ -5137,6 +5285,9 @@
         }
         if (type == 5) {
           return this.psychosolar
+        }
+        if (type == 6) {
+          return this.rushing
         }
       }
       power2(type) {
@@ -5161,6 +5312,9 @@
         if (type == 5) {
           return this.fusion
         }
+        if (type == 6) {
+          return this.bananarang
+        }
 
       }
       power1(type) {
@@ -5184,6 +5338,9 @@
         }
         if (type == 5) {
           return this.burnout
+        }
+        if (type == 6) {
+          return this.bananaboundary
         }
       }
       unitmeleeChamp(self, target) {
@@ -5407,7 +5564,7 @@
         d.moveAngle = 1
         d.growth = 1
         d.growth = 1.3
-        d.root = self.body 
+        d.root = self.body
         d.guyid = self.id
         // d.anchorToPlayer = 1
         d.maxDis = 100
@@ -5418,6 +5575,82 @@
         self.activeArts.push(d)
         self.cooldowns[3] = 40 * 10
       }
+
+      bananarang(self, x, y) {
+        
+        let l = new LineOP(self.body, new Point(x, y))
+
+        let manaCost = 40
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 40
+        let shocher = new Circle(self.body.x, self.body.y, 25, "yellow", Math.cos(l.angle()) * -2 * 12, Math.sin(l.angle()) * -2 * 12)
+        shocher.growth = 1
+        // shocher.root = self.body
+        shocher.life = lifeLength
+        shocher.slow = .5
+        shocher.reverse = 1
+        shocher.collide = 0
+        shocher.damage = 20
+        shocher.update = 1
+        shocher.pop = 0
+        shocher.popdam = 1
+        shocher.poprays = 6
+        shocher.poprate = 20
+        shocher.popradius = 4
+        shocher.popcolor = "yellow"
+        shocher.poplife = 10
+        shocher.name = "Circle"
+        self.activeArts.push(shocher)
+        self.cooldowns[1] = 60 * 1
+      }
+      bananafield(self, x, y) {
+
+
+        let manaCost = 75
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 200
+        let distance = 100
+        let angle = (new LineOP(self.body, new Point(x, y)).angle())
+
+        for (let t = 1; t < 24; t++) {
+          let d = new Circle(x + (Math.cos(angle) * distance), y + (Math.sin(angle) * distance), 14, "#FFFF0088")
+          d.echo = 1
+          d.life = lifeLength
+          d.growth = 1.001
+          // d.root = TIP_engine
+          d.maxDis = 3000
+          d.update = 1
+          d.slow = .5
+          d.collide = 0
+          d.damage = 3.5
+          d.pop = 0
+          // d.sendEveryFrame = 1
+          d.popdam = 5
+          d.poprays = 9
+          d.poprate = 10
+          d.popradius = 5
+          d.popcolor = "yellow"
+          d.poplife = 10
+          // distance += 3-(t/30)
+          angle += Math.PI / 20
+          // if (t % 5 == 0) {
+            distance += 4
+          // }
+          d.name = "Circle"
+          self.activeArts.push(d)
+        }
+        self.cooldowns[3] = 40 * 8
+      }
+
+
       bombfield(self, x, y) {
 
 
@@ -5691,9 +5924,9 @@
               shocher.bod = 1
               shocher.bodi = 1
               shocher.bodid = players[t].id
-              shocher.guyid= players[t].id
+              shocher.guyid = players[t].id
               shocher.solar = 1
-              shocher.guyIndex= t
+              shocher.guyIndex = t
               shocher.update = 1
               shocher.knockShield = 1
               shocher.shield = 1
@@ -5721,9 +5954,9 @@
               shocher.update = 1
               shocher.knockShield = 1
               shocher.shield = 1
-              shocher.guyid= players[t].id
+              shocher.guyid = players[t].id
               shocher.solar = 1
-              shocher.guyIndex= t
+              shocher.guyIndex = t
               shocher.bod = 1
               shocher.bodi = 1
               shocher.bodid = players[t].id
@@ -5965,6 +6198,31 @@
         self.activeArts.push(zp)
         self.cooldowns[0] = 40 * 10
       }
+      bananaboundary(self, x, y) {
+
+        let manaCost = 50
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 200
+        let d = new Bananas(players.indexOf(self), (new LineOP(self.body, new Point(x, y)).angle()))
+        d.echo = 1
+        d.life = lifeLength
+        d.line = 1
+        d.growth = 1.03
+        // d.moveAngle = 1
+        d.root = self.body
+        d.maxDis = 150
+        d.anchorToPlayer = 1
+        d.solar = 1
+        d.guyIndex = players.indexOf(self)
+        d.damage = 7
+        d.update = 1
+        self.activeArts.push(d)
+        self.cooldowns[0] = 40 * 10
+      }
       psyblast(self, x, y) {
         if (self.sleep == 1) {
           let manaCost = 130
@@ -6039,7 +6297,7 @@
           dxi.bodid = self.id
           dxi.guyIndex = players.indexOf(self)
           dxi.guyid = self.id
-          
+
           // dxi.anchorToPlayer = 1
           dxi.solar = 1
 
@@ -6163,6 +6421,9 @@
     let suncons = new Image()
     suncons.src = "https://ditzbitz.com/suncons.png"
 
+    let banicons = new Image()
+    banicons.src = "https://ditzbitz.com/banicons.png"
+
 
 
     let i1 = new Image()
@@ -6177,6 +6438,8 @@
     i5.src = "https://ditzbitz.com/r26.png"
     let i6 = new Image()
     i6.src = "https://ditzbitz.com/r14.png"
+    let i7 = new Image()
+    i7.src = "https://ditzbitz.com/r17.png"
     let ie1 = new Image()
     ie1.src = "https://ditzbitz.com/c51.png"
     let ie2 = new Image()
@@ -6262,13 +6525,13 @@
             }
             return
           }
-          if(guy.type != -1){
+          if (guy.type != -1) {
             let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, parseInt(JSON.parse(data).reward, 10))
             worldpops.push(pop)
-          }else{
+          } else {
 
-          let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, "")
-          worldpops.push(pop)
+            let pop = new DeathPop(JSON.parse(data).x, JSON.parse(data).y, "")
+            worldpops.push(pop)
           }
           guy.gold += parseInt(JSON.parse(data).reward, 10)
           guy.goldtotal += parseInt(JSON.parse(data).reward, 10)
@@ -7072,6 +7335,7 @@
     let butguy4 = new Rectangle(600, 280, 50, 50, "white")
     let butguy5 = new Rectangle(600, 340, 50, 50, "white")
     let butguy6 = new Rectangle(600, 400, 50, 50, "white")
+    let butguy7 = new Rectangle(660, 100, 50, 50, "white")
     let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
     let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
     let teammaker = -1
@@ -7121,6 +7385,9 @@
         if (guymaker == 5) {
           butguy6.draw()
         }
+        if (guymaker == 6) {
+          butguy7.draw()
+        }
 
         canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
         canvas_context.drawImage(i2, 0, 0, 64, 64, butguy2.x, butguy2.y, butguy2.width, butguy2.height)
@@ -7128,6 +7395,7 @@
         canvas_context.drawImage(i4, 0, 0, 64, 64, butguy4.x, butguy4.y, butguy4.width, butguy4.height)
         canvas_context.drawImage(i5, 0, 0, 64, 64, butguy5.x, butguy5.y, butguy5.width, butguy5.height)
         canvas_context.drawImage(i6, 0, 0, 64, 64, butguy6.x, butguy6.y, butguy6.width, butguy6.height)
+        canvas_context.drawImage(i7, 0, 0, 64, 64, butguy7.x, butguy7.y, butguy7.width, butguy7.height)
 
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
@@ -7510,14 +7778,14 @@
           dot.draw()
         }
       }
-      if(tooling == 1){
-        let rectangle = new Rectangle(players[0].body.x+toolpoint.x, players[0].body.y+toolpoint.y-200, 300, 200, "#444444")
+      if (tooling == 1) {
+        let rectangle = new Rectangle(players[0].body.x + toolpoint.x, players[0].body.y + toolpoint.y - 200, 300, 200, "#444444")
         rectangle.draw()
         canvas_context.fillStyle = "gold"
         canvas_context.font = "20px comic sans ms"
-        for(let k = 0;k<tooltext.lines.length;k++){
-          canvas_context.fillText(tooltext.lines[k], rectangle.x + 10, (rectangle.y + 30)+(k*30))
-          
+        for (let k = 0; k < tooltext.lines.length; k++) {
+          canvas_context.fillText(tooltext.lines[k], rectangle.x + 10, (rectangle.y + 30) + (k * 30))
+
         }
       }
 
