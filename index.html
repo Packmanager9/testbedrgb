@@ -4581,6 +4581,7 @@
               if (this.type == -1) { //minion
                 json.minion = 1 //flag minion 
                 json.health = Math.round(this.health) //carry health for UI
+                json.skin = Math.round(this.skin) //carry health for UI
                 json.x = Math.round(this.body.x) //positional x
                 json.y = Math.round(this.body.y) //positional y
                 json.shield = this.shield //positional y
@@ -4877,6 +4878,7 @@
             let json = {} //new message
             if (this.type == -1) { //minion
               json.minion = 1 //flag minion 
+              json.skin = Math.round(this.skin) //carry health for UI
               json.health = Math.round(this.health) //carry health for UI
               json.x = Math.round(this.body.x) //positional x
               json.y = Math.round(this.body.y) //positional y
@@ -7273,6 +7275,7 @@
               guy.shield = JSON.parse(data).shield
               guy.send = 0
               guy.health = Math.min(JSON.parse(data).health, guy.health)
+              guy.skin = JSON.parse(data).skin, guy.health
               players[champids.indexOf(JSON.parse(data).id)].activeArts = [...junk]
               champtimes[champids.indexOf(JSON.parse(data).id)] = 20
               // players[0].collide(players[champids.indexOf(JSON.parse(data).id)])
@@ -7460,6 +7463,7 @@
             guy.shield = JSON.parse(data).shield
             guy.send = 0
             guy.health = Math.min(JSON.parse(data).health, guy.health)
+            guy.skin = JSON.parse(data).skin, guy.health
             champids.push(JSON.parse(data).id)
             champtimes[champids.length - 1] = 25
             // players[0].collide(players[champids.indexOf(JSON.parse(data).id)])
