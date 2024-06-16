@@ -3804,7 +3804,7 @@
               if (t == 0) {
                 tool.lines.push("Spawn Gumnut")
                 tool.lines.push("35 Mana")
-                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("180 Frame Cooldown")
                 tool.lines.push("Gumnut minion fights for you")
               } else if (t == 1) {
                 tool.lines.push("Manterfly Arena")
@@ -5622,7 +5622,7 @@
             players.push(guy2z)
             champids.push(guy2z.id)
             champtimes.push(2000000000)
-            self.cooldowns[0] = 100
+            self.cooldowns[0] = 180
       }
       unitmeleeChamp(self, target) {
         let l = new LineOP(self.body, target.body)
