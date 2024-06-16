@@ -3829,6 +3829,50 @@
                 tool.lines.push("80 frame cooldown")
               }
             }
+            if (this.type == 9) {
+              if (t == 0) {
+                tool.lines.push("Crystal Beam")
+                tool.lines.push("40 Mana")
+                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("A powerful beam")
+              } else if (t == 1) {
+                tool.lines.push("Scouting Ball")
+                tool.lines.push("40 Mana")
+                tool.lines.push("60 frame cooldown")
+                tool.lines.push("A boomerang projectile")
+              } else if (t == 2) {
+                tool.lines.push("Light Attack")
+                tool.lines.push("100 Mana")
+                tool.lines.push("300 Frame Cooldown")
+                tool.lines.push("A bifurcated beam")
+              } else if (t == 3) {
+                tool.lines.push("Crystal Healing Beam")
+                tool.lines.push("100 Mana")
+                tool.lines.push("120 Frame Cooldown")
+                tool.lines.push("Heal minions and team")
+              }
+            }
+            if (this.type == 10) {
+              if (t == 0) {
+                tool.lines.push("Rocket Rush")
+                tool.lines.push("25 Mana")
+                tool.lines.push("60 Frame Cooldown")
+                tool.lines.push("Speed up, drop exhaust")
+              } else if (t == 1) {
+                tool.lines.push("Defining Ring")
+                tool.lines.push("75 Mana")
+                tool.lines.push("280 frame cooldown")
+                tool.lines.push("An offensive ring")
+              } else if (t == 2) {
+                tool.lines.push("Boom Rush")
+                tool.lines.push("25 Mana")
+                tool.lines.push("200 Frame Cooldown")
+                tool.lines.push("Speed up, drop exhaust")
+              } else if (t == 3) {
+                tool.lines.push("Second Melee")
+                tool.lines.push("Melee on command")
+              }
+            }
 
             return tool
           }
@@ -4601,6 +4645,10 @@
           canvas_context.drawImage(xlicons, this.UI[0].x, this.UI[0].y)
         }else if (this.type == 8) {
           canvas_context.drawImage(mantcons, this.UI[0].x, this.UI[0].y)
+        }else if (this.type == 9) {
+          canvas_context.drawImage(hamcons, this.UI[0].x, this.UI[0].y)
+        }else if (this.type == 10) {
+          canvas_context.drawImage(jetcons, this.UI[0].x, this.UI[0].y)
         }
         
         for (let t = 0; t < this.UI.length; t++) {
@@ -7389,6 +7437,10 @@
     xlicons.src = "https://ditzbitz.com/xlicons.png"
     let mantcons = new Image()
     mantcons.src = "https://ditzbitz.com/mantcons.png"
+    let jetcons = new Image()
+    jetcons.src = "https://ditzbitz.com/jetcons.png"
+    let hamcons = new Image()
+    hamcons.src = "https://ditzbitz.com/hamcons.png"
 
 
 
