@@ -6619,7 +6619,7 @@
         dx.solar = 1
         dx.growth = 1
         self.activeArts.push(dx)
-        let dxi = new Circle(self.body.x, self.body.y, 7, "white")
+        let dxi = new Circle(self.body.x, self.body.y, 7, "black")
         dxi.echo = 1
         dxi.life = lifeLength
         dxi.update = 1
@@ -6638,7 +6638,7 @@
         dxi.maxDis = 300
         dxi.follow = 1
         self.activeArts.push(dxi)
-        let di = new Circle(x, y, 7, "white")
+        let di = new Circle(x, y, 7, "black")
         di.echo = 1
         di.life = lifeLength
         di.update = 1
@@ -6670,7 +6670,7 @@
           //////////////////////////////console.log(self.activeArts)
         }
 
-        let zp = new LineOP(self.body, d, "white", 10)
+        let zp = new LineOP(self.body, d, "black", 10)
         zp.echo = 1
         zp.growth = 1
         zp.life = lifeLength
