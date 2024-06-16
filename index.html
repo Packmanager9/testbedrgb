@@ -1327,6 +1327,9 @@
           if (butguy8.isPointInside(TIP_engine)) {
             guymaker = 7
           }
+          if (butguy9.isPointInside(TIP_engine)) {
+            guymaker = 8
+          }
 
           if (team0.isPointInside(TIP_engine)) {
             teammaker = 0
@@ -2619,6 +2622,93 @@
       }
     }
 
+    class ButterStar {
+      constructor(guyIndex = 0, angle = 1, color = "red") {
+        this.name = "ButterStar"
+        this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
+        this.angle = angle
+        this.angle2 = 0
+        this.color = color
+        this.radius = 200
+        this.local = 1
+        this.solar = 1
+        this.moveAngle = 0
+        this.id = Math.floor(Math.random() * 9000000)
+      }
+      move() {
+
+      }
+      draw() {
+        this.guyIndex = champids.indexOf(this.guyid)
+
+        if (players[this.guyIndex]) {
+        } else {
+          return
+        }
+        if (this.local == 1) {
+          this.x = players[this.guyIndex].body.x
+          this.y = players[this.guyIndex].body.y
+          this.lock = new Point(TIP_engine.x, TIP_engine.y)
+        }
+
+        this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
+        this.angle2 += 1 * (Math.PI / 24)  
+        let end = new Circle(players[this.guyIndex].body.x + (Math.cos(this.angle) * 200), players[this.guyIndex].body.y + (Math.sin(this.angle) * 200), 10, "#FFAA22")
+
+        let a = 0
+        for(let t = 0;t<4;t++){
+          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 100), end.y+ (Math.sin(a+this.angle2) * 100)), "Cyan", 6)
+          a += Math.PI/2
+          link.draw()
+        }
+     
+
+      }
+      doesPerimeterTouch(guybody) {
+
+        this.guyIndex = champids.indexOf(this.guyid)
+
+        if (players[this.guyIndex]) {
+        } else {
+          return false
+        }
+        if (this.local == 1) {
+          this.x = players[this.guyIndex].body.x
+          this.y = players[this.guyIndex].body.y
+          this.lock = new Point(TIP_engine.x, TIP_engine.y)
+        }
+        let link = new LineOP(this, guybody)
+
+        if (link.hypotenuse() > 315) {
+          return false
+        }
+
+        this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
+        let end = new Circle(players[this.guyIndex].body.x + (Math.cos(this.angle) * 200), players[this.guyIndex].body.y + (Math.sin(this.angle) * 200), 10, "#FFAA22")
+       
+        let a = 0
+        let pile = []
+        for(let t = 0;t<4;t++){
+          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 100), end.y+ (Math.sin(a+this.angle2) * 100)), "red", 5)
+          a += Math.PI/2
+          // link.draw()
+          pile.push(link)
+
+        }
+     
+        for (let t = 0; t < pile.length; t++) {
+          if (pile[t].doesPerimeterTouch(guybody)) {
+            return true
+          }
+        }
+
+        return false
+      }
+    }
+
     class SolarFlares {
       constructor(guyIndex = 0, angle = 1, color = "red") {
         this.name = "SolarFlares"
@@ -3751,6 +3841,9 @@
         if (type == 7) {
           this.mana = 531
         }
+        if (type == 8) {
+          this.mana = 450
+        }
         return this.mana
       }
 
@@ -3784,6 +3877,9 @@
         if (type == 7) {
           this.health = 999
         }
+        if (type == 8) {
+          this.health = 720
+        }
         return this.health
       }
       meleeRangeMaker(type) {
@@ -3815,6 +3911,9 @@
         if (type == 7) {
           this.meleeRange = 75
         }
+        if (type == 8) {
+          this.meleeRange = 90
+        }
         return this.meleeRange
       }
       healthRegenMaker(type) {
@@ -3844,6 +3943,9 @@
           this.healthRegen = 7 / 100
         }
         if (type == 7) {
+          this.healthRegen = 5 / 100
+        }
+        if (type == 8) {
           this.healthRegen = 5 / 100
         }
         return this.healthRegen
@@ -3877,6 +3979,9 @@
         if (type == 7) {
           this.manaRegen = .111
         }
+        if (type == 8) {
+          this.manaRegen = .123
+        }
         return this.manaRegen
       }
       speedMaker(type) {
@@ -3908,6 +4013,9 @@
         }
         if (type == 7) {
           this.speed = 3.7
+        }
+        if (type == 8) {
+          this.speed = 4.6
         }
         return this.speed
       }
@@ -5157,6 +5265,10 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
+          if (this.type == 8) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
         }
         if ((keysPressed['w'] || this.wflag == 1) && this.cooldowns[1] <= 0) {
           this.wflag = 0
@@ -5187,6 +5299,10 @@
             this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
           if (this.type == 7) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 8) {
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
@@ -5224,6 +5340,10 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
+          if (this.type == 8) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
         }
         if ((keysPressed['r'] || this.rflag == 1) && this.cooldowns[3] <= 0) {
           this.rflag = 0
@@ -5256,6 +5376,10 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
+          if (this.type == 8) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
         }
       }
       artDraw() {
@@ -5266,12 +5390,23 @@
         }
 
         if (this.type == -1) {
-          if (this.team.top == 1) {
+          if(this.skin != 2){
+
+            if (this.team.top == 1) {
             canvas_context.drawImage(ie1, ((this.step % (ie1.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
           } else {
             canvas_context.drawImage(ie2, ((this.step % (ie2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
           }
+          }else{
+
+            if (this.team.top == 1) {
+            canvas_context.drawImage(ie3, ((this.step % (ie3.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+          } else {
+            canvas_context.drawImage(ie4, ((this.step % (ie4.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+          }
+          }
         }
+
         if (this.type == 0) {
           if (this.sleep == 1) {
             canvas_context.drawImage(i1, (20 * 64) + ((this.step % 4) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
@@ -5299,6 +5434,9 @@
         }
         if (this.type == 7) {
           canvas_context.drawImage(i8, ((this.step % (i8.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
+        if (this.type == 8) {
+          canvas_context.drawImage(i9, ((this.step % (i9.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
         }
 
       }
@@ -5332,6 +5470,9 @@
         if (type == 7) {
           return this.warp
         }
+        if (type == 8) {
+          return this.healthrushing
+        }
       }
       power3(type) {
         if (type == -1) {
@@ -5361,7 +5502,11 @@
         if (type == 7) {
           return this.selfheal
         }
+        if (type == 8) {
+          return this.butterstar
+        }
       }
+      
       power2(type) {
         if (type == -1) {
           return this.unitmelee
@@ -5389,6 +5534,9 @@
         }
         if (type == 7) {
           return this.deathx
+        }
+        if (type == 8) {
+          return this.wingclip
         }
 
       }
@@ -5420,6 +5568,33 @@
         if (type == 7) {
           return this.ringkill
         }
+        if (type == 8) {
+          return this.spawnminion
+        }
+      }
+    
+      spawnminion(self,x,y){
+
+        
+        let manaCost = 35
+          if (self.mana < manaCost) {
+            return
+          } else {
+            self.mana -= manaCost
+          }
+
+
+        let guy2z = new Champ(-1, teams[0])
+            guy2z.body.x = x
+            guy2z.body.y = y
+            guy2z.skin = 2
+            guy2z.send = 1
+            guy2z.tar = 4
+            guy2z.zop = 1
+            players.push(guy2z)
+            champids.push(guy2z.id)
+            champtimes.push(2000000000)
+            self.cooldowns[0] = 100
       }
       unitmeleeChamp(self, target) {
         let l = new LineOP(self.body, target.body)
@@ -5668,6 +5843,32 @@
         self.activeArts.push(d)
         self.cooldowns[2] = 120 * 4
       }
+      butterstar(self, x, y) {
+        let manaCost = 100
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 120
+        let d = new ButterStar(players.indexOf(self), (new LineOP(self.body, new Point(x, y)).angle()))
+        d.echo = 1
+        d.life = lifeLength
+        d.line = 1
+        d.moveAngle = 1
+        d.growth = 1.3
+        // d.root = self.body
+        d.anchorToPlayer = 1
+        d.maxDis = 100
+        d.solar = 1
+        d.damage = 4
+        d.update = 1
+        d.name = "ButterStar"
+        self.activeArts.push(d)
+        self.cooldowns[2] = 120 * 4
+      }
+
+      
       solarflares(self, x, y) {
 
         let manaCost = 100
@@ -5812,6 +6013,52 @@
         }
         self.cooldowns[1] = 40 * 7
       }
+
+      wingclip(self, x, y) {
+
+
+        let manaCost = 75
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 200
+        let distance = 200
+        let angle = (new LineOP(self.body, new Point(x, y)).angle())
+
+        for (let t = 0; t < 40; t++) {
+          let d = new Circle(x + (Math.cos(angle) * distance), y + (Math.sin(angle) * distance), 24, "#00FFFF88")
+          d.echo = 1
+          d.life = lifeLength
+          d.growth = 1.002
+          // d.root = TIP_engine
+          d.maxDis = 3000
+          d.update = 1
+          d.slow = .5
+          d.collide = 1
+          d.damage = 1
+          d.pop = 2
+          // d.sendEveryFrame = 1
+          d.popdam = 15
+          d.poprays = 4
+          d.poprate = 5
+          d.popradius = 10
+          d.popcolor = "#0000ff88"
+          d.poplife = 20
+          // distance += 3-(t/30)
+          angle += (Math.PI / 2)/10
+          if (t  < 20) {
+          // distance -= 20
+          }else{
+
+          // distance += 20
+          }
+          d.name = "Circle"
+          self.activeArts.push(d)
+        }
+        self.cooldowns[1] = 40 * 7
+        }
 
       bombfield(self, x, y) {
 
@@ -6063,6 +6310,21 @@
         self.cooldowns[2] = 40 * 5
       }
 
+      healthrushing(self) {
+        let speedBoost = -2
+        self.health += self.maxhealth/10
+        self.mana += self.maxmana/10
+          if (self.health > self.maxhealth) {
+            self.health = self.maxhealth
+          }
+          if (self.mana > self.maxmana) {
+            self.mana = self.maxmana
+          }
+        self.tempSpeed += speedBoost
+        self.boosts.push({ speedDown: 180, dropBy: speedBoost })
+        self.drops.push({ dirLock: 180 })
+        self.cooldowns[3] = 40 * 4
+      }
       rushing(self) {
         let manaCost = 25
         if (self.mana < manaCost) {
@@ -6640,10 +6902,16 @@
     i7.src = "https://ditzbitz.com/r17.png"
     let i8 = new Image()
     i8.src = "https://ditzbitz.com/r39.png"
+    let i9 = new Image()
+    i9.src = "https://ditzbitz.com/r37.png"
     let ie1 = new Image()
     ie1.src = "https://ditzbitz.com/c51.png"
     let ie2 = new Image()
     ie2.src = "https://ditzbitz.com/c51b.png"
+    let ie4 = new Image()
+    ie4.src = "https://ditzbitz.com/c2.png"
+    let ie3 = new Image()
+    ie3.src = "https://ditzbitz.com/c2.png"
     let characters = []
     function genericReward() {
       return 50
@@ -7537,6 +7805,7 @@
     let butguy6 = new Rectangle(600, 400, 50, 50, "white")
     let butguy7 = new Rectangle(660, 100, 50, 50, "white")
     let butguy8 = new Rectangle(660, 160, 50, 50, "white")
+    let butguy9 = new Rectangle(660, 220, 50, 50, "white")
     let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
     let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
     let teammaker = -1
@@ -7592,6 +7861,9 @@
         if (guymaker == 7) {
           butguy8.draw()
         }
+        if (guymaker == 8) {
+          butguy9.draw()
+        }
 
         canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
         canvas_context.drawImage(i2, 0, 0, 64, 64, butguy2.x, butguy2.y, butguy2.width, butguy2.height)
@@ -7601,6 +7873,7 @@
         canvas_context.drawImage(i6, 0, 0, 64, 64, butguy6.x, butguy6.y, butguy6.width, butguy6.height)
         canvas_context.drawImage(i7, 0, 0, 64, 64, butguy7.x, butguy7.y, butguy7.width, butguy7.height)
         canvas_context.drawImage(i8, 0, 0, 64, 64, butguy8.x, butguy8.y, butguy8.width, butguy8.height)
+        canvas_context.drawImage(i9, 0, 0, 64, 64, butguy9.x, butguy9.y, butguy9.width, butguy9.height)
 
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
