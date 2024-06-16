@@ -3800,6 +3800,30 @@
               }
             }
 
+            if (this.type == 8) {
+              if (t == 0) {
+                tool.lines.push("Spawn Gumnut")
+                tool.lines.push("35 Mana")
+                tool.lines.push("80 Frame Cooldown")
+                tool.lines.push("A gumnut minion to fight for you")
+              } else if (t == 1) {
+                tool.lines.push("Manterfly Arena")
+                tool.lines.push("75 Mana")
+                tool.lines.push("280 frame cooldown")
+                tool.lines.push("A deadly X shaped spot")
+              } else if (t == 2) {
+                tool.lines.push("Spinning Wingblade")
+                tool.lines.push("100 Mana")
+                tool.lines.push("480 Frame Cooldown")
+                tool.lines.push("Heal 200 health")
+              } else if (t == 3) {
+                tool.lines.push("Healing Slow")
+                tool.lines.push("Gain 10% mana and health")
+                tool.lines.push("Slow by half")
+                tool.lines.push("80 frame cooldown")
+              }
+            }
+
             return tool
           }
         }
@@ -4533,6 +4557,8 @@
           canvas_context.drawImage(banicons, this.UI[0].x, this.UI[0].y)
         } else if (this.type == 7) {
           canvas_context.drawImage(xlicons, this.UI[0].x, this.UI[0].y)
+        }else if (this.type == 8) {
+          canvas_context.drawImage(mantcons, this.UI[0].x, this.UI[0].y)
         }
         
         for (let t = 0; t < this.UI.length; t++) {
@@ -6883,6 +6909,8 @@
 
     let xlicons = new Image()
     xlicons.src = "https://ditzbitz.com/xlicons.png"
+    let mantcons = new Image()
+    mantcons.src = "https://ditzbitz.com/mantcons.png"
 
 
 
