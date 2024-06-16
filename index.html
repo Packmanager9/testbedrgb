@@ -1330,6 +1330,12 @@
           if (butguy9.isPointInside(TIP_engine)) {
             guymaker = 8
           }
+          if (butguy10.isPointInside(TIP_engine)) {
+            guymaker = 9
+          }
+          if (butguy11.isPointInside(TIP_engine)) {
+            guymaker = 10
+          }
 
           if (team0.isPointInside(TIP_engine)) {
             teammaker = 0
@@ -3868,6 +3874,12 @@
         if (type == 8) {
           this.mana = 450
         }
+        if (type == 9) {
+          this.mana = 500
+        }
+        if (type == 10) {
+          this.mana = 650
+        }
         return this.mana
       }
 
@@ -3904,6 +3916,12 @@
         if (type == 8) {
           this.health = 720
         }
+        if (type == 9) {
+          this.health = 575
+        }
+        if (type == 10) {
+          this.health = 420
+        }
         return this.health
       }
       meleeRangeMaker(type) {
@@ -3937,6 +3955,12 @@
         }
         if (type == 8) {
           this.meleeRange = 90
+        }
+        if (type == 9) {
+          this.meleeRange = 101
+        }
+        if (type == 10) {
+          this.meleeRange = 150
         }
         return this.meleeRange
       }
@@ -3972,6 +3996,12 @@
         if (type == 8) {
           this.healthRegen = 5 / 100
         }
+        if (type == 9) {
+          this.healthRegen = 3.5 / 100
+        }
+        if (type == 10) {
+          this.healthRegen = 11 / 100
+        }
         return this.healthRegen
       }
       manaRegenMaker(type) {
@@ -4005,6 +4035,12 @@
         }
         if (type == 8) {
           this.manaRegen = .123
+        }
+        if (type == 9) {
+          this.manaRegen = .1
+        }
+        if (type == 10) {
+          this.manaRegen = .135
         }
         return this.manaRegen
       }
@@ -4040,6 +4076,12 @@
         }
         if (type == 8) {
           this.speed = 4.6
+        }
+        if (type == 9) {
+          this.speed = 2.9
+        }
+        if (type == 10) {
+          this.speed = 5.5
         }
         return this.speed
       }
@@ -5204,13 +5246,14 @@
           let min = 99999999
           let wet = 0
           for (let t = 0; t < players.length; t++) {
+            if(this != players[t]){}else{continue}
             if (players[t]) { } else { continue }
             if (players[t].type != -1 && players[t].team.top != this.team.top) {
               let link = new LineOP(this.body, players[t].body)
               let h = link.hypotenuse()
               if (h < min && h < this.meleeRange) {
                 min = h
-                target = players[t]
+                target = players[t] 
                 wet = 1
               }
             }
@@ -5249,6 +5292,15 @@
           if (this.cooldowns[4] <= 0) {
             if (this.team.top == players[0].team.top && this.send == 1) {
               this.meleehitChamp()
+            }
+          }
+        }
+      }
+      champBasicAbility(self) { //jettian
+        if (self.type != -1) {
+          if (self.cooldowns[3] <= 0) {
+            if (self.team.top == players[0].team.top && this.send == 1) {
+              self.meleehitChamp()
             }
           }
         }
@@ -5297,6 +5349,14 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
+          if (this.type == 9) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 10) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[0](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
         }
         if ((keysPressed['w'] || this.wflag == 1) && this.cooldowns[1] <= 0) {
           this.wflag = 0
@@ -5331,6 +5391,14 @@
             this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
           if (this.type == 8) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 9) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 10) {
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[1](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
@@ -5372,6 +5440,14 @@
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
+          if (this.type == 9) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 10) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[2](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
         }
         if ((keysPressed['r'] || this.rflag == 1) && this.cooldowns[3] <= 0) {
           this.rflag = 0
@@ -5405,6 +5481,14 @@
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
           if (this.type == 8) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 9) {
+            let link = new LineOP(this.body, TIP_engine)
+            this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
+          }
+          if (this.type == 10) {
             let link = new LineOP(this.body, TIP_engine)
             this.abilities[3](this, this.body.x + (Math.cos(link.angle()) * -200), this.body.y + (Math.sin(link.angle()) * -200))
           }
@@ -5466,6 +5550,12 @@
         if (this.type == 8) {
           canvas_context.drawImage(i9, ((this.step % (i9.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
         }
+        if (this.type == 9) {
+          canvas_context.drawImage(i10, ((this.step % (i10.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
+        if (this.type == 10) {
+          canvas_context.drawImage(i11, ((this.step % (i11.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+        }
 
       }
 
@@ -5501,6 +5591,12 @@
         if (type == 8) {
           return this.healthrushing
         }
+        if (type == 9) {
+          return this.healblastred
+        }
+        if (type == 10) {
+          return this.champBasicAbility
+        }
       }
       power3(type) {
         if (type == -1) {
@@ -5532,6 +5628,12 @@
         }
         if (type == 8) {
           return this.butterstar
+        }
+        if (type == 9) {
+          return this.psychosolar
+        }
+        if (type == 10) {
+          return this.blastjump2
         }
       }
       
@@ -5566,6 +5668,12 @@
         if (type == 8) {
           return this.wingclip
         }
+        if (type == 9) {
+          return this.bananarangred
+        }
+        if (type == 10) {
+          return this.jetzone
+        }
 
       }
       power1(type) {
@@ -5598,6 +5706,12 @@
         }
         if (type == 8) {
           return this.spawnminion
+        }
+        if (type == 9) {
+          return this.hamblast
+        }
+        if (type == 10) {
+          return this.jetrushing
         }
       }
     
@@ -5956,6 +6070,38 @@
         self.activeArts.push(shocher)
         self.cooldowns[1] = 60 * 1
       }
+
+      bananarangred(self, x, y) {
+
+      let l = new LineOP(self.body, new Point(x, y))
+
+      let manaCost = 40
+      if (self.mana < manaCost) {
+        return
+      } else {
+        self.mana -= manaCost
+      }
+      let lifeLength = 40
+      let shocher = new Circle(self.body.x, self.body.y, 25, "red", Math.cos(l.angle()) * -2 * 12, Math.sin(l.angle()) * -2 * 12)
+      shocher.growth = 1
+      // shocher.root = self.body
+      shocher.life = lifeLength
+      shocher.slow = .5
+      shocher.reverse = 1
+      shocher.collide = 0
+      shocher.damage = 20
+      shocher.update = 1
+      shocher.pop = 0
+      shocher.popdam = 1
+      shocher.poprays = 6
+      shocher.poprate = 20
+      shocher.popradius = 4
+      shocher.popcolor = "red"
+      shocher.poplife = 10
+      shocher.name = "Circle"
+      self.activeArts.push(shocher)
+      self.cooldowns[1] = 90 * 1
+      }
       bananafield(self, x, y) {
 
 
@@ -6041,6 +6187,52 @@
         }
         self.cooldowns[1] = 40 * 7
       }
+
+      jetzone(self, x, y) {
+
+
+        let manaCost = 75
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 100
+        let distance = 180
+        let angle = (new LineOP(self.body, new Point(x, y)).angle())
+
+        for (let t = 0; t < 40; t++) {
+          let d = new Circle(self.body.x + (Math.cos(angle) * distance), self.body.y + (Math.sin(angle) * distance), 24, "#FF000044")
+          d.echo = 1
+          d.life = lifeLength
+          d.growth = 1.002
+          // d.root = TIP_engine
+          d.maxDis = 3000
+          d.update = 1
+          d.slow = .1
+          d.collide = 1
+          d.damage = 3
+          d.pop = 1
+          // d.sendEveryFrame = 1
+          d.popdam = 10
+          d.poprays = 4
+          d.poprate = 5
+          d.popradius = 10
+          d.popcolor = "#FF000044"
+          d.poplife = 20
+          // distance += 3-(t/30)
+          angle += (Math.PI / 2)/10
+          if (t  < 20) {
+          // distance -= 20
+          }else{
+
+          // distance += 20
+          }
+          d.name = "Circle"
+          self.activeArts.push(d)
+        }
+        self.cooldowns[1] = 40 * 3
+        }
 
       wingclip(self, x, y) {
 
@@ -6304,6 +6496,41 @@
         self.cooldowns[3] = 40 * .5
       }
 
+
+      blastjump2(self) {
+        let manaCost = 25
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+
+        let speedBoost = 4
+        self.tempSpeed += speedBoost
+        self.boosts.push({ speedDown: 100, dropBy: speedBoost })
+        if (self.health <= 0) {
+          self.health = 1
+        }
+        let lifeLength = 20
+        let shocher = new Circle(self.body.x, self.body.y, 100, "#FF000044")
+        shocher.growth = 1
+        // shocher.root = self.body
+        shocher.damage = 6
+        shocher.life = lifeLength
+        shocher.update = 1
+        self.activeArts.push(shocher)
+        let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FF00ff44")
+        shocher2.growth = 1
+        // shocher2.root = self.body
+        shocher2.damage = 6
+        shocher2.life = lifeLength
+        shocher2.update = 1
+        self.activeArts.push(shocher2)
+        self.cooldowns[2] = 40 * 5
+      }
+
+
+
       blastjump(self) {
         let manaCost = 25
         if (self.mana < manaCost) {
@@ -6352,6 +6579,42 @@
         self.boosts.push({ speedDown: 180, dropBy: speedBoost })
         self.drops.push({ dirLock: 180 })
         self.cooldowns[3] = 40 * 4
+      }
+      jetrushing(self) {
+        
+        let manaCost = 25
+        let healthcost = 25
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        if (self.health < healthcost) {
+          self.mana += manaCost
+          return
+        } else {
+          self.health -= healthcost
+        }
+        let speedBoost = 3
+        self.tempSpeed += speedBoost
+        self.boosts.push({ speedDown: 60, dropBy: speedBoost })
+        self.drops.push({ dirLock: 1 })
+        let lifeLength = 16
+        let shocher = new Circle(self.body.x, self.body.y, 40, "#FFFF0033")
+        shocher.growth = 1
+        // shocher.root = self.body
+        shocher.damage = 4
+        shocher.life = lifeLength
+        shocher.update = 1
+        self.activeArts.push(shocher)
+        let shocher2 = new Circle(self.body.x, self.body.y, 40, "#FF000022")
+        shocher2.growth = 1
+        // shocher2.root = self.body
+        shocher2.damage = 4
+        shocher2.life = lifeLength
+        shocher2.update = 1
+        self.activeArts.push(shocher2)
+        self.cooldowns[0] = 30 * 1
       }
       rushing(self) {
         let manaCost = 25
@@ -6683,6 +6946,112 @@
         self.activeArts.push(zp)
         self.cooldowns[0] = 40 * 10
       }
+
+
+      healblastred(self, x, y) {
+        let manaCost = 40
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 100
+        let d = new Circle(x, y, 10, "#ff0000")
+        d.echo = 1
+        d.growth = 1
+        d.life = lifeLength
+        d.bodo = 1
+        d.maxDis = 300
+        d.tipo = 1
+        d.local = 1
+        d.root = TIP_engine
+        d.follow = 1
+        d.update = 1
+        d.damage = -2
+        self.activeArts.push(d)
+        let dx = new Circle(self.body.x, self.body.y, 10, "#ff0000")
+        dx.echo = 1
+        dx.life = lifeLength
+        dx.update = 1
+        dx.root = self.body
+        dx.bod = 1
+        dx.bodi = 1
+        dx.bodid = self.id
+        dx.local = 1
+        dx.damage = -2
+        dx.maxDis = 300
+        dx.follow = 1
+        // dx.anchorToPlayer = 1
+        dx.guyIndex = players.indexOf(self)
+        dx.guyid = self.id
+        dx.solar = 1
+        dx.growth = 1
+        self.activeArts.push(dx)
+        let dxi = new Circle(self.body.x, self.body.y, 7, "black")
+        dxi.echo = 1
+        dxi.life = lifeLength
+        dxi.update = 1
+        dxi.root = self.body
+        dxi.local = 1
+        dxi.bod = 1
+        dxi.bodi = 1
+        dxi.bodid = self.id
+        dxi.solar = 1
+        dxi.guyIndex = players.indexOf(self)
+        dxi.guyid = self.id
+        // dxi.anchorToPlayer = 1
+
+        dxi.damage = -2
+        dxi.growth = 1
+        dxi.maxDis = 300
+        dxi.follow = 1
+        self.activeArts.push(dxi)
+        let di = new Circle(x, y, 7, "black")
+        di.echo = 1
+        di.life = lifeLength
+        di.update = 1
+        di.root = TIP_engine
+        di.tip = 1
+        di.local = 1
+
+        di.follow = 1
+        di.bodo = 1
+        di.maxDis = 300
+        di.damage = -2
+        di.growth = 1
+        self.activeArts.push(di)
+        //////////////////////////////console.log(zp)
+        if (true) {
+          let zp = new LineOP(self.body, d, "#ff0000", 16)
+          zp.echo = 1
+          zp.growth = 1
+          zp.life = lifeLength
+          zp.bodo = 1  //hitsbodo
+          zp.maxDis = 300
+          zp.tipo = 1
+          zp.follow = 1
+          zp.update = 1
+          zp.damage = -2
+          self.activeArts.push(zp)
+          //////////////////////////////console.log(zp)
+          //////////////////////////////console.log(self.activeArts)
+        }
+
+        let zp = new LineOP(self.body, d, "black", 10)
+        zp.echo = 1
+        zp.growth = 1
+        zp.life = lifeLength
+        zp.bodo = 1  //hitsbodo
+        zp.maxDis = 300
+        zp.tipo = 1
+        zp.follow = 1
+        zp.update = 1
+        zp.damage = -2
+        self.activeArts.push(zp)
+        self.cooldowns[3] = 40 * 7
+      }
+
+
       bananaboundary(self, x, y) {
 
         let manaCost = 50
@@ -6708,6 +7077,113 @@
         self.activeArts.push(d)
         self.cooldowns[0] = 40 * 10
       }
+
+      hamblast(self, x, y) {
+          let manaCost = 40
+          if (self.mana < manaCost) {
+            return
+          } else {
+            self.mana -= manaCost
+          }
+          let lifeLength = 50
+          let d = new Circle(x, y, 10, "Red")
+          d.echo = 1
+          d.growth = 1
+          d.life = lifeLength
+          d.bodo = 1
+          d.maxDis = 300
+          d.tipo = 1
+          d.local = 1
+          d.root = TIP_engine
+          d.follow = 1
+          d.update = 1
+          d.damage = .3* 2
+          self.activeArts.push(d)
+          let dx = new Circle(self.body.x, self.body.y, 10, "Red")
+          dx.echo = 1
+          dx.life = lifeLength
+          dx.update = 1
+          dx.root = self.body
+          dx.bod = 1
+          dx.bodi = 1
+          dx.bodid = self.id
+          dx.local = 1
+          dx.damage = .3* 2
+          dx.maxDis = 300
+          dx.follow = 1
+          // dx.anchorToPlayer = 1
+          dx.solar = 1
+          dx.guyIndex = players.indexOf(self)
+          dx.guyid = self.id
+          dx.growth = 1
+          self.activeArts.push(dx)
+          let dxi = new Circle(self.body.x, self.body.y, 7, "white")
+          dxi.echo = 1
+          dxi.life = lifeLength
+          dxi.update = 1
+          dxi.root = self.body
+          dxi.local = 1
+          dxi.bod = 1
+          dxi.bodi = 1
+          dxi.bodid = self.id
+          dxi.guyIndex = players.indexOf(self)
+          dxi.guyid = self.id
+
+          // dxi.anchorToPlayer = 1
+          dxi.solar = 1
+
+          dxi.damage = .3* 2
+          dxi.growth = 1
+          dxi.maxDis = 300
+          dxi.follow = 1
+          self.activeArts.push(dxi)
+          let di = new Circle(x, y, 7, "white")
+          di.echo = 1
+          di.life = lifeLength
+          di.update = 1
+          di.root = TIP_engine
+          di.tip = 1
+          di.local = 1
+
+          di.follow = 1
+          di.bodo = 1
+          di.maxDis = 300
+          di.damage = .3* 2
+          di.growth = 1
+          self.activeArts.push(di)
+          //////////////////////////////console.log(zp)
+          if (true) {
+            let zp = new LineOP(self.body, d, "Red", 16)
+            zp.echo = 1
+            zp.growth = 1
+            zp.life = lifeLength
+            zp.bodo = 1  //hitsbodo
+            zp.maxDis = 300
+            zp.tipo = 1
+            zp.follow = 1
+            zp.update = 1
+            zp.damage = .3* 2
+            self.activeArts.push(zp)
+            self.cooldowns[0] = 40 * 10
+            //////////////////////////////console.log(zp)
+            //////////////////////////////console.log(self.activeArts)
+          }
+
+          let zp = new LineOP(self.body, d, "white", 10)
+          zp.echo = 1
+          zp.growth = 1
+          zp.life = lifeLength
+          zp.bodo = 1  //hitsbodo
+          zp.maxDis = 300
+          zp.tipo = 1
+          zp.follow = 1
+          zp.update = 1
+          zp.damage = .3* 2
+          self.activeArts.push(zp)
+          self.cooldowns[0] = 40 * 2
+      }
+
+
       psyblast(self, x, y) {
         if (self.sleep == 1) {
           let manaCost = 130
@@ -6934,6 +7410,10 @@
     i8.src = "https://ditzbitz.com/r39.png"
     let i9 = new Image()
     i9.src = "https://ditzbitz.com/r37.png"
+    let i10 = new Image()
+    i10.src = "https://ditzbitz.com/r82.png"
+    let i11 = new Image()
+    i11.src = "https://ditzbitz.com/r76.png"
     let ie1 = new Image()
     ie1.src = "https://ditzbitz.com/c51.png"
     let ie2 = new Image()
@@ -7838,6 +8318,8 @@
     let butguy7 = new Rectangle(660, 100, 50, 50, "white")
     let butguy8 = new Rectangle(660, 160, 50, 50, "white")
     let butguy9 = new Rectangle(660, 220, 50, 50, "white")
+    let butguy10 = new Rectangle(660, 280, 50, 50, "white")
+    let butguy11 = new Rectangle(660, 340, 50, 50, "white")
     let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
     let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
     let teammaker = -1
@@ -7896,6 +8378,12 @@
         if (guymaker == 8) {
           butguy9.draw()
         }
+        if (guymaker == 9) {
+          butguy10.draw()
+        }
+        if (guymaker == 10) {
+          butguy11.draw()
+        }
 
         canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
         canvas_context.drawImage(i2, 0, 0, 64, 64, butguy2.x, butguy2.y, butguy2.width, butguy2.height)
@@ -7906,7 +8394,9 @@
         canvas_context.drawImage(i7, 0, 0, 64, 64, butguy7.x, butguy7.y, butguy7.width, butguy7.height)
         canvas_context.drawImage(i8, 0, 0, 64, 64, butguy8.x, butguy8.y, butguy8.width, butguy8.height)
         canvas_context.drawImage(i9, 0, 0, 64, 64, butguy9.x, butguy9.y, butguy9.width, butguy9.height)
-
+        canvas_context.drawImage(i10, 0, 0, 64, 64, butguy10.x, butguy10.y, butguy10.width, butguy10.height)
+        canvas_context.drawImage(i11, 0, 0, 64, 64, butguy11.x, butguy11.y, butguy11.width, butguy11.height)
+        
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
         canvas_context.fillText("red team", 50, 50)
@@ -8117,7 +8607,7 @@
           for (let w = 0; w < players[t].activeArts.length; w++) {
 
             if (players[t].activeArts[w]) { } else { continue }
-            if (players[t].activeArts[w].collide == 1) {
+            if (players[t].activeArts[w].collide == 1) { 
               if (!walls[k].doesPerimeterTouch(players[t].activeArts[w])) {
                 continue
               }
@@ -8133,7 +8623,7 @@
                   players[t].activeArts.push(ojb)
                 }
               }
-              players[t].activeArts.splice(t, 1)
+              players[t].activeArts.splice(w, 1)
             }
 
           }
