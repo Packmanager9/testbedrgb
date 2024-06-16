@@ -5344,14 +5344,35 @@
           }
         }
       }
-      champBasicAbility(self) { //jettian
-        if (self.type != -1) {
-          if (self.cooldowns[3] <= 0) {
-            if (self.team.top == players[0].team.top && this.send == 1) {
-              self.meleehitChamp()
-            }
+      champBasicAbility(self,x,y) { //jettian
+        let target = new Circle(x,y,32)
+
+        let l = new LineOP(self.body, target.body)
+        // if (l.hypotenuse() < (self.meleeRange * 1.15)) {
+          self.cooldowns[3] = 30 * 1
+          let manaCost = 0
+          if (self.mana < manaCost) {
+            return
+          } else {
+            self.mana -= manaCost
           }
-        }
+          let lifeLength = 6
+          let d = new MeleeSpike(players.indexOf(self), self.meleeRange, (new LineOP(self.body, new Point(target.x, target.y)).angle()), "gray")
+          d.echo = 1
+          d.life = lifeLength
+          d.line = 1
+          d.growth = 1
+          d.growth = 1.3
+          d.root = self.body
+          d.maxDis = self.meleeRange
+          d.damage = 100
+          // d.collide = 1
+          d.emptyOut = 1
+          d.update = 1
+          d.name = "MeleeSpike"
+          self.activeArts.push(d)
+        // }
+
       }
       command() {
         if (this.type == -1) {
@@ -6259,10 +6280,10 @@
           d.update = 1
           d.slow = .1
           d.collide = 1
-          d.damage = 3
+          d.damage = 2
           d.pop = 1
           // d.sendEveryFrame = 1
-          d.popdam = 10
+          d.popdam = 4
           d.poprays = 4
           d.poprate = 5
           d.popradius = 10
