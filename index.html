@@ -2660,7 +2660,7 @@
 
         let a = 0
         for(let t = 0;t<4;t++){
-          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 100), end.y+ (Math.sin(a+this.angle2) * 100)), "Cyan", 6)
+          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 140), end.y+ (Math.sin(a+this.angle2) * 140)), "Cyan", 6)
           a += Math.PI/2
           link.draw()
         }
@@ -2682,7 +2682,7 @@
         }
         let link = new LineOP(this, guybody)
 
-        if (link.hypotenuse() > 315) {
+        if (link.hypotenuse() > 375) {
           return false
         }
 
@@ -2692,7 +2692,7 @@
         let a = 0
         let pile = []
         for(let t = 0;t<4;t++){
-          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 100), end.y+ (Math.sin(a+this.angle2) * 100)), "red", 5)
+          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 140), end.y+ (Math.sin(a+this.angle2) * 140)), "red", 5)
           a += Math.PI/2
           // link.draw()
           pile.push(link)
@@ -3810,7 +3810,7 @@
                 tool.lines.push("Manterfly Arena")
                 tool.lines.push("75 Mana")
                 tool.lines.push("280 frame cooldown")
-                tool.lines.push("A deadly X shaped spot")
+                tool.lines.push("A delay ring")
               } else if (t == 2) {
                 tool.lines.push("Spinning Wingblade")
                 tool.lines.push("100 Mana")
@@ -5878,7 +5878,7 @@
         } else {
           self.mana -= manaCost
         }
-        let lifeLength = 120
+        let lifeLength = 150
         let d = new ButterStar(players.indexOf(self), (new LineOP(self.body, new Point(x, y)).angle()))
         d.echo = 1
         d.life = lifeLength
@@ -5889,7 +5889,7 @@
         d.anchorToPlayer = 1
         d.maxDis = 100
         d.solar = 1
-        d.damage = 4
+        d.damage = 6
         d.update = 1
         d.name = "ButterStar"
         self.activeArts.push(d)
@@ -6063,12 +6063,12 @@
           // d.root = TIP_engine
           d.maxDis = 3000
           d.update = 1
-          d.slow = .5
-          d.collide = 1
-          d.damage = 1
+          d.slow = .1
+          d.collide = 0
+          d.damage = .1
           d.pop = 2
           // d.sendEveryFrame = 1
-          d.popdam = 15
+          d.popdam = 0
           d.poprays = 4
           d.poprate = 5
           d.popradius = 10
@@ -6941,7 +6941,7 @@
     let ie4 = new Image()
     ie4.src = "https://ditzbitz.com/c2.png"
     let ie3 = new Image()
-    ie3.src = "https://ditzbitz.com/c2.png"
+    ie3.src = "https://ditzbitz.com/c2b.png"
     let characters = []
     function genericReward() {
       return 50
