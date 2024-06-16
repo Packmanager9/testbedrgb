@@ -2599,7 +2599,7 @@
           this.lock = new Point(TIP_engine.x, TIP_engine.y)
         }
         let link = new LineOP(this, guybody)
-        if (link.hypotenuse() > 215) {
+        if (link.hypotenuse() > 265) {
           return false
         }
         this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
