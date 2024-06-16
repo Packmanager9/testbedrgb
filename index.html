@@ -4478,7 +4478,7 @@
                 json.collide = this.activeArts[t].collide
                 let l = new LineOP(TIP_engine, this.body)
                 let a = l.angle()
-                if ((this.type == 0 || this.type == 4) && this.activeArts[t].name == "Circle") {
+                if ((this.type == 0 || this.type == 4 || this.type == 9) && this.activeArts[t].name == "Circle") {
 
                   let f = new Point(this.body.x - (Math.cos(a) * Math.max(-l.hypotenuse(), -this.activeArts[t].maxDis)), this.body.y - (Math.sin(a) * Math.max(-l.hypotenuse(), -this.activeArts[t].maxDis)))
                   json.mouse = JSON.stringify({ x: f.x, y: f.y })
@@ -5365,7 +5365,7 @@
           d.growth = 1.3
           d.root = self.body
           d.maxDis = self.meleeRange
-          d.damage = 100
+          d.damage = 80
           // d.collide = 1
           d.emptyOut = 1
           d.update = 1
@@ -6280,10 +6280,10 @@
           d.update = 1
           d.slow = .1
           d.collide = 1
-          d.damage = 2
+          d.damage = 1
           d.pop = 1
           // d.sendEveryFrame = 1
-          d.popdam = 4
+          d.popdam = 3
           d.poprays = 4
           d.poprate = 5
           d.popradius = 10
@@ -6584,14 +6584,14 @@
         let shocher = new Circle(self.body.x, self.body.y, 100, "#FF000044")
         shocher.growth = 1
         // shocher.root = self.body
-        shocher.damage = 6
+        shocher.damage = 4
         shocher.life = lifeLength
         shocher.update = 1
         self.activeArts.push(shocher)
         let shocher2 = new Circle(self.body.x, self.body.y, 80, "#FF00ff44")
         shocher2.growth = 1
         // shocher2.root = self.body
-        shocher2.damage = 6
+        shocher2.damage = 5
         shocher2.life = lifeLength
         shocher2.update = 1
         self.activeArts.push(shocher2)
@@ -6672,14 +6672,14 @@
         let shocher = new Circle(self.body.x, self.body.y, 40, "#FFFF0033")
         shocher.growth = 1
         // shocher.root = self.body
-        shocher.damage = 4
+        shocher.damage = 3
         shocher.life = lifeLength
         shocher.update = 1
         self.activeArts.push(shocher)
         let shocher2 = new Circle(self.body.x, self.body.y, 40, "#FF000022")
         shocher2.growth = 1
         // shocher2.root = self.body
-        shocher2.damage = 4
+        shocher2.damage = 3
         shocher2.life = lifeLength
         shocher2.update = 1
         self.activeArts.push(shocher2)
