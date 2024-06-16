@@ -8401,6 +8401,9 @@
     let youLost = 0
     let matchStart = 0
     function main() {
+
+        TIP_engine.x = XS_engine - translator.x
+          TIP_engine.y = YS_engine - translator.y
       if (worldstop == 1) {
         if (youLost == 1) {
           canvas_context.fillStyle = "black"
