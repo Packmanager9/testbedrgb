@@ -5707,7 +5707,7 @@
           return this.sleeping
         }
         if (type == 1) {
-          return this.rushing
+          return this.slugrushing
         }
         if (type == 2) {
           return this.rushing
@@ -6730,6 +6730,21 @@
         self.boosts.push({ speedDown: 180, dropBy: speedBoost })
         self.drops.push({ dirLock: 180 })
         self.cooldowns[2] = 40 * 5
+      }
+
+      slugrushing(self) {
+        let manaCost = 25
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+
+        let speedBoost = 4
+        self.tempSpeed += speedBoost
+        self.boosts.push({ speedDown: 180, dropBy: speedBoost })
+        self.drops.push({ dirLock: 180 })
+        self.cooldowns[2] = 40 * 6
       }
       sleeping(self) {
         let manaCost = 0
