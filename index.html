@@ -6571,20 +6571,20 @@
       dropSlime(self) {
         self.slimeTime++
         if (self.slimeTime % 10 == 0) {
-          let manaCost = 5
+          let manaCost = 4
           if (self.mana < manaCost) {
             return
           } else {
             self.mana -= manaCost
           }
-          let lifeLength = 65
-          let shocher = new Circle(self.body.x, self.body.y, 50, "#00ff0023")
-          shocher.growth = .985
+          let lifeLength = 70
+          let shocher = new Circle(self.body.x, self.body.y, 62, "#00ff0023")
+          shocher.growth = .989
           // shocher.root = self.body
           shocher.life = lifeLength
           shocher.poison = 1
-          shocher.damage = 1.4
-          shocher.slow = .9
+          shocher.damage = 1.45
+          shocher.slow = .85
           // shocher.sendEveryFrame = 1
           shocher.update = 1
           self.activeArts.push(shocher)
@@ -7198,7 +7198,7 @@
           d.root = TIP_engine
           d.follow = 1
           d.update = 1
-          d.damage = .3* 2
+          d.damage = 1.2* 2
           self.activeArts.push(d)
           let dx = new Circle(self.body.x, self.body.y, 10, "Red")
           dx.echo = 1
@@ -7209,7 +7209,7 @@
           dx.bodi = 1
           dx.bodid = self.id
           dx.local = 1
-          dx.damage = .3* 2
+          dx.damage = 1.2* 2
           dx.maxDis = 300
           dx.follow = 1
           // dx.anchorToPlayer = 1
@@ -7233,7 +7233,7 @@
           // dxi.anchorToPlayer = 1
           dxi.solar = 1
 
-          dxi.damage = .3* 2
+          dxi.damage = 1.2* 2
           dxi.growth = 1
           dxi.maxDis = 300
           dxi.follow = 1
@@ -7249,7 +7249,7 @@
           di.follow = 1
           di.bodo = 1
           di.maxDis = 300
-          di.damage = .3* 2
+          di.damage = 1.2* 2
           di.growth = 1
           self.activeArts.push(di)
           //////////////////////////////console.log(zp)
@@ -7263,7 +7263,7 @@
             zp.tipo = 1
             zp.follow = 1
             zp.update = 1
-            zp.damage = .3* 2
+            zp.damage = 1.2* 2
             self.activeArts.push(zp)
             self.cooldowns[0] = 40 * 10
             //////////////////////////////console.log(zp)
@@ -7279,7 +7279,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = .3* 2
+          zp.damage = 1.2* 2
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 2
       }
