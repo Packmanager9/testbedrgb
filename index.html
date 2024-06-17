@@ -1186,17 +1186,21 @@
         }
         if (teammaker != -1 && respawn <= 0) {
           canvas_context.resetTransform()
-          canvas_context.translate(-(players[0].body.x - 640), -(players[0].body.y - 360));
-          translator.x = -(players[0].body.x - 640)
-          translator.y = -(players[0].body.y - 360)
+          canvas_context.scale(1/scaler, 1/scaler);
+
+          canvas_context.translate(-(players[0].body.x - (640*scaler)), -(players[0].body.y - (360*scaler)));
+          translator.x = -(players[0].body.x - (640*scaler))
+          translator.y = -(players[0].body.y - (360*scaler))
         }
         main()
 
         if (teammaker != -1 && respawn <= 0) {
           canvas_context.resetTransform()
-          canvas_context.translate(-(players[0].body.x - 640), -(players[0].body.y - 360));
-          translator.x = -(players[0].body.x - 640)
-          translator.y = -(players[0].body.y - 360)
+          canvas_context.scale(1/scaler, 1/scaler);
+
+          canvas_context.translate(-(players[0].body.x - (640*scaler)), -(players[0].body.y - (360*scaler)));
+          translator.x = -(players[0].body.x - (640*scaler))
+          translator.y = -(players[0].body.y - (360*scaler))
         }
         // if (Math.random() < .01) {
         //   //////////console.log(datalong + " Bytes", (-(tnowime - Date.now()) / 1000) + " Seconds", (-(datalong / (1024)) / ((tnowime - Date.now()) / 1000)) + " KBps")
@@ -1444,6 +1448,32 @@
         // circs.push(circ)
         // example usage: if(object.isPointInside(TIP_engine)){ take action }
       });
+   
+
+
+      window.addEventListener('contextmenu', e => {
+        e.preventDefault()
+        FLEX_engine = canvas.getBoundingClientRect();
+        XS_engine = e.clientX - FLEX_engine.left;
+        YS_engine = e.clientY - FLEX_engine.top;
+        TIP_engine.x = XS_engine - translator.x
+        TIP_engine.y = YS_engine - translator.y
+        TIP_engine.body = TIP_engine
+
+
+        if (players[0].selected == 1) {
+          for (let t = 0; t < players[0].drops.length; t++) {
+            if (players[0].drops[t].dirLock > 0) {
+              return
+            }
+          }
+          players[0].goal = new Point(TIP_engine.x, TIP_engine.y)
+        }
+
+      });
+   
+
+
       window.addEventListener('pointermove', continued_stimuli);
       window.addEventListener('pointerup', e => {
         // window.removeEventListener("pointermove", continued_stimuli);
@@ -1474,6 +1504,8 @@
 
       }
     }
+
+    
     function gamepad_control(object, speed = 1) { // basic control for objects using the controler
       //         //////////////////////////////////////////////////////////console.log(gamepadAPI.axesStatus[1]*gamepadAPI.axesStatus[0]) //debugging
       if (typeof object.body != 'undefined') {
@@ -3789,7 +3821,7 @@
                 tool.lines.push("A rotating shell of defense")
               } else if (t == 1) {
                 tool.lines.push("Ϫlitch Zone")
-                tool.lines.push("85 Mana")
+                tool.lines.push("100 Mana")
                 tool.lines.push("280 frame cooldown")
                 tool.lines.push("A deadly X shaped spot")
               } else if (t == 2) {
@@ -8400,8 +8432,16 @@
     let worldstop = 0
     let youLost = 0
     let matchStart = 0
+
+    let scaler = 1
+
     function main() {
 
+      if(teammaker == -1){
+        scaler = 1
+      }else{
+        scaler = 1
+      }
         TIP_engine.x = XS_engine - translator.x
           TIP_engine.y = YS_engine - translator.y
       if (worldstop == 1) {
