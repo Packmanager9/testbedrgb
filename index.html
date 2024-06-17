@@ -20,6 +20,7 @@
         t += 9
       }
     }
+    let  gotoflag = 0
     let toolpoint = {}
     let tooling = 0
     let tooltext = { lines: [] }
@@ -32,6 +33,7 @@
 
     let localRoom = 0
     let localRooms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    let lobbybuttons = []
     let champtimes = []
     let champids = []
     let video_recorder
@@ -1186,21 +1188,21 @@
         }
         if (teammaker != -1 && respawn <= 0) {
           canvas_context.resetTransform()
-          canvas_context.scale(1/scaler, 1/scaler);
+          canvas_context.scale(1 / scaler, 1 / scaler);
 
-          canvas_context.translate(-(players[0].body.x - (640*scaler)), -(players[0].body.y - (360*scaler)));
-          translator.x = -(players[0].body.x - (640*scaler))
-          translator.y = -(players[0].body.y - (360*scaler))
+          canvas_context.translate(-(players[0].body.x - (640 * scaler)), -(players[0].body.y - (360 * scaler)));
+          translator.x = -(players[0].body.x - (640 * scaler))
+          translator.y = -(players[0].body.y - (360 * scaler))
         }
         main()
 
         if (teammaker != -1 && respawn <= 0) {
           canvas_context.resetTransform()
-          canvas_context.scale(1/scaler, 1/scaler);
+          canvas_context.scale(1 / scaler, 1 / scaler);
 
-          canvas_context.translate(-(players[0].body.x - (640*scaler)), -(players[0].body.y - (360*scaler)));
-          translator.x = -(players[0].body.x - (640*scaler))
-          translator.y = -(players[0].body.y - (360*scaler))
+          canvas_context.translate(-(players[0].body.x - (640 * scaler)), -(players[0].body.y - (360 * scaler)));
+          translator.x = -(players[0].body.x - (640 * scaler))
+          translator.y = -(players[0].body.y - (360 * scaler))
         }
         // if (Math.random() < .01) {
         //   //////////console.log(datalong + " Bytes", (-(tnowime - Date.now()) / 1000) + " Seconds", (-(datalong / (1024)) / ((tnowime - Date.now()) / 1000)) + " KBps")
@@ -1256,7 +1258,18 @@
           players[0].rflag = 1
           return
         }
+        
 
+        for (let t = 0; t < lobbybuttons.length; t++) {
+            if (lobbybuttons[t].isPointInside(TIP_engine)) {
+              localRoom = t
+            let json = {}
+            json.room = localRoom
+            logBinarySize(JSON.stringify(json))
+            ws.send(JSON.stringify(json))
+              return
+            }
+          }
 
         if (storeUI1.shop == 1) {
           for (let t = 0; t < players[0].gear.length; t++) {
@@ -1287,26 +1300,26 @@
 
 
         if (teammaker == -1) {
-          if (lobbyUp.isPointInside(TIP_engine)) {
-            localRoom++
-            if (localRoom > 10) {
-              localRoom = 10
-            }
-            let json = {}
-            json.room = localRoom
-            logBinarySize(JSON.stringify(json))
-            ws.send(JSON.stringify(json))
-          }
-          if (lobbyDown.isPointInside(TIP_engine)) {
-            localRoom--
-            if (localRoom < 0) {
-              localRoom = 0
-            }
-            let json = {}
-            json.room = localRoom
-            logBinarySize(JSON.stringify(json))
-            ws.send(JSON.stringify(json))
-          }
+          // if (lobbyUp.isPointInside(TIP_engine)) {
+          //   localRoom++
+          //   if (localRoom > 10) {
+          //     localRoom = 10
+          //   }
+          //   let json = {}
+          //   json.room = localRoom
+          //   logBinarySize(JSON.stringify(json))
+          //   ws.send(JSON.stringify(json))
+          // }
+          // if (lobbyDown.isPointInside(TIP_engine)) {
+          //   localRoom--
+          //   if (localRoom < 0) {
+          //     localRoom = 0
+          //   }
+          //   let json = {}
+          //   json.room = localRoom
+          //   logBinarySize(JSON.stringify(json))
+          //   ws.send(JSON.stringify(json))
+          // }
           if (butguy1.isPointInside(TIP_engine)) {
             guymaker = 0
           }
@@ -1389,6 +1402,7 @@
         //     return
         // }
 
+        gotoflag = 1
 
         if (players[0].selected == 1) {
           for (let t = 0; t < players[0].drops.length; t++) {
@@ -1448,7 +1462,7 @@
         // circs.push(circ)
         // example usage: if(object.isPointInside(TIP_engine)){ take action }
       });
-   
+
 
 
       window.addEventListener('contextmenu', e => {
@@ -1460,6 +1474,7 @@
         TIP_engine.y = YS_engine - translator.y
         TIP_engine.body = TIP_engine
 
+        gotoflag = 1
 
         if (players[0].selected == 1) {
           for (let t = 0; t < players[0].drops.length; t++) {
@@ -1471,11 +1486,13 @@
         }
 
       });
-   
+
 
 
       window.addEventListener('pointermove', continued_stimuli);
       window.addEventListener('pointerup', e => {
+        
+        gotoflag = 0
         // window.removeEventListener("pointermove", continued_stimuli);
       })
       function continued_stimuli(e) {
@@ -1486,6 +1503,28 @@
         TIP_engine.y = YS_engine - translator.y
         TIP_engine.body = TIP_engine
         tooling = 0
+
+
+        if (storeUI1.shop == 1) {
+          if (storeUI1.toolcheck(TIP_engine).fact == 1) {
+            tooling = 1
+            toolpoint = new Point(TIP_engine.x - players[0].body.x, TIP_engine.y - players[0].body.y)
+            tooltext = storeUI1.toolcheck(TIP_engine)
+            return
+          }
+        }else  if (storeUI2.shop == 1) {
+          if (storeUI2.toolcheck(TIP_engine).fact == 1) {
+            tooling = 1
+            toolpoint = new Point(TIP_engine.x - players[0].body.x, TIP_engine.y - players[0].body.y)
+            tooltext = storeUI2.toolcheck(TIP_engine)
+            return
+          }
+        }else{
+          tooling = 0
+        }
+
+
+
 
         for (let t = 0; t < players[0].gear.length; t++) {
           if (players[0].gear[t].toolcheck(TIP_engine).fact == 1) {
@@ -1501,11 +1540,10 @@
           tooltext = players[0].toolcheck(TIP_engine)
           return
         }
-
       }
     }
 
-    
+
     function gamepad_control(object, speed = 1) { // basic control for objects using the controler
       //         //////////////////////////////////////////////////////////console.log(gamepadAPI.axesStatus[1]*gamepadAPI.axesStatus[0]) //debugging
       if (typeof object.body != 'undefined') {
@@ -2693,16 +2731,16 @@
         }
 
         this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
-        this.angle2 += 1 * (Math.PI / 24)  
+        this.angle2 += 1 * (Math.PI / 24)
         let end = new Circle(players[this.guyIndex].body.x + (Math.cos(this.angle) * 200), players[this.guyIndex].body.y + (Math.sin(this.angle) * 200), 10, "#FFAA22")
 
         let a = 0
-        for(let t = 0;t<4;t++){
-          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 140), end.y+ (Math.sin(a+this.angle2) * 140)), "Cyan", 6)
-          a += Math.PI/2
+        for (let t = 0; t < 4; t++) {
+          let link = new LineOP(end, new Point(end.x + (Math.cos(a + this.angle2) * 140), end.y + (Math.sin(a + this.angle2) * 140)), "Cyan", 6)
+          a += Math.PI / 2
           link.draw()
         }
-     
+
 
       }
       doesPerimeterTouch(guybody) {
@@ -2726,17 +2764,17 @@
 
         this.angle = (new LineOP(players[this.guyIndex].body, this.lock)).angle() + Math.PI
         let end = new Circle(players[this.guyIndex].body.x + (Math.cos(this.angle) * 200), players[this.guyIndex].body.y + (Math.sin(this.angle) * 200), 10, "#FFAA22")
-       
+
         let a = 0
         let pile = []
-        for(let t = 0;t<4;t++){
-          let link = new LineOP(end, new Point(end.x+ (Math.cos(a+this.angle2) * 140), end.y+ (Math.sin(a+this.angle2) * 140)), "red", 5)
-          a += Math.PI/2
+        for (let t = 0; t < 4; t++) {
+          let link = new LineOP(end, new Point(end.x + (Math.cos(a + this.angle2) * 140), end.y + (Math.sin(a + this.angle2) * 140)), "red", 5)
+          a += Math.PI / 2
           // link.draw()
           pile.push(link)
 
         }
-     
+
         for (let t = 0; t < pile.length; t++) {
           if (pile[t].doesPerimeterTouch(guybody)) {
             return true
@@ -3381,12 +3419,13 @@
       constructor(team) {
         this.root = team.body
         this.shell = new Rectangle(this.root.x, this.root.y, 100, 100, "gray")
-        this.buttons = [new Rectangle(this.shell.x, this.shell.y, 50, 50, "white"), new Rectangle(this.shell.x + 50, this.shell.y, 50, 50, "tan"), new Rectangle(this.shell.x, this.shell.y + 50, 50, 50, "red"), new Rectangle(this.shell.x + 50, this.shell.y + 50, 50, 50, "green")]
+        this.buttons = [new Rectangle(this.shell.x, this.shell.y, 50, 50, "black"), new Rectangle(this.shell.x + 50, this.shell.y, 50, 50, "black"), new Rectangle(this.shell.x, this.shell.y + 50, 50, 50, "black"), new Rectangle(this.shell.x + 50, this.shell.y + 50, 50, 50, "black")]
       }
       draw() {
         this.shell.draw()
         for (let t = 0; t < this.buttons.length; t++) {
           this.buttons[t].draw()
+          canvas_context.drawImage(gearItems[t], 0, 0, gearItems[t].height, gearItems[t].height, this.buttons[t].x, this.buttons[t].y, 50, 50)
         }
       }
       check(point) {
@@ -3419,6 +3458,65 @@
           }
         }
       }
+
+      toolcheck(point) {
+        for (let t = 0; t < this.buttons.length; t++) {
+          if (this.buttons[t].isPointInside(point)) {
+            // if (players[0].gold >= 500) {
+            if (t == 0) {
+              let tool = {}
+              tool.lines = []
+              tool.fact = 1
+              tool.lines.push("500g: Whumpump Tooth")
+              tool.lines.push("Damage: " + "40" + "%")
+              tool.lines.push("Armor: " + "0" + "%")
+              tool.lines.push("Speed: " + "2.5" + "%")
+              tool.lines.push("Healthregen: " + "0" + "%")
+              tool.lines.push("Manaregen: " + "0" + "%")
+              return tool
+            } else if (t == 1) {
+              let tool = {}
+
+              tool.lines = []
+              tool.fact = 1
+              tool.lines.push("500g: Wrench Toast")
+              tool.lines.push("Damage: " + "25" + "%")
+              tool.lines.push("Armor: " + "0" + "%")
+              tool.lines.push("Speed: " + "0" + "%")
+              tool.lines.push("Healthregen: " + "50" + "%")
+              tool.lines.push("Manaregen: " + "50" + "%")
+              return tool
+            } else if (t == 2) {
+              let tool = {}
+
+              tool.lines = []
+              tool.fact = 1
+              tool.lines.push("500g: Wire Cutters")
+              tool.lines.push("Damage: " + "15" + "%")
+              tool.lines.push("Armor: " + "15" + "%")
+              tool.lines.push("Speed: " + "5" + "%")
+              tool.lines.push("Healthregen: " + "0" + "%")
+              tool.lines.push("Manaregen: " + "0" + "%")
+              return tool
+            } else if (t == 3) {
+              let tool = {}
+
+              tool.lines = []
+              tool.fact = 1
+              tool.lines.push("500g: Vitality Vestaments")
+              tool.lines.push("Damage: " + "0" + "%")
+              tool.lines.push("Armor: " + "10" + "%")
+              tool.lines.push("Speed: " + "5" + "%")
+              tool.lines.push("Healthregen: " + "100" + "%")
+              tool.lines.push("Manaregen: " + "100" + "%")
+              return tool
+            }
+            // }
+          }
+        }
+
+        return { fact: false }
+      }
     }
 
     class Gear {
@@ -3437,7 +3535,8 @@
         }
         if (this.type == 0) {
           this.name = "Whumpump Tooth"
-          this.damage = 1.35
+          this.speed = 1.05
+          this.damage = 1.025
         }
         if (this.type == 1) {
           this.name = "Wrench Toast"
@@ -3488,12 +3587,10 @@
           tool.lines.push("Damage: " + Math.round((this.damage - 1) * 100) + "%")
           tool.lines.push("Armor: " + Math.round((this.armor - 1) * 100) + "%")
           tool.lines.push("Speed: " + Math.round((this.speed - 1) * 100) + "%")
-          tool.lines.push("Mealthregen: " + Math.round((this.healthregen - 1) * 100) + "%")
+          tool.lines.push("Healthregen: " + Math.round((this.healthregen - 1) * 100) + "%")
           tool.lines.push("Manaregen: " + Math.round((this.manaregen - 1) * 100) + "%")
-
           return tool
         }
-
         return false
       }
       subcheck(point) {
@@ -4675,14 +4772,14 @@
           canvas_context.drawImage(banicons, this.UI[0].x, this.UI[0].y)
         } else if (this.type == 7) {
           canvas_context.drawImage(xlicons, this.UI[0].x, this.UI[0].y)
-        }else if (this.type == 8) {
+        } else if (this.type == 8) {
           canvas_context.drawImage(mantcons, this.UI[0].x, this.UI[0].y)
-        }else if (this.type == 9) {
+        } else if (this.type == 9) {
           canvas_context.drawImage(hamcons, this.UI[0].x, this.UI[0].y)
-        }else if (this.type == 10) {
+        } else if (this.type == 10) {
           canvas_context.drawImage(jetcons, this.UI[0].x, this.UI[0].y)
         }
-        
+
         for (let t = 0; t < this.UI.length; t++) {
           if (this.cooldowns[t] > 0) {
             this.UI[t].color = "#FFFFFF99"
@@ -5310,8 +5407,6 @@
                         worldstop = 1
                         youLost = 0
                       }
-
-
                     }
                   }
                 }
@@ -5326,14 +5421,14 @@
           let min = 99999999
           let wet = 0
           for (let t = 0; t < players.length; t++) {
-            if(this != players[t]){}else{continue}
+            if (this != players[t]) { } else { continue }
             if (players[t]) { } else { continue }
             if (players[t].type != -1 && players[t].team.top != this.team.top) {
               let link = new LineOP(this.body, players[t].body)
               let h = link.hypotenuse()
               if (h < min && h < this.meleeRange) {
                 min = h
-                target = players[t] 
+                target = players[t]
                 wet = 1
               }
             }
@@ -5376,33 +5471,33 @@
           }
         }
       }
-      champBasicAbility(self,x,y) { //jettian
-        let target = new Circle(x,y,32)
+      champBasicAbility(self, x, y) { //jettian
+        let target = new Circle(x, y, 32)
 
         let l = new LineOP(self.body, target.body)
         // if (l.hypotenuse() < (self.meleeRange * 1.15)) {
-          self.cooldowns[3] = 30 * 1
-          let manaCost = 0
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 6
-          let d = new MeleeSpike(players.indexOf(self), self.meleeRange, (new LineOP(self.body, new Point(target.x, target.y)).angle()), "gray")
-          d.echo = 1
-          d.life = lifeLength
-          d.line = 1
-          d.growth = 1
-          d.growth = 1.3
-          d.root = self.body
-          d.maxDis = self.meleeRange
-          d.damage = 80
-          // d.collide = 1
-          d.emptyOut = 1
-          d.update = 1
-          d.name = "MeleeSpike"
-          self.activeArts.push(d)
+        self.cooldowns[3] = 30 * 1
+        let manaCost = 0
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 6
+        let d = new MeleeSpike(players.indexOf(self), self.meleeRange, (new LineOP(self.body, new Point(target.x, target.y)).angle()), "gray")
+        d.echo = 1
+        d.life = lifeLength
+        d.line = 1
+        d.growth = 1
+        d.growth = 1.3
+        d.root = self.body
+        d.maxDis = self.meleeRange
+        d.damage = 80
+        // d.collide = 1
+        d.emptyOut = 1
+        d.update = 1
+        d.name = "MeleeSpike"
+        self.activeArts.push(d)
         // }
 
       }
@@ -5603,20 +5698,20 @@
         }
 
         if (this.type == -1) {
-          if(this.skin != 2){
+          if (this.skin != 2) {
 
             if (this.team.top == 1) {
-            canvas_context.drawImage(ie1, ((this.step % (ie1.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+              canvas_context.drawImage(ie1, ((this.step % (ie1.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+            } else {
+              canvas_context.drawImage(ie2, ((this.step % (ie2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+            }
           } else {
-            canvas_context.drawImage(ie2, ((this.step % (ie2.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          }
-          }else{
 
             if (this.team.top == 1) {
-            canvas_context.drawImage(ie3, ((this.step % (ie3.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          } else {
-            canvas_context.drawImage(ie4, ((this.step % (ie4.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
-          }
+              canvas_context.drawImage(ie3, ((this.step % (ie3.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+            } else {
+              canvas_context.drawImage(ie4, ((this.step % (ie4.width / 64)) * 64), 0, 64, 64, this.body.x - this.body.radius, this.body.y - this.body.radius, 2 * this.body.radius, 2 * this.body.radius)
+            }
           }
         }
 
@@ -5737,7 +5832,7 @@
           return this.blastjump2
         }
       }
-      
+
       power2(type) {
         if (type == -1) {
           return this.unitmelee
@@ -5815,29 +5910,29 @@
           return this.jetrushing
         }
       }
-    
-      spawnminion(self,x,y){
 
-        
+      spawnminion(self, x, y) {
+
+
         let manaCost = 35
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
 
 
         let guy2z = new Champ(-1, teams[0])
-            guy2z.body.x = x
-            guy2z.body.y = y
-            guy2z.skin = 2
-            guy2z.send = 1
-            guy2z.tar = 4
-            guy2z.zop = 1
-            players.push(guy2z)
-            champids.push(guy2z.id)
-            champtimes.push(2000000000)
-            self.cooldowns[0] = 180
+        guy2z.body.x = x
+        guy2z.body.y = y
+        guy2z.skin = 2
+        guy2z.send = 1
+        guy2z.tar = 4
+        guy2z.zop = 1
+        players.push(guy2z)
+        champids.push(guy2z.id)
+        champtimes.push(2000000000)
+        self.cooldowns[0] = 180
       }
       unitmeleeChamp(self, target) {
         let l = new LineOP(self.body, target.body)
@@ -6111,7 +6206,7 @@
         self.cooldowns[2] = 120 * 4
       }
 
-      
+
       solarflares(self, x, y) {
 
         let manaCost = 100
@@ -6174,34 +6269,34 @@
 
       bananarangred(self, x, y) {
 
-      let l = new LineOP(self.body, new Point(x, y))
+        let l = new LineOP(self.body, new Point(x, y))
 
-      let manaCost = 40
-      if (self.mana < manaCost) {
-        return
-      } else {
-        self.mana -= manaCost
-      }
-      let lifeLength = 40
-      let shocher = new Circle(self.body.x, self.body.y, 25, "red", Math.cos(l.angle()) * -2 * 12, Math.sin(l.angle()) * -2 * 12)
-      shocher.growth = 1
-      // shocher.root = self.body
-      shocher.life = lifeLength
-      shocher.slow = .5
-      shocher.reverse = 1
-      shocher.collide = 0
-      shocher.damage = 20
-      shocher.update = 1
-      shocher.pop = 0
-      shocher.popdam = 1
-      shocher.poprays = 6
-      shocher.poprate = 20
-      shocher.popradius = 4
-      shocher.popcolor = "red"
-      shocher.poplife = 10
-      shocher.name = "Circle"
-      self.activeArts.push(shocher)
-      self.cooldowns[1] = 90 * 1
+        let manaCost = 40
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 40
+        let shocher = new Circle(self.body.x, self.body.y, 25, "red", Math.cos(l.angle()) * -2 * 12, Math.sin(l.angle()) * -2 * 12)
+        shocher.growth = 1
+        // shocher.root = self.body
+        shocher.life = lifeLength
+        shocher.slow = .5
+        shocher.reverse = 1
+        shocher.collide = 0
+        shocher.damage = 20
+        shocher.update = 1
+        shocher.pop = 0
+        shocher.popdam = 1
+        shocher.poprays = 6
+        shocher.poprate = 20
+        shocher.popradius = 4
+        shocher.popcolor = "red"
+        shocher.poplife = 10
+        shocher.name = "Circle"
+        self.activeArts.push(shocher)
+        self.cooldowns[1] = 90 * 1
       }
       bananafield(self, x, y) {
 
@@ -6322,18 +6417,18 @@
           d.popcolor = "#FF000044"
           d.poplife = 20
           // distance += 3-(t/30)
-          angle += (Math.PI / 2)/10
-          if (t  < 20) {
-          // distance -= 20
-          }else{
+          angle += (Math.PI / 2) / 10
+          if (t < 20) {
+            // distance -= 20
+          } else {
 
-          // distance += 20
+            // distance += 20
           }
           d.name = "Circle"
           self.activeArts.push(d)
         }
         self.cooldowns[1] = 40 * 3
-        }
+      }
 
       wingclip(self, x, y) {
 
@@ -6368,18 +6463,18 @@
           d.popcolor = "#0000ff88"
           d.poplife = 20
           // distance += 3-(t/30)
-          angle += (Math.PI / 2)/10
-          if (t  < 20) {
-          // distance -= 20
-          }else{
+          angle += (Math.PI / 2) / 10
+          if (t < 20) {
+            // distance -= 20
+          } else {
 
-          // distance += 20
+            // distance += 20
           }
           d.name = "Circle"
           self.activeArts.push(d)
         }
         self.cooldowns[1] = 40 * 7
-        }
+      }
 
       bombfield(self, x, y) {
 
@@ -6668,21 +6763,21 @@
 
       healthrushing(self) {
         let speedBoost = -2
-        self.health += self.maxhealth/10
-        self.mana += self.maxmana/10
-          if (self.health > self.maxhealth) {
-            self.health = self.maxhealth
-          }
-          if (self.mana > self.maxmana) {
-            self.mana = self.maxmana
-          }
+        self.health += self.maxhealth / 10
+        self.mana += self.maxmana / 10
+        if (self.health > self.maxhealth) {
+          self.health = self.maxhealth
+        }
+        if (self.mana > self.maxmana) {
+          self.mana = self.maxmana
+        }
         self.tempSpeed += speedBoost
         self.boosts.push({ speedDown: 180, dropBy: speedBoost })
         self.drops.push({ dirLock: 180 })
         self.cooldowns[3] = 40 * 4
       }
       jetrushing(self) {
-        
+
         let manaCost = 25
         let healthcost = 25
         if (self.mana < manaCost) {
@@ -7195,97 +7290,81 @@
       }
 
       hamblast(self, x, y) {
-          let manaCost = 40
-          if (self.mana < manaCost) {
-            return
-          } else {
-            self.mana -= manaCost
-          }
-          let lifeLength = 50
-          let d = new Circle(x, y, 10, "Red")
-          d.echo = 1
-          d.growth = 1
-          d.life = lifeLength
-          d.bodo = 1
-          d.maxDis = 300
-          d.tipo = 1
-          d.local = 1
-          d.root = TIP_engine
-          d.follow = 1
-          d.update = 1
-          d.damage = 1.2* 2
-          self.activeArts.push(d)
-          let dx = new Circle(self.body.x, self.body.y, 10, "Red")
-          dx.echo = 1
-          dx.life = lifeLength
-          dx.update = 1
-          dx.root = self.body
-          dx.bod = 1
-          dx.bodi = 1
-          dx.bodid = self.id
-          dx.local = 1
-          dx.damage = 1.2* 2
-          dx.maxDis = 300
-          dx.follow = 1
-          // dx.anchorToPlayer = 1
-          dx.solar = 1
-          dx.guyIndex = players.indexOf(self)
-          dx.guyid = self.id
-          dx.growth = 1
-          self.activeArts.push(dx)
-          let dxi = new Circle(self.body.x, self.body.y, 7, "white")
-          dxi.echo = 1
-          dxi.life = lifeLength
-          dxi.update = 1
-          dxi.root = self.body
-          dxi.local = 1
-          dxi.bod = 1
-          dxi.bodi = 1
-          dxi.bodid = self.id
-          dxi.guyIndex = players.indexOf(self)
-          dxi.guyid = self.id
+        let manaCost = 40
+        if (self.mana < manaCost) {
+          return
+        } else {
+          self.mana -= manaCost
+        }
+        let lifeLength = 50
+        let d = new Circle(x, y, 10, "Red")
+        d.echo = 1
+        d.growth = 1
+        d.life = lifeLength
+        d.bodo = 1
+        d.maxDis = 300
+        d.tipo = 1
+        d.local = 1
+        d.root = TIP_engine
+        d.follow = 1
+        d.update = 1
+        d.damage = 1.2 * 2
+        self.activeArts.push(d)
+        let dx = new Circle(self.body.x, self.body.y, 10, "Red")
+        dx.echo = 1
+        dx.life = lifeLength
+        dx.update = 1
+        dx.root = self.body
+        dx.bod = 1
+        dx.bodi = 1
+        dx.bodid = self.id
+        dx.local = 1
+        dx.damage = 1.2 * 2
+        dx.maxDis = 300
+        dx.follow = 1
+        // dx.anchorToPlayer = 1
+        dx.solar = 1
+        dx.guyIndex = players.indexOf(self)
+        dx.guyid = self.id
+        dx.growth = 1
+        self.activeArts.push(dx)
+        let dxi = new Circle(self.body.x, self.body.y, 7, "white")
+        dxi.echo = 1
+        dxi.life = lifeLength
+        dxi.update = 1
+        dxi.root = self.body
+        dxi.local = 1
+        dxi.bod = 1
+        dxi.bodi = 1
+        dxi.bodid = self.id
+        dxi.guyIndex = players.indexOf(self)
+        dxi.guyid = self.id
 
-          // dxi.anchorToPlayer = 1
-          dxi.solar = 1
+        // dxi.anchorToPlayer = 1
+        dxi.solar = 1
 
-          dxi.damage = 1.2* 2
-          dxi.growth = 1
-          dxi.maxDis = 300
-          dxi.follow = 1
-          self.activeArts.push(dxi)
-          let di = new Circle(x, y, 7, "white")
-          di.echo = 1
-          di.life = lifeLength
-          di.update = 1
-          di.root = TIP_engine
-          di.tip = 1
-          di.local = 1
+        dxi.damage = 1.2 * 2
+        dxi.growth = 1
+        dxi.maxDis = 300
+        dxi.follow = 1
+        self.activeArts.push(dxi)
+        let di = new Circle(x, y, 7, "white")
+        di.echo = 1
+        di.life = lifeLength
+        di.update = 1
+        di.root = TIP_engine
+        di.tip = 1
+        di.local = 1
 
-          di.follow = 1
-          di.bodo = 1
-          di.maxDis = 300
-          di.damage = 1.2* 2
-          di.growth = 1
-          self.activeArts.push(di)
-          //////////////////////////////console.log(zp)
-          if (true) {
-            let zp = new LineOP(self.body, d, "Red", 16)
-            zp.echo = 1
-            zp.growth = 1
-            zp.life = lifeLength
-            zp.bodo = 1  //hitsbodo
-            zp.maxDis = 300
-            zp.tipo = 1
-            zp.follow = 1
-            zp.update = 1
-            zp.damage = 1.2* 2
-            self.activeArts.push(zp)
-            self.cooldowns[0] = 40 * 10
-            //////////////////////////////console.log(zp)
-            //////////////////////////////console.log(self.activeArts)
-          }
-
-          let zp = new LineOP(self.body, d, "white", 10)
+        di.follow = 1
+        di.bodo = 1
+        di.maxDis = 300
+        di.damage = 1.2 * 2
+        di.growth = 1
+        self.activeArts.push(di)
+        //////////////////////////////console.log(zp)
+        if (true) {
+          let zp = new LineOP(self.body, d, "Red", 16)
           zp.echo = 1
           zp.growth = 1
           zp.life = lifeLength
@@ -7294,9 +7373,25 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = 1.2* 2
+          zp.damage = 1.2 * 2
           self.activeArts.push(zp)
-          self.cooldowns[0] = 40 * 2
+          self.cooldowns[0] = 40 * 10
+          //////////////////////////////console.log(zp)
+          //////////////////////////////console.log(self.activeArts)
+        }
+
+        let zp = new LineOP(self.body, d, "white", 10)
+        zp.echo = 1
+        zp.growth = 1
+        zp.life = lifeLength
+        zp.bodo = 1  //hitsbodo
+        zp.maxDis = 300
+        zp.tipo = 1
+        zp.follow = 1
+        zp.update = 1
+        zp.damage = 1.2 * 2
+        self.activeArts.push(zp)
+        self.cooldowns[0] = 40 * 2
       }
 
 
@@ -7588,7 +7683,7 @@
         logBinarySize(data)
         if (JSON.parse(data).roomData == 1) {
           localRooms = [...JSON.parse(data).roomNums]
-          localRooms[localRoom] -= 1
+          // localRooms[localRoom] -= 1
         } else {
           if (teammaker == -1) {
             return
@@ -8427,8 +8522,8 @@
 
     let respawn = 0
     let megaSnap = false
-    let team0 = new Rectangle(0, 0, 500, 100, "red")
-    let team1 = new Rectangle(1280 - 500, 0, 500, 100, "#00ff00")
+    let team0 = new Rectangle(0, 0, 500, 100, "#00ff00")
+    let team1 = new Rectangle(1280 - 500, 0, 500, 100, "red")
     let butguy1 = new Rectangle(600, 100, 50, 50, "white")
     let butguy2 = new Rectangle(600, 160, 50, 50, "white")
     let butguy3 = new Rectangle(600, 220, 50, 50, "white")
@@ -8440,8 +8535,8 @@
     let butguy9 = new Rectangle(660, 220, 50, 50, "white")
     let butguy10 = new Rectangle(660, 280, 50, 50, "white")
     let butguy11 = new Rectangle(660, 340, 50, 50, "white")
-    let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
-    let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
+    // let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
+    // let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
     let teammaker = -1
     let guymaker = 1
     let worldstop = 0
@@ -8452,20 +8547,30 @@
 
     function main() {
 
-      if(teammaker == -1){
+      if (teammaker == -1) {
         scaler = 1
-      }else{
+      } else {
         scaler = 1
       }
-        TIP_engine.x = XS_engine - translator.x
-          TIP_engine.y = YS_engine - translator.y
+      TIP_engine.x = XS_engine - translator.x
+      TIP_engine.y = YS_engine - translator.y
+      if(gotoflag == 1){
+        if (players[0].selected == 1) {
+          for (let t = 0; t < players[0].drops.length; t++) {
+            if (players[0].drops[t].dirLock > 0) {
+              // return
+            }
+          }
+          players[0].goal = new Point(TIP_engine.x, TIP_engine.y)
+        }
+      }
       if (worldstop == 1) {
         if (youLost == 1) {
           canvas_context.fillStyle = "black"
           canvas_context.font = "130px comic sans ms"
           canvas_context.fillText("Your Rival Won!", 100 - translator.x, 350 - translator.y)
 
-        } else {
+        } else {  
           canvas_context.fillStyle = "black"
           canvas_context.font = "130px comic sans ms"
           canvas_context.fillText("You Won!", 350 - translator.x, 350 - translator.y)
@@ -8480,8 +8585,8 @@
         //translator.y = 0
         team0.draw()
         team1.draw()
-        lobbyUp.draw()
-        lobbyDown.draw()
+        // lobbyUp.draw()
+        // lobbyDown.draw()
         if (guymaker == 0) {
           butguy1.draw()
         }
@@ -8527,17 +8632,29 @@
         canvas_context.drawImage(i9, 0, 0, 64, 64, butguy9.x, butguy9.y, butguy9.width, butguy9.height)
         canvas_context.drawImage(i10, 0, 0, 64, 64, butguy10.x, butguy10.y, butguy10.width, butguy10.height)
         canvas_context.drawImage(i11, 0, 0, 64, 64, butguy11.x, butguy11.y, butguy11.width, butguy11.height)
-        
+
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
-        canvas_context.fillText("red team", 50, 50)
-        canvas_context.fillText("green team", 1280 - 450, 50)
+        canvas_context.fillText("green team", 50, 50)
+        canvas_context.fillText("red team", 1280 - 450, 50)
         canvas_context.fillStyle = "white"
-        canvas_context.fillText("You are In Lobby: " + localRoom, 380, 580)
+        // canvas_context.fillText("You are In Lobby: " + localRoom, 380, 580)
         canvas_context.font = "20px comic sans ms"
+        lobbybuttons = []
         for (let t = 0; t < localRooms.length; t++) {
+          let rect = new Rectangle(20,140+(t*50), 250, 35, "blue")
+          if(t == localRoom){
+            rect.color = "yellow"
+          }
+          rect.draw()
+          lobbybuttons.push(rect)
+          if(t == localRoom){
+          canvas_context.fillStyle = "black"
+          }else{
 
-          canvas_context.fillText("Lobby: " + t + " has " + localRooms[t] + " players", 25, 300 + (t * 35))
+          canvas_context.fillStyle = "white"
+          }
+          canvas_context.fillText("Lobby: " + t + " has " + localRooms[t] + " players", 25, 160 + (t * 50))
         }
 
         return
@@ -8597,6 +8714,9 @@
           storeUI1.shop = 1
 
           storeUI1.draw()
+        }else{
+          storeUI1.shop = 0
+
         }
       }
       if (players[0]) {
@@ -8604,6 +8724,8 @@
         if (l.hypotenuse() < 250) {
           storeUI2.shop = 1
           storeUI2.draw()
+        }else{
+          storeUI2.shop = 0
         }
       }
 
@@ -8738,7 +8860,7 @@
           for (let w = 0; w < players[t].activeArts.length; w++) {
 
             if (players[t].activeArts[w]) { } else { continue }
-            if (players[t].activeArts[w].collide == 1) { 
+            if (players[t].activeArts[w].collide == 1) {
               if (!walls[k].doesPerimeterTouch(players[t].activeArts[w])) {
                 continue
               }
@@ -8781,19 +8903,19 @@
       }
       let arenaField = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width * .5) - 360, "red")
       let arenaField2 = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width) - 360, "red")
-        // arenaField.draw()
-        for (let t = players.length - 1; t >= 0; t--) {
-          if (!players[t].body.doesPerimeterTouch(arenaField) && players[t].body.doesPerimeterTouch(arenaField2)) {
-            players[t].health -= 100
-            if(players[t].health <= 0){
-              if(t == 0){
-                megaSnap = true
-              }
+      // arenaField.draw()
+      for (let t = players.length - 1; t >= 0; t--) {
+        if (!players[t].body.doesPerimeterTouch(arenaField) && players[t].body.doesPerimeterTouch(arenaField2)) {
+          players[t].health -= 100
+          if (players[t].health <= 0) {
+            if (t == 0) {
+              megaSnap = true
             }
-          } else {
-
           }
+        } else {
+
         }
+      }
 
       for (let t = 0; t < players.length; t++) {
         if (players[t]) { } else { continue }
@@ -8845,7 +8967,7 @@
       } else {
 
       }
-      
+
       if (respawn > 0) {
         canvas_context.fillStyle = "white"
         canvas_context.font = "70px comic sans ms"
@@ -8901,7 +9023,7 @@
             // }
           }
         }
-      }else{
+      } else {
         respawn = 0
       }
 
