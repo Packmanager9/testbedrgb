@@ -3789,7 +3789,7 @@
                 tool.lines.push("A rotating shell of defense")
               } else if (t == 1) {
                 tool.lines.push("Ϫlitch Zone")
-                tool.lines.push("100 Mana")
+                tool.lines.push("85 Mana")
                 tool.lines.push("280 frame cooldown")
                 tool.lines.push("A deadly X shaped spot")
               } else if (t == 2) {
@@ -6260,7 +6260,7 @@
       jetzone(self, x, y) {
 
 
-        let manaCost = 75
+        let manaCost = 85
         if (self.mana < manaCost) {
           return
         } else {
@@ -6280,7 +6280,7 @@
           d.update = 1
           d.slow = .1
           d.collide = 1
-          d.damage = 1
+          d.damage = .8
           d.pop = 1
           // d.sendEveryFrame = 1
           d.popdam = 3
