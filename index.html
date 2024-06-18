@@ -1354,13 +1354,14 @@
             guymaker = 10
           }
 
+          if(guymaker >= 0){
           if (team0.isPointInside(TIP_engine)) {
             teammaker = 0
           }
           if (team1.isPointInside(TIP_engine)) {
             teammaker = 1
           }
-
+        }
         }
 
 
@@ -8535,10 +8536,11 @@
     let butguy9 = new Rectangle(660, 220, 50, 50, "white")
     let butguy10 = new Rectangle(660, 280, 50, 50, "white")
     let butguy11 = new Rectangle(660, 340, 50, 50, "white")
+
     // let lobbyUp = new Rectangle(440, 600, 60, 60, "#00ff00")
     // let lobbyDown = new Rectangle(380, 600, 60, 60, "#FF0000")
     let teammaker = -1
-    let guymaker = 1
+    let guymaker = -1
     let worldstop = 0
     let youLost = 0
     let matchStart = 0
@@ -8583,42 +8585,124 @@
         canvas_context.resetTransform()
         //translator.x = 0
         //translator.y = 0
-        team0.draw()
-        team1.draw()
+        if(guymaker >= 0){
+          team0.draw()
+          team1.draw()
+        }
         // lobbyUp.draw()
         // lobbyDown.draw()
         if (guymaker == 0) {
           butguy1.draw()
-        }
-        if (guymaker == 1) {
+          canvas_context.fillStyle = "white"
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Psybean: The Psychic Bean", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Psyblast - A beam or shockwave of huge damage", 750, 240)
+          canvas_context.fillText("Psyzone - An expanding shockwave of damage", 750, 260)
+          canvas_context.fillText("Sleep/Awaken - Gain health and mana, toggle abilities", 750, 280)
+          canvas_context.fillText("Shield - A protective shield for yourself and minions", 750, 300)
+        }else  if (guymaker == 1) {
           butguy2.draw()
-        }
-        if (guymaker == 2) {
+          canvas_context.fillStyle = "white"
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Sluggernaut: The Unstoppable, Unsloppable", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Slugmax - Drop a large zone of slowing acidic slime", 750, 240)
+          canvas_context.fillText("Mating Horns - Extend horns to charge a group", 750, 260)
+          canvas_context.fillText("Slugrush - Gain a lot of movement speed", 750, 280)
+          canvas_context.fillText("Drop Slime - Leave a damaging trail of slime", 750, 300)
+        }else  if (guymaker == 2) {
           butguy3.draw()
-        }
-        if (guymaker == 3) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Pomao: The Abstract Animaloid", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Egg Spit - Spit a long range egg", 750, 240)
+          canvas_context.fillText("Tongue Grab - Snatch an enemy to you with your tongue", 750, 260)
+          canvas_context.fillText("Rush - Gain some movement speed", 750, 280)
+          canvas_context.fillText("Ground Pound - An expanding shockwave of damage", 750, 300)
+        }else if (guymaker == 3) {
           butguy4.draw()
-        }
-        if (guymaker == 4) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Missileaneous: 3... 2.... 1...", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Bomb Roll - Roll a long range bomb", 750, 240)
+          canvas_context.fillText("Minefield - Lay a trap of exploding mines", 750, 260)
+          canvas_context.fillText("Bombrush - Gain so much movement it hurts", 750, 280)
+          canvas_context.fillText("Gieger Slam - An extending rod for damage", 750, 300)
+        }else   if (guymaker == 4) {
           butguy5.draw()
-        }
-        if (guymaker == 5) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - NhaiNhai: The Lemape Project", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Healing Beam - Heal minions and allies with a beam", 750, 240)
+          canvas_context.fillText("Grapeshot - Endless projectiles short range", 750, 260)
+          canvas_context.fillText("Lemon Fingers - An extending pair or rotating spines", 750, 280)
+          canvas_context.fillText("Battle Control - An all purpose healing and harming shockwave", 750, 300)
+        }else    if (guymaker == 5) {
           butguy6.draw()
-        }
-        if (guymaker == 6) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Solalani: The Low Energy-Being", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Burnout - A huge growing zone of pain", 750, 240)
+          canvas_context.fillText("Fusion - Consume your body for mana", 750, 260)
+          canvas_context.fillText("Psychosolar - A bifurcated beam of insane heat", 750, 280)
+          canvas_context.fillText("Solar Flares - Extending defensive spines", 750, 300)
+        }else   if (guymaker == 6) {
           butguy7.draw()
-        }
-        if (guymaker == 7) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Banandroid: A Fruitlike", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Banana Boundary - A rotating wall of defense", 750, 240)
+          canvas_context.fillText("Bananarang - A projectile that returns", 750, 260)
+          canvas_context.fillText("Bananarush - Gain some movement speed", 750, 280)
+          canvas_context.fillText("Banana Field - A curved zone of death", 750, 300)
+        }else if (guymaker == 7) {
           butguy8.draw()
-        }
-        if (guymaker == 8) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Banandroid: A Fruitlike", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Ϫlitch Ring - A collapsing ring of projectiles", 750, 240)
+          canvas_context.fillText("Ϫlitch Zone - An X shaped death zone", 750, 260)
+          canvas_context.fillText("Self Heal - Self heal", 750, 280)
+          canvas_context.fillText("Ϫlitch Warp - Teleport anywhere in range", 750, 300)
+        }else     if (guymaker == 8) {
           butguy9.draw()
-        }
-        if (guymaker == 9) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Manterfly: Beautiful, Complete", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Spawn Gumnut - A new minion on command", 750, 240)
+          canvas_context.fillText("Manterfly Arena - A slowing zone to fight in", 750, 260)
+          canvas_context.fillText("Spinning Wingblade - A four armed blade of harm", 750, 280)
+          canvas_context.fillText("Healing Slow - Gain mana and health, but slow yourself", 750, 300)
+        }else if (guymaker == 9) {
           butguy10.draw()
-        }
-        if (guymaker == 10) {
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Hamartan Scout: The Way Seeker", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Hambeam - Deadly beam of light", 750, 240)
+          canvas_context.fillText("YoYo Hamslam - A returning projectile", 750, 260)
+          canvas_context.fillText("Psychosolar - A bifurcated beam of insane Light", 750, 280)
+          canvas_context.fillText("Crystal Healing Beam - Heal allies with light", 750, 300)
+        }else  if (guymaker == 10) {
           butguy11.draw()
+          canvas_context.font = "20px comic sans ms"
+          canvas_context.fillText("Crewman - Jettian: It's Hurtling Towards Us", 750, 200)
+          canvas_context.font = "18px comic sans ms"
+          canvas_context.fillText("Abilities:", 750, 220)
+          canvas_context.fillText("Rocket Rush - Speed up and leave dust", 750, 240)
+          canvas_context.fillText("Defining Ring - A fight zone", 750, 260)
+          canvas_context.fillText("Boom Rush - Speed up and leave a slick", 750, 280)
+          canvas_context.fillText("Melee - Melee on command", 750, 300)
         }
 
         canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
@@ -8635,8 +8719,10 @@
 
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
+        if(guymaker >= 0){
         canvas_context.fillText("green team", 50, 50)
         canvas_context.fillText("red team", 1280 - 450, 50)
+        }
         canvas_context.fillStyle = "white"
         // canvas_context.fillText("You are In Lobby: " + localRoom, 380, 580)
         canvas_context.font = "20px comic sans ms"
