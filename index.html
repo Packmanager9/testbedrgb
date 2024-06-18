@@ -8557,6 +8557,17 @@
     let scaler = 1
 
     function main() {
+      if(keysPressed["Escape"]){    
+         teammaker = -1
+     guymaker = -1
+     worldstop = 0
+     youLost = 0
+     matchStart = 0
+
+     canvas_context.resetTransform()
+     translator.x = 0
+     translator.y = 0
+      }
 
       if (teammaker == -1) {
         scaler = 1
