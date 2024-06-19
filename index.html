@@ -2868,7 +2868,7 @@
         if (link.hypotenuse() > this.radius + 64) {
           return false
         }
-        for (let t = 0; t < 5; t++) {
+        for (let t = 0; t < 5; t++) { 
           let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
           let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
           let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 15, "yellow")
@@ -3341,12 +3341,11 @@
       }
     }
     class TongueSpike {
-      constructor(track = {}, length = 0, angle = 0, color = "red", guy = {}) {
+      constructor(guyIndex = 0, length = 0, angle = 0, color = "red", guy = {}) {
         this.name = "TongueSpike"
-        this.track = track
-        this.x = this.track.x
-        this.y = this.track.y
-        this.guy = guy
+
+        this.guyIndex = guyIndex
+        this.guyid = players[this.guyIndex].id
         this.angle = angle
         this.color = color
         this.radius = length
@@ -3355,8 +3354,20 @@
       }
       move() { }
       draw() {
-        this.x = this.track.x
-        this.y = this.track.y
+        // this.x = this.track.x
+        // this.y = this.track.y
+
+
+        this.guyIndex = champids.indexOf(this.guyid)
+
+        if (players[this.guyIndex]) {
+        } else {
+          return false
+        }
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
+
+
         this.k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 13, "blue")
         this.p = new Circle(this.x - (Math.cos(this.angle) * 16), this.y - (Math.sin(this.angle) * 16), 3, "blue")
         this.p.x = this.x - (Math.cos(this.angle) * 16)
@@ -3389,9 +3400,18 @@
 
       doesPerimeterTouch(circle) {
 
+        this.guyIndex = champids.indexOf(this.guyid)
 
-        this.x = this.track.x
-        this.y = this.track.y
+        if (players[this.guyIndex]) {
+        } else {
+          return false
+        }
+        this.x = players[this.guyIndex].body.x
+        this.y = players[this.guyIndex].body.y
+        let link = new LineOP(this, circle)
+        if (link.hypotenuse() > this.radius + 64) {
+          return false
+        }
 
         this.k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 13, "blue")
         this.p = new Circle(this.x - (Math.cos(this.angle) * 16), this.y - (Math.sin(this.angle) * 16), 3, "blue")
@@ -4539,11 +4559,11 @@
                   lum = this.activeArts[t].life
                   this.activeArts[t].life = 1
                 }
-                if (this.activeArts[t].name == "TongueSpike") {
-                  follow = 1
-                  lum = this.activeArts[t].life
-                  this.activeArts[t].life = 1
-                }
+                // if (this.activeArts[t].name == "TongueSpike") {
+                //   follow = 1
+                //   lum = this.activeArts[t].life
+                //   this.activeArts[t].life = 1
+                // }
                 // }
                 sto = this.activeArts[t].root
                 stot = this.activeArts[t].track
@@ -4576,11 +4596,11 @@
                   this.activeArts[t].object = new Circle(this.activeArts[t].object.x, this.activeArts[t].object.y)
                   this.activeArts[t].target = new Circle(this.activeArts[t].target.x, this.activeArts[t].target.y)
                 }
-                if (this.activeArts[t].name == "TongueSpike") {
-                  this.activeArts[t].track = new Circle(this.activeArts[t].track.x, this.activeArts[t].track.y)
-                  this.activeArts[t].root = new Circle(this.activeArts[t].root.x, this.activeArts[t].root.y)
-                  this.activeArts[t].guy = {}
-                }
+                // if (this.activeArts[t].name == "TongueSpike") {
+                //   this.activeArts[t].track = new Circle(this.activeArts[t].track.x, this.activeArts[t].track.y)
+                //   this.activeArts[t].root = new Circle(this.activeArts[t].root.x, this.activeArts[t].root.y)
+                //   this.activeArts[t].guy = {}
+                // }
                 if (this.activeArts[t].shield == 1) {
                   lum = this.activeArts[t].life
                   this.activeArts[t].life = 1
@@ -4650,18 +4670,18 @@
                 logBinarySize(JSON.stringify(json))
                 ws.send(JSON.stringify(json))
                 // this.activeArts[t].life--
-                if (this.activeArts[t].name == "TongueSpike") {
-                  this.activeArts[t].track = this.body
-                  this.activeArts[t].guy = this
-                }
+                // if (this.activeArts[t].name == "TongueSpike") {
+                //   this.activeArts[t].track = this.body
+                //   this.activeArts[t].guy = this
+                // }
                 if (this.activeArts[t].name == "LineOP") {
                   this.activeArts[t].object = this.body
                   this.activeArts[t].target = TIP_engine
                 }
                 this.activeArts[t].sent = 0
-                if (this.activeArts[t].name == "TongueSpike") {
-                  this.activeArts[t].sent = 1
-                }
+                // if (this.activeArts[t].name == "TongueSpike") {
+                //   this.activeArts[t].sent = 1
+                // }
                 if (zum == 1) {
                   this.activeArts[t].sent = 1
                 }
@@ -5278,10 +5298,11 @@
               }
               if (player.activeArts[t].grab == 1) {
                 player.activeArts[t].grab = 0
-                player.mana += player.maxmana / 8
+                player.mana += player.maxmana / 8 
                 this.rooted = 10
                 this.root = player.activeArts[t].k
                 this.goto = player.body
+                player.activeArts[t].maxDis = player.activeArts[t].radius - 1
               }
               if (player.activeArts[t].slow <= 1) {
                 this.slowedByFloor *= player.activeArts[t].slow
@@ -6627,7 +6648,7 @@
           self.mana -= manaCost
         }
         let lifeLength = 30
-        let d = new TongueSpike(self.body, 30, (new LineOP(self.body, new Point(x, y)).angle()), "blue", self)
+        let d = new TongueSpike(players.indexOf(self), 30, (new LineOP(self.body, new Point(x, y)).angle()), "blue", self)
         d.echo = 1
         d.life = lifeLength
         d.growth = 1
@@ -6635,6 +6656,7 @@
         d.root = self.body
         d.grab = 1
         d.maxDis = 300
+        d.guyid = self.id
         // d.follow = 1
         d.damage = 8
         d.update = 1
@@ -8621,6 +8643,7 @@
         }
         // lobbyUp.draw()
         // lobbyDown.draw()
+
         if (guymaker == 0) {
           butguy1.draw()
           canvas_context.fillStyle = "white"
