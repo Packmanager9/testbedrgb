@@ -7747,11 +7747,11 @@
 
         if (JSON.parse(data).spliceflag >= 0) {
 
-          let guy = champids.indexOf(JSON.parse(data).playerid)
+          let guy = players[champids.indexOf(JSON.parse(data).playerid)]
 
 
           let list = []
-          for (let s = 0; s < guy.activeArts.length; s++) {
+          for (let s = 0; s < guy.activeArts.length; s++) { 
             if (guy.activeArts[s]) { } else { continue }
             list.push(guy.activeArts[s].id)
           }
