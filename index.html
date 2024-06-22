@@ -5404,7 +5404,7 @@
                   }
                 }
                 if (player.activeArts[t].collide == 1) {
-                  player.activeArts[t].color = "transparent"
+                  // player.activeArts[t].color = "transparent"
                 // let json = {}
                 // json.spliceflag = 1
                 // json.objectid = player.activeArts[t].id
@@ -7870,7 +7870,7 @@
 
           let guy = players[champids.indexOf(JSON.parse(data).playerid)]
 
-
+          let m = new Point(JSON.parse(data).x, JSON.parse(data).y)
           let list = []
           for (let s = 0; s < guy.activeArts.length; s++) { 
             if (guy.activeArts[s]) { } else { continue }
@@ -7882,7 +7882,7 @@
           if (z.pop == 1) {
                   let angle = 0
                   for (let p = 0; p < z.poprays; p++) {
-                    let ojb = new Circle(z.x, z.y, z.popradius, z.popcolor, Math.cos(angle) * z.poprate, Math.sin(angle) * z.poprate)
+                    let ojb = new Circle(m.x, m.y, z.popradius, z.popcolor, Math.cos(angle) * z.poprate, Math.sin(angle) * z.poprate)
                     ojb.life = z.poplife
                     ojb.damage = z.popdam
                     ojb.collide = 1
