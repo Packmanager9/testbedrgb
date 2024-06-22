@@ -2868,7 +2868,7 @@
         if (link.hypotenuse() > this.radius + 64) {
           return false
         }
-        for (let t = 0; t < 5; t++) { 
+        for (let t = 0; t < 5; t++) {
           let p = new Circle(this.x - (Math.cos(this.angle + .5) * 8), this.y - (Math.sin(this.angle + .5) * 8), 3, "red")
           let m = new Circle(this.x - (Math.cos(this.angle - .5) * 8), this.y - (Math.sin(this.angle - .5) * 8), 3, "red")
           let k = new Circle(this.x - (Math.cos(this.angle) * this.radius), this.y - (Math.sin(this.angle) * this.radius), 15, "yellow")
@@ -5284,6 +5284,12 @@
                   }
                 }
                 if (player.activeArts[t].collide == 1) {
+                let json = {}
+                json.spliceflag = 1
+                json.objectid = player.activeArts[t].id
+                json.playerid = player.id
+                logBinarySize(JSON.stringify(json))
+                ws.send(JSON.stringify(json))
                   player.activeArts.splice(t, 1)
                   continue
                 }
@@ -5298,7 +5304,7 @@
               }
               if (player.activeArts[t].grab == 1) {
                 player.activeArts[t].grab = 0
-                player.mana += player.maxmana / 8 
+                player.mana += player.maxmana / 8
                 this.rooted = 10
                 this.root = player.activeArts[t].k
                 this.goto = player.body
@@ -5336,6 +5342,7 @@
                 player.activeArts[t].damage = 0
               }
               if (player.activeArts[t].collide == 1) {
+
                 if (player.activeArts[t].pop == 1) {
                   let angle = 0
                   for (let p = 0; p < player.activeArts[t].poprays; p++) {
@@ -5349,6 +5356,13 @@
                     player.activeArts.push(ojb)
                   }
                 }
+
+                let json = {}
+                json.spliceflag = 1
+                json.objectid = player.activeArts[t].id
+                json.playerid = player.id
+                logBinarySize(JSON.stringify(json))
+                ws.send(JSON.stringify(json))
                 player.activeArts.splice(t, 1)
                 continue
               }
@@ -7730,7 +7744,20 @@
         // if (!(JSON.parse(data).flies > 0)) {
         //////////////////////////////////////////////////////////console.log("hit")
 
-        if (JSON.parse(data).smackupbase >= 0) {
+        if (JSON.parse(data).spliceflag >= 0) {
+
+          let guy = champids.indexOf(JSON.parse(data).playerid)
+
+
+          let list = []
+          for (let s = 0; s < guy.activeArts.length; s++) {
+            if (guy.activeArts[s]) { } else { continue }
+            list.push(guy.activeArts[s].id)
+          }
+          guy.activeArts.splice(list.indexOf(JSON.parse(data).objectid), 1)
+
+
+        } else if (JSON.parse(data).smackupbase >= 0) {
 
           teams[0].health -= 10
           if (teams[0].health <= 0) {
@@ -8579,16 +8606,16 @@
     let scaler = 1
 
     function main() {
-      if(keysPressed["Escape"]){    
-         teammaker = -1
-     guymaker = -1
-     worldstop = 0
-     youLost = 0
-     matchStart = 0
+      if (keysPressed["Escape"]) {
+        teammaker = -1
+        guymaker = -1
+        worldstop = 0
+        youLost = 0
+        matchStart = 0
 
-     canvas_context.resetTransform()
-     translator.x = 0
-     translator.y = 0
+        canvas_context.resetTransform()
+        translator.x = 0
+        translator.y = 0
       }
 
       if (teammaker == -1) {
@@ -8775,9 +8802,9 @@
         if (guymaker >= 0) {
           canvas_context.fillText("green team", 50, 50)
           canvas_context.fillText("red team", 1280 - 450, 50)
-        }else{
-        canvas_context.fillStyle = "white"
-        canvas_context.font = "30px comic sans ms"
+        } else {
+          canvas_context.fillStyle = "white"
+          canvas_context.font = "30px comic sans ms"
           canvas_context.fillText("Select", 610, 50)
 
         }
@@ -8830,410 +8857,410 @@
       canvas_context.drawImage(wodmap, 0, 0)
 
       // if (gotoflag == 1) {
-        if (worlddor.radius > 1) {
-          if (worlddor.draw){
+      if (worlddor.radius > 1) {
+        if (worlddor.draw) {
 
-            worlddor.draw()
+          worlddor.draw()
           worlddor.radius -= .25
+        }
+      }
+      // }
+      //  let arenaField = new Circle(wodmap.width*.5, wodmap.height*.5, (wodmap.width*.5)-360, "red")
+      //   // arenaField.draw()
+
+      //   for (let t = players.length - 1; t >= 0; t--) {
+      //     if(!players[0].body.doesPerimeterTouch(arenaField)){
+      //       players[0].health = -100
+      //     }else{
+
+      //     }
+      //   }
+
+
+
+      for (let t = players.length - 1; t >= 0; t--) {
+        if (!players[t]) {
+          players.splice(t, 1)
+          champids.splice(t, 1)
+          champtimes.splice(t, 1)
+        }
+      }
+
+      botTeam.body.draw()
+      topTeam.body.draw()
+      storeUI1.shop = 0
+      if (players[0]) {
+        let l = new LineOP(topTeam.body, players[0].body)
+        if (l.hypotenuse() < 250) {
+          storeUI1.shop = 1
+
+          storeUI1.draw()
+        } else {
+          storeUI1.shop = 0
+
+        }
+      }
+      if (players[0]) {
+        let l = new LineOP(botTeam.body, players[0].body)
+        if (l.hypotenuse() < 250) {
+          storeUI2.shop = 1
+          storeUI2.draw()
+        } else {
+          storeUI2.shop = 0
+        }
+      }
+
+
+      if (topTeam.health < 0) {
+        topTeam.health = 0
+      }
+      if (topTeam.health > topTeam.maxhealth) {
+        topTeam.health = topTeam.maxhealth
+      }
+      topTeam.healthBar = new Rectangle(topTeam.body.x - 32, topTeam.body.y - 42, 64 * (topTeam.health / topTeam.maxhealth), 7, "#00ff00")
+      topTeam.healthBarBack = new Rectangle(topTeam.body.x - 32, topTeam.body.y - 42, 64, 7, "#000000")
+      topTeam.healthBarOut = new Rectangle(topTeam.body.x - 34, topTeam.body.y - 44, 68, 11, "#FFFFFF")
+      topTeam.healthBarOut.draw()
+      topTeam.healthBarBack.draw()
+      topTeam.healthBar.draw()
+
+
+      if (botTeam.health < 0) {
+        botTeam.health = 0
+      }
+      if (botTeam.health > botTeam.maxhealth) {
+        botTeam.health = botTeam.maxhealth
+      }
+      botTeam.healthBar = new Rectangle(botTeam.body.x - 32, botTeam.body.y - 42, 64 * (botTeam.health / botTeam.maxhealth), 7, "#00ff00")
+      botTeam.healthBarBack = new Rectangle(botTeam.body.x - 32, botTeam.body.y - 42, 64, 7, "#000000")
+      botTeam.healthBarOut = new Rectangle(botTeam.body.x - 34, botTeam.body.y - 44, 68, 11, "#FFFFFF")
+      botTeam.healthBarOut.draw()
+      botTeam.healthBarBack.draw()
+      botTeam.healthBar.draw()
+
+
+      // gamepadAPI.update() //checks for button presses/stick movement on the connected controller)
+      // game code goes here
+      // psybean.draw()
+      if (time > -1) {
+        if (time % 500 == 0 && spawner == 2) {
+          for (let k = 0; k < 3; k++) {
+
+            let guyz = new Champ(-1, teams[0])
+            // let guy2z = new Champ(-1, teams[teams[0].top])
+            // guy2z.body.x = 1920 * 2
+            // guy2z.body.y = 1970 * 2
+            // guy2z.body.x += k
+            guyz.body.x += k
+            guyz.send = 1
+            guyz.tar = k
+            guyz.zop = 0
+            players.push(guyz)
+            champids.push(guyz.id)
+            champtimes.push(2000000000)
+            // players.push(guy2z)
           }
         }
-    // }
-    //  let arenaField = new Circle(wodmap.width*.5, wodmap.height*.5, (wodmap.width*.5)-360, "red")
-    //   // arenaField.draw()
-
-    //   for (let t = players.length - 1; t >= 0; t--) {
-    //     if(!players[0].body.doesPerimeterTouch(arenaField)){
-    //       players[0].health = -100
-    //     }else{
-
-    //     }
-    //   }
-
-
-
-    for (let t = players.length - 1; t >= 0; t--) {
-      if (!players[t]) {
-        players.splice(t, 1)
-        champids.splice(t, 1)
-        champtimes.splice(t, 1)
       }
-    }
+      if (time > -1) {
+        if (time % 500 == 0 && spawner == 1) {
+          for (let k = 0; k < 3; k++) {
 
-    botTeam.body.draw()
-    topTeam.body.draw()
-    storeUI1.shop = 0
-    if (players[0]) {
-      let l = new LineOP(topTeam.body, players[0].body)
-      if (l.hypotenuse() < 250) {
-        storeUI1.shop = 1
-
-        storeUI1.draw()
-      } else {
-        storeUI1.shop = 0
-
-      }
-    }
-    if (players[0]) {
-      let l = new LineOP(botTeam.body, players[0].body)
-      if (l.hypotenuse() < 250) {
-        storeUI2.shop = 1
-        storeUI2.draw()
-      } else {
-        storeUI2.shop = 0
-      }
-    }
-
-
-    if (topTeam.health < 0) {
-      topTeam.health = 0
-    }
-    if (topTeam.health > topTeam.maxhealth) {
-      topTeam.health = topTeam.maxhealth
-    }
-    topTeam.healthBar = new Rectangle(topTeam.body.x - 32, topTeam.body.y - 42, 64 * (topTeam.health / topTeam.maxhealth), 7, "#00ff00")
-    topTeam.healthBarBack = new Rectangle(topTeam.body.x - 32, topTeam.body.y - 42, 64, 7, "#000000")
-    topTeam.healthBarOut = new Rectangle(topTeam.body.x - 34, topTeam.body.y - 44, 68, 11, "#FFFFFF")
-    topTeam.healthBarOut.draw()
-    topTeam.healthBarBack.draw()
-    topTeam.healthBar.draw()
-
-
-    if (botTeam.health < 0) {
-      botTeam.health = 0
-    }
-    if (botTeam.health > botTeam.maxhealth) {
-      botTeam.health = botTeam.maxhealth
-    }
-    botTeam.healthBar = new Rectangle(botTeam.body.x - 32, botTeam.body.y - 42, 64 * (botTeam.health / botTeam.maxhealth), 7, "#00ff00")
-    botTeam.healthBarBack = new Rectangle(botTeam.body.x - 32, botTeam.body.y - 42, 64, 7, "#000000")
-    botTeam.healthBarOut = new Rectangle(botTeam.body.x - 34, botTeam.body.y - 44, 68, 11, "#FFFFFF")
-    botTeam.healthBarOut.draw()
-    botTeam.healthBarBack.draw()
-    botTeam.healthBar.draw()
-
-
-    // gamepadAPI.update() //checks for button presses/stick movement on the connected controller)
-    // game code goes here
-    // psybean.draw()
-    if (time > -1) {
-      if (time % 500 == 0 && spawner == 2) {
-        for (let k = 0; k < 3; k++) {
-
-          let guyz = new Champ(-1, teams[0])
-          // let guy2z = new Champ(-1, teams[teams[0].top])
-          // guy2z.body.x = 1920 * 2
-          // guy2z.body.y = 1970 * 2
-          // guy2z.body.x += k
-          guyz.body.x += k
-          guyz.send = 1
-          guyz.tar = k
-          guyz.zop = 0
-          players.push(guyz)
-          champids.push(guyz.id)
-          champtimes.push(2000000000)
-          // players.push(guy2z)
+            // let guyz = new Champ(-1, teams[teams[1].top])
+            let guy2z = new Champ(-1, teams[0])
+            guy2z.body.x = 1920 * 2
+            guy2z.body.y = 1970 * 2
+            guy2z.body.x += k
+            guy2z.send = 1
+            guy2z.tar = k + 6
+            guy2z.zop = 1
+            // guyz.body.x += k
+            // players.push(guyz)
+            players.push(guy2z)
+            champids.push(guy2z.id)
+            champtimes.push(2000000000)
+          }
         }
       }
-    }
-    if (time > -1) {
-      if (time % 500 == 0 && spawner == 1) {
-        for (let k = 0; k < 3; k++) {
+      if (matchStart == 1) {
+        time++
+      }
+      // time = 1
+      players[0].selected = 1
 
-          // let guyz = new Champ(-1, teams[teams[1].top])
-          let guy2z = new Champ(-1, teams[0])
-          guy2z.body.x = 1920 * 2
-          guy2z.body.y = 1970 * 2
-          guy2z.body.x += k
-          guy2z.send = 1
-          guy2z.tar = k + 6
-          guy2z.zop = 1
-          // guyz.body.x += k
-          // players.push(guyz)
-          players.push(guy2z)
-          champids.push(guy2z.id)
-          champtimes.push(2000000000)
+      // sluggernaut.draw()
+
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        players[t].tick()
+      }
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        if ((players[t].selected == 1 && t == 0) || players[t].type == -1) {
+          players[t].command()
         }
       }
-    }
-    if (matchStart == 1) {
-      time++
-    }
-    // time = 1
-    players[0].selected = 1
-
-    // sluggernaut.draw()
-
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      players[t].tick()
-    }
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      if ((players[t].selected == 1 && t == 0) || players[t].type == -1) {
-        players[t].command()
+      for (let t = 0; t < worldpops.length; t++) {
+        worldpops[t].draw()
       }
-    }
-    for (let t = 0; t < worldpops.length; t++) {
-      worldpops[t].draw()
-    }
-    for (let t = 0; t < worldpops.length; t++) {
-      if (worldpops[t].life <= 0) {
-        worldpops.splice(t, 1)
+      for (let t = 0; t < worldpops.length; t++) {
+        if (worldpops[t].life <= 0) {
+          worldpops.splice(t, 1)
+        }
       }
-    }
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      players[t].fieldStuffA()
-    }
-
-
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      players[t].artDraw()
-    }
-    // for (let k = 0; k < walls.length; k++) {
-    //     walls[k].draw()
-    // }
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      players[t].healthDraw()
-    }
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      if (players[t].selected == 1 && t == 0) {
-        players[t].drawUI()
-        players[t].bighealthDraw()
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        players[t].fieldStuffA()
       }
-    }
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      for (let k = 0; k < walls.length; k++) {
-        walls[k].doesPerimeterTouch(players[t].body)
 
 
-        for (let w = 0; w < players[t].activeArts.length; w++) {
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        players[t].artDraw()
+      }
+      // for (let k = 0; k < walls.length; k++) {
+      //     walls[k].draw()
+      // }
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        players[t].healthDraw()
+      }
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        if (players[t].selected == 1 && t == 0) {
+          players[t].drawUI()
+          players[t].bighealthDraw()
+        }
+      }
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        for (let k = 0; k < walls.length; k++) {
+          walls[k].doesPerimeterTouch(players[t].body)
 
-          if (players[t].activeArts[w]) { } else { continue }
-          if (players[t].activeArts[w].collide == 1) {
-            if (!walls[k].doesPerimeterTouch(players[t].activeArts[w])) {
-              continue
-            }
-            if (players[t].activeArts[w].pop == 1) {
-              let angle = 0
-              for (let p = 0; p < players[t].activeArts[w].poprays; p++) {
-                let ojb = new Circle(players[t].activeArts[w].x, players[t].activeArts[w].y, players[t].activeArts[w].popradius, players[t].activeArts[w].popcolor, Math.cos(angle) * players[t].activeArts[w].poprate, Math.sin(angle) * players[t].activeArts[w].poprate)
-                ojb.life = players[t].activeArts[w].poplife
-                ojb.damage = players[t].activeArts[w].popdam
-                ojb.collide = 1
 
-                angle += (Math.PI * 2) / players[t].activeArts[w].poprays
-                players[t].activeArts.push(ojb)
+          for (let w = 0; w < players[t].activeArts.length; w++) {
+
+            if (players[t].activeArts[w]) { } else { continue }
+            if (players[t].activeArts[w].collide == 1) {
+              if (!walls[k].doesPerimeterTouch(players[t].activeArts[w])) {
+                continue
               }
+              if (players[t].activeArts[w].pop == 1) {
+                let angle = 0
+                for (let p = 0; p < players[t].activeArts[w].poprays; p++) {
+                  let ojb = new Circle(players[t].activeArts[w].x, players[t].activeArts[w].y, players[t].activeArts[w].popradius, players[t].activeArts[w].popcolor, Math.cos(angle) * players[t].activeArts[w].poprate, Math.sin(angle) * players[t].activeArts[w].poprate)
+                  ojb.life = players[t].activeArts[w].poplife
+                  ojb.damage = players[t].activeArts[w].popdam
+                  ojb.collide = 1
+
+                  angle += (Math.PI * 2) / players[t].activeArts[w].poprays
+                  players[t].activeArts.push(ojb)
+                }
+              }
+              players[t].activeArts.splice(w, 1)
             }
-            players[t].activeArts.splice(w, 1)
+
           }
+
 
         }
 
 
+        players[t].move()
+        for (let k = 0; k < walls.length; k++) {
+          // walls[k].draw()
+          walls[k].doesPerimeterTouch(players[t].body)
+        }
       }
 
-
-      players[t].move()
-      for (let k = 0; k < walls.length; k++) {
-        // walls[k].draw()
-        walls[k].doesPerimeterTouch(players[t].body)
-      }
-    }
-
-    for (let t = 0; t < players.length; t++) {
-      // if (players[t]) { } else { continue }
-        if(players[t].send == 1){
-      for (let k = 0; k < players.length; k++) {
-        // if (players[k]) { } else { continue }
-        // if ((t != k)) {
-          players[t].collide(players[k])
-        // }
-      }
-      }
-    }
-    let arenaField = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width * .5) - 360, "red")
-    let arenaField2 = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width) - 360, "red")
-    // arenaField.draw()
-    for (let t = players.length - 1; t >= 0; t--) {
-      if (!players[t].body.doesPerimeterTouch(arenaField) && players[t].body.doesPerimeterTouch(arenaField2)) {
-        players[t].health -= 100
-        if (players[t].health <= 0) {
-          if (t == 0) {
-            megaSnap = true
+      for (let t = 0; t < players.length; t++) {
+        // if (players[t]) { } else { continue }
+        if (players[t].send == 1) {
+          for (let k = 0; k < players.length; k++) {
+            // if (players[k]) { } else { continue }
+            // if ((t != k)) {
+            players[t].collide(players[k])
+            // }
           }
         }
-      } else {
-
       }
-    }
+      let arenaField = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width * .5) - 360, "red")
+      let arenaField2 = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width) - 360, "red")
+      // arenaField.draw()
+      for (let t = players.length - 1; t >= 0; t--) {
+        if (!players[t].body.doesPerimeterTouch(arenaField) && players[t].body.doesPerimeterTouch(arenaField2)) {
+          players[t].health -= 100
+          if (players[t].health <= 0) {
+            if (t == 0) {
+              megaSnap = true
+            }
+          }
+        } else {
 
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      players[t].fieldStuffB()
-    }
-
-
-    for (let t = 0; t < champtimes.length; t++) {
-      champtimes[t]--
-    }
-
-
-    for (let t = players.length - 1; t >= 0; t--) {
-      if (players[t]) { } else {
-
-        players.splice(t, 1)
-        champids.splice(t, 1)
-        champtimes.splice(t, 1)
-        continue
+        }
       }
-      if (players[t].health <= 0 || (t != 0 && champtimes[t] <= 0)) {
-        if (players[t].type == -1) {
+
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        players[t].fieldStuffB()
+      }
+
+
+      for (let t = 0; t < champtimes.length; t++) {
+        champtimes[t]--
+      }
+
+
+      for (let t = players.length - 1; t >= 0; t--) {
+        if (players[t]) { } else {
+
           players.splice(t, 1)
           champids.splice(t, 1)
           champtimes.splice(t, 1)
           continue
-        } else {
-          // players[t] = new Champ(Math.floor(Math.random() * 4), { players: [] })
-          if (t == 0) {
-            megaSnap = true
-            players[0].health = players[0].maxhealth
-            players[0].body.x = 9999999
-            players[0].goal.x = 9999999
-            players[0].goal.y = players[0].body.y
-            continue
-          } else {
+        }
+        if (players[t].health <= 0 || (t != 0 && champtimes[t] <= 0)) {
+          if (players[t].type == -1) {
             players.splice(t, 1)
             champids.splice(t, 1)
             champtimes.splice(t, 1)
             continue
-          }
-          // players.splice(1,t)
-        }
-      }
-    }
-    if (megaSnap && respawn == 0) {
-      megaSnap = false
-      respawn = Math.min(Math.floor(time / 30), 1000)
-    } else {
-
-    }
-
-    if (respawn > 0) {
-      canvas_context.fillStyle = "white"
-      canvas_context.font = "70px comic sans ms"
-      canvas_context.fillText("Respawn in: " + respawn, 20 - translator.x, 180 - translator.y)
-
-      players[0].body.x = 9999999
-      players[0].goal.x = 9999999
-      players[0].goal.y = players[0].body.y
-
-      respawn--
-
-      if (respawn == 0) {
-
-        canvas_context.resetTransform()
-        //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-        //translator.x = 0
-        //translator.y = 0
-        //translator.x += -360 - (1280 - (640 - 360))
-        //translator.y += -360 - 720
-        for (let t = 0; t < players.length; t++) {
-          if (players[t]) { } else { continue }
-          // if(players[t].health <=0){
-          if (t == 0) {
-            let id = players[t].id
-            let gold = players[t].gold
-            let goldtotal = players[t].goldtotal
-            let geartypes = [players[t].gear[0].type, players[t].gear[1].type, players[t].gear[2].type, players[t].gear[3].type]
-            players[t] = new Champ(guymaker, players[t].team)
-
-            players[t].send = 1
-            if (teammakerz == 1) {
-              canvas_context.resetTransform()
-              //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
-              //translator.x = 0
-              //translator.y = 0
-              //translator.x += -360 - (1280 - (640 - 360))
-              //translator.y += -360 - 720
-              players[t].body.x += 850 * 2
-              players[t].body.y += 1050 * 2
-              //canvas_context.translate(-850 * 2, -1050 * 2)
-              //translator.x -= 850 * 2
-              //translator.y -= 1050 * 2
+          } else {
+            // players[t] = new Champ(Math.floor(Math.random() * 4), { players: [] })
+            if (t == 0) {
+              megaSnap = true
+              players[0].health = players[0].maxhealth
+              players[0].body.x = 9999999
+              players[0].goal.x = 9999999
+              players[0].goal.y = players[0].body.y
+              continue
+            } else {
+              players.splice(t, 1)
+              champids.splice(t, 1)
+              champtimes.splice(t, 1)
+              continue
             }
-            players[t].id = id
-            players[t].gold = gold
-            players[t].goldtotal = goldtotal
-            players[t].gear[0] = new Gear(geartypes[0], players[t], 0)
-            players[t].gear[1] = new Gear(geartypes[1], players[t], 1)
-            players[t].gear[2] = new Gear(geartypes[2], players[t], 2)
-            players[t].gear[3] = new Gear(geartypes[3], players[t], 3)
             // players.splice(1,t)
           }
-          // }
         }
       }
-    } else {
-      respawn = 0
-    }
-
-    // this.tick()
-    // if(this.selected == 1){
-    //     this.command()
-    // }
-    // this.fieldStuff()
-    // this.artDraw()
-    // if(this.selected == 1){
-    // this.drawUI()
-    // }
-    // this.move()
-
-    canvas_context.drawImage(wodmapz, (1280 - 270) - translator.x, (720 - 270) - translator.y)
-
-    for (let t = 0; t < players.length; t++) {
-      if (players[t]) { } else { continue }
-      if (t == 0) {
-        let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "yellow")
-        if (players[t].type == -1) {
-          dot.radius = 1.5
-        }
-        dot.x += (1280 - 270) - translator.x
-        dot.y += (720 - 270) - translator.y
-        dot.draw()
-      } else if (players[t].team.top == 1) {
-        let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "#00ff00")
-        if (players[t].type == -1) {
-          dot.radius = 1.5
-        }
-        dot.x += (1280 - 270) - translator.x
-        dot.y += (720 - 270) - translator.y
-        dot.draw()
+      if (megaSnap && respawn == 0) {
+        megaSnap = false
+        respawn = Math.min(Math.floor(time / 30), 1000)
       } else {
-        let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "red")
-        if (players[t].type == -1) {
-          dot.radius = 1.5
-        }
-        dot.x += (1280 - 270) - translator.x
-        dot.y += (720 - 270) - translator.y
-        dot.draw()
-      }
-    }
-    if (tooling == 1) {
-      let rectangle = new Rectangle(players[0].body.x + toolpoint.x, players[0].body.y + toolpoint.y - 200, 300, 200, "#444444")
-      rectangle.draw()
-      canvas_context.fillStyle = "gold"
-      canvas_context.font = "20px comic sans ms"
-      for (let k = 0; k < tooltext.lines.length; k++) {
-        canvas_context.fillText(tooltext.lines[k], rectangle.x + 10, (rectangle.y + 30) + (k * 30))
 
       }
-    }
+
+      if (respawn > 0) {
+        canvas_context.fillStyle = "white"
+        canvas_context.font = "70px comic sans ms"
+        canvas_context.fillText("Respawn in: " + respawn, 20 - translator.x, 180 - translator.y)
+
+        players[0].body.x = 9999999
+        players[0].goal.x = 9999999
+        players[0].goal.y = players[0].body.y
+
+        respawn--
+
+        if (respawn == 0) {
+
+          canvas_context.resetTransform()
+          //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+          //translator.x = 0
+          //translator.y = 0
+          //translator.x += -360 - (1280 - (640 - 360))
+          //translator.y += -360 - 720
+          for (let t = 0; t < players.length; t++) {
+            if (players[t]) { } else { continue }
+            // if(players[t].health <=0){
+            if (t == 0) {
+              let id = players[t].id
+              let gold = players[t].gold
+              let goldtotal = players[t].goldtotal
+              let geartypes = [players[t].gear[0].type, players[t].gear[1].type, players[t].gear[2].type, players[t].gear[3].type]
+              players[t] = new Champ(guymaker, players[t].team)
+
+              players[t].send = 1
+              if (teammakerz == 1) {
+                canvas_context.resetTransform()
+                //canvas_context.translate(-360 - (1280 - (640 - 360)), -360 - 720)
+                //translator.x = 0
+                //translator.y = 0
+                //translator.x += -360 - (1280 - (640 - 360))
+                //translator.y += -360 - 720
+                players[t].body.x += 850 * 2
+                players[t].body.y += 1050 * 2
+                //canvas_context.translate(-850 * 2, -1050 * 2)
+                //translator.x -= 850 * 2
+                //translator.y -= 1050 * 2
+              }
+              players[t].id = id
+              players[t].gold = gold
+              players[t].goldtotal = goldtotal
+              players[t].gear[0] = new Gear(geartypes[0], players[t], 0)
+              players[t].gear[1] = new Gear(geartypes[1], players[t], 1)
+              players[t].gear[2] = new Gear(geartypes[2], players[t], 2)
+              players[t].gear[3] = new Gear(geartypes[3], players[t], 3)
+              // players.splice(1,t)
+            }
+            // }
+          }
+        }
+      } else {
+        respawn = 0
+      }
+
+      // this.tick()
+      // if(this.selected == 1){
+      //     this.command()
+      // }
+      // this.fieldStuff()
+      // this.artDraw()
+      // if(this.selected == 1){
+      // this.drawUI()
+      // }
+      // this.move()
+
+      canvas_context.drawImage(wodmapz, (1280 - 270) - translator.x, (720 - 270) - translator.y)
+
+      for (let t = 0; t < players.length; t++) {
+        if (players[t]) { } else { continue }
+        if (t == 0) {
+          let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "yellow")
+          if (players[t].type == -1) {
+            dot.radius = 1.5
+          }
+          dot.x += (1280 - 270) - translator.x
+          dot.y += (720 - 270) - translator.y
+          dot.draw()
+        } else if (players[t].team.top == 1) {
+          let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "#00ff00")
+          if (players[t].type == -1) {
+            dot.radius = 1.5
+          }
+          dot.x += (1280 - 270) - translator.x
+          dot.y += (720 - 270) - translator.y
+          dot.draw()
+        } else {
+          let dot = new Circle(players[t].body.x * .05, players[t].body.y * .05, 3, "red")
+          if (players[t].type == -1) {
+            dot.radius = 1.5
+          }
+          dot.x += (1280 - 270) - translator.x
+          dot.y += (720 - 270) - translator.y
+          dot.draw()
+        }
+      }
+      if (tooling == 1) {
+        let rectangle = new Rectangle(players[0].body.x + toolpoint.x, players[0].body.y + toolpoint.y - 200, 300, 200, "#444444")
+        rectangle.draw()
+        canvas_context.fillStyle = "gold"
+        canvas_context.font = "20px comic sans ms"
+        for (let k = 0; k < tooltext.lines.length; k++) {
+          canvas_context.fillText(tooltext.lines[k], rectangle.x + 10, (rectangle.y + 30) + (k * 30))
+
+        }
+      }
 
     }
 
