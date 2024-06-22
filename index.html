@@ -5102,10 +5102,10 @@
             if (Math.abs(this.goal.x - this.body.x) + Math.abs(this.goal.y - this.body.y) > 2) {
               for (let t = 0; t < ((((this.speed + this.tempSpeed) * 2) * this.slowedByFloor) * this.gaerboosts.speed); t++) {
                 let as = (new LineOP(this.goal, this.body)).angle()
-                this.body.x += Math.sign(this.goal.x - this.body.x) * .5 + ((Math.cos(as) / 2))
-                this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
+                this.body.x += Math.sign(this.goal.x - this.body.x) * .0 + ((Math.cos(as) / 1))
+                this.body.y += Math.sign(this.goal.y - this.body.y) * .0 + ((Math.sin(as) / 1))
                 if (this.selected == 1 && players.indexOf(this) == 0) {
-                  let as = (new LineOP(this.goal, this.body)).angle()
+                  // let as = (new LineOP(this.goal, this.body)).angle()
                   //canvas_context.translate(-((Math.sign(this.goal.x - this.body.x) * .5) + Math.cos(as) / 2), -((Math.sign(this.goal.y - this.body.y) * .5) + Math.sin(as) / 2))
 
                   //translator.x -= (Math.sign(this.goal.x - this.body.x) * .5) + ((Math.cos(as) / 2))
