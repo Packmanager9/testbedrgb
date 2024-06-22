@@ -4534,7 +4534,10 @@
           if (!(this.activeArts[t].id > 0)) {
             this.activeArts[t].id = Math.floor(Math.random() * 9000000)
           }
-          this.activeArts[t].draw()
+          if (this.activeArts[t].flagged != 1) {
+            this.activeArts[t].draw()
+          }
+
           if (this.team.top == players[0].team.top && (this.type == -1 || this == players[0])) {
 
             if (ws.readyState == 1 && this.activeArts[t].sent != 0) {
@@ -5284,12 +5287,12 @@
                   }
                 }
                 if (player.activeArts[t].collide == 1) {
-                let json = {}
-                json.spliceflag = 1
-                json.objectid = player.activeArts[t].id
-                json.playerid = player.id
-                logBinarySize(JSON.stringify(json))
-                ws.send(JSON.stringify(json))
+                  let json = {}
+                  json.spliceflag = 1
+                  json.objectid = player.activeArts[t].id
+                  json.playerid = player.id
+                  logBinarySize(JSON.stringify(json))
+                  ws.send(JSON.stringify(json))
                   player.activeArts.splice(t, 1)
                   continue
                 }
@@ -5404,14 +5407,15 @@
                   }
                 }
                 if (player.activeArts[t].collide == 1) {
+                  player.activeArts[t].flagged = 1
                   // player.activeArts[t].color = "transparent"
-                // let json = {}
-                // json.spliceflag = 1
-                // json.objectid = player.activeArts[t].id
-                // json.playerid = player.id
-                // logBinarySize(JSON.stringify(json))
-                // ws.send(JSON.stringify(json))
-                //   player.activeArts.splice(t, 1)
+                  // let json = {}
+                  // json.spliceflag = 1
+                  // json.objectid = player.activeArts[t].id
+                  // json.playerid = player.id
+                  // logBinarySize(JSON.stringify(json))
+                  // ws.send(JSON.stringify(json))
+                  //   player.activeArts.splice(t, 1)
                   continue
                 }
                 if (player.activeArts[t].grab == 1) {
@@ -5463,6 +5467,7 @@
                 // player.activeArts[t].damage = 0
               }
               if (player.activeArts[t].collide == 1) {
+                player.activeArts[t].flagged = 1
 
                 if (player.activeArts[t].pop == 1) {
                   // let angle = 0
@@ -7872,7 +7877,7 @@
 
           let m = new Point(JSON.parse(data).x, JSON.parse(data).y)
           let list = []
-          for (let s = 0; s < guy.activeArts.length; s++) { 
+          for (let s = 0; s < guy.activeArts.length; s++) {
             if (guy.activeArts[s]) { } else { continue }
             list.push(guy.activeArts[s].id)
           }
@@ -7880,19 +7885,19 @@
           let z = guy.activeArts[list.indexOf(JSON.parse(data).objectid)]
 
           if (z.pop == 1) {
-                  let angle = 0
-                  for (let p = 0; p < z.poprays; p++) {
-                    let ojb = new Circle(m.x, m.y, z.popradius, z.popcolor, Math.cos(angle) * z.poprate, Math.sin(angle) * z.poprate)
-                    ojb.life = z.poplife
-                    ojb.damage = z.popdam
-                    ojb.collide = 1
-                    ojb.id = z.id + 1 + p
+            let angle = 0
+            for (let p = 0; p < z.poprays; p++) {
+              let ojb = new Circle(m.x, m.y, z.popradius, z.popcolor, Math.cos(angle) * z.poprate, Math.sin(angle) * z.poprate)
+              ojb.life = z.poplife
+              ojb.damage = z.popdam
+              ojb.collide = 1
+              ojb.id = z.id + 1 + p
 
-                    angle += (Math.PI * 2) / z.poprays
-                    ojb.name = "Circle"
-                    guy.activeArts.push(ojb) 
-                  }
-                }
+              angle += (Math.PI * 2) / z.poprays
+              ojb.name = "Circle"
+              guy.activeArts.push(ojb)
+            }
+          }
 
 
           guy.activeArts.splice(list.indexOf(JSON.parse(data).objectid), 1)
@@ -9197,7 +9202,7 @@
                   ojb.damage = players[t].activeArts[w].popdam
                   ojb.collide = 1
                   ojb.id = players[t].activeArts[w].id + 1 + p
- 
+
                   angle += (Math.PI * 2) / players[t].activeArts[w].poprays
                   players[t].activeArts.push(ojb)
                 }
