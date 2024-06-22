@@ -5350,6 +5350,7 @@
                     ojb.life = player.activeArts[t].poplife
                     ojb.damage = player.activeArts[t].popdam
                     ojb.collide = 1
+                    ojb.id = player.activeArts[t].id + 1 + p
 
                     angle += (Math.PI * 2) / player.activeArts[t].poprays
                     ojb.name = "Circle"
@@ -9052,6 +9053,7 @@
                   ojb.life = players[t].activeArts[w].poplife
                   ojb.damage = players[t].activeArts[w].popdam
                   ojb.collide = 1
+                  ojb.id = player.activeArts[t].id + 1 + p
 
                   angle += (Math.PI * 2) / players[t].activeArts[w].poprays
                   players[t].activeArts.push(ojb)
