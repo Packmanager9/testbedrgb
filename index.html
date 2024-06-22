@@ -9048,11 +9048,13 @@
 
     for (let t = 0; t < players.length; t++) {
       // if (players[t]) { } else { continue }
+        if(players[t].send == 1){
       for (let k = 0; k < players.length; k++) {
         // if (players[k]) { } else { continue }
         // if ((t != k)) {
-        players[t].collide(players[k])
+          players[t].collide(players[k])
         // }
+      }
       }
     }
     let arenaField = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width * .5) - 360, "red")
