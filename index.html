@@ -5343,28 +5343,149 @@
               }
               if (player.activeArts[t].collide == 1) {
 
-                if (player.activeArts[t].pop == 1) {
-                  let angle = 0
-                  for (let p = 0; p < player.activeArts[t].poprays; p++) {
-                    let ojb = new Circle(player.activeArts[t].x, player.activeArts[t].y, player.activeArts[t].popradius, player.activeArts[t].popcolor, Math.cos(angle) * player.activeArts[t].poprate, Math.sin(angle) * player.activeArts[t].poprate)
-                    ojb.life = player.activeArts[t].poplife
-                    ojb.damage = player.activeArts[t].popdam
-                    ojb.collide = 1
-                    ojb.id = player.activeArts[t].id + 1 + p
-
-                    angle += (Math.PI * 2) / player.activeArts[t].poprays
-                    ojb.name = "Circle"
-                    player.activeArts.push(ojb)
-                  }
-                }
 
                 let json = {}
                 json.spliceflag = 1
                 json.objectid = player.activeArts[t].id
+                json.x = player.activeArts[t].x
+                json.y = player.activeArts[t].y
+                json.pop = player.activeArts[t].pop
                 json.playerid = player.id
                 logBinarySize(JSON.stringify(json))
                 ws.send(JSON.stringify(json))
                 player.activeArts.splice(t, 1)
+                continue
+              }
+            }
+          }
+        }
+      }
+
+      fakecollide(player) {
+        if (player.id == this.id) {
+          return
+        }
+        if (!player) {
+          return
+        }
+        if (!player.activeArts) {
+          player.activeArts = []
+        }
+        let j = 0
+        while (this.body.doesPerimeterTouch(player.body)) {
+          j++
+          if (j > 100) {
+            break
+          }
+          let li = new LineOP(this.body, player.body)
+          let la = li.angle()
+          this.body.x += Math.cos(la)
+          this.body.y += Math.sin(la)
+          player.body.x -= Math.cos(la)
+          player.body.y -= Math.sin(la)
+
+        }
+        // if (player.team.top == this.team.top) {
+        //   return
+        // }
+        for (let t = player.activeArts.length - 1; t >= 0; t--) {
+          if (player.activeArts[t]) { } else { continue }
+          if (player.team.top != this.team.top || player.activeArts[t].damage <= 0) { } else { continue }
+          if (player.activeArts[t].doesPerimeterTouch) {
+            //////////////////////////////////////console.log(player.activeArts[t], this)
+            if (player.activeArts[t].doesPerimeterTouch(this.body)) {
+              if (this.shield == 1) {
+                this.shield = 0
+                for (let k = this.activeArts.length - 1; k >= 0; k--) {
+                  if (this.activeArts[k]) { } else { continue }
+                  if (this.activeArts[k].knockShield == 1) {
+                    // this.activeArts.splice(k, 1)
+                    continue
+                  }
+                }
+                if (player.activeArts[t].collide == 1) {
+                  player.activeArts[t].color = "transparent"
+                // let json = {}
+                // json.spliceflag = 1
+                // json.objectid = player.activeArts[t].id
+                // json.playerid = player.id
+                // logBinarySize(JSON.stringify(json))
+                // ws.send(JSON.stringify(json))
+                //   player.activeArts.splice(t, 1)
+                  continue
+                }
+                if (player.activeArts[t].grab == 1) {
+                  // player.activeArts[t].maxDis = player.activeArts[t].radius - 1
+                  // player.activeArts[t].grab = 0
+                }
+
+                continue
+              }
+              if (player.activeArts[t].line == 1) {
+              }
+              if (player.activeArts[t].grab == 1) {
+                // player.activeArts[t].grab = 0
+                // player.mana += player.maxmana / 8
+                // this.rooted = 10
+                // this.root = player.activeArts[t].k
+                // this.goto = player.body
+                // player.activeArts[t].maxDis = player.activeArts[t].radius - 1
+              }
+              if (player.activeArts[t].slow <= 1) {
+                this.slowedByFloor *= player.activeArts[t].slow
+              }
+              if (this.team.top != player.team.top) {
+                if (this.send == 1) {
+                  if (((player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor) > 0) {
+                    // this.health -= (player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor
+                  } else if (player.activeArts[t].healshock == 1) {
+                    // this.health += (player.activeArts[t].damage * player.gaerboosts.damage) / this.gaerboosts.armor
+                  }
+                }
+                if (this.health <= 0) {
+                  // let pop = new DeathPop(this.body.x, this.body.y, '')
+                  // worldpops.push(pop)
+                }
+              } else {
+                if (this.send == 1) {
+                  if ((player.activeArts[t].damage * player.gaerboosts.damage) <= 0) {
+                    // this.health -= (player.activeArts[t].damage * player.gaerboosts.damage)
+                  }
+                }
+              }
+
+              if (this.health <= 0) {
+                // player.gold += this.reward(player)
+                // player.goldtotal += this.reward(player)
+              }
+
+              if (player.activeArts[t].emptyOut == 1) {
+                // player.activeArts[t].damage = 0
+              }
+              if (player.activeArts[t].collide == 1) {
+
+                if (player.activeArts[t].pop == 1) {
+                  // let angle = 0
+                  // for (let p = 0; p < player.activeArts[t].poprays; p++) {
+                  //   let ojb = new Circle(player.activeArts[t].x, player.activeArts[t].y, player.activeArts[t].popradius, player.activeArts[t].popcolor, Math.cos(angle) * player.activeArts[t].poprate, Math.sin(angle) * player.activeArts[t].poprate)
+                  //   ojb.life = player.activeArts[t].poplife
+                  //   ojb.damage = player.activeArts[t].popdam
+                  //   ojb.collide = 1
+                  //   ojb.id = player.activeArts[t].id + 1 + p
+
+                  //   angle += (Math.PI * 2) / player.activeArts[t].poprays
+                  //   ojb.name = "Circle"
+                  //   player.activeArts.push(ojb)
+                  // }
+                }
+
+                // let json = {}
+                // json.spliceflag = 1
+                // json.objectid = player.activeArts[t].id
+                // json.playerid = player.id
+                // logBinarySize(JSON.stringify(json))
+                // ws.send(JSON.stringify(json))
+                // player.activeArts.splice(t, 1)
                 continue
               }
             }
@@ -7755,7 +7876,29 @@
             if (guy.activeArts[s]) { } else { continue }
             list.push(guy.activeArts[s].id)
           }
+
+          let z = guy.activeArts[list.indexOf(JSON.parse(data).objectid)]
+
+          if (z.pop == 1) {
+                  let angle = 0
+                  for (let p = 0; p < z.poprays; p++) {
+                    let ojb = new Circle(z.x, z.y, z.popradius, z.popcolor, Math.cos(angle) * z.poprate, Math.sin(angle) * z.poprate)
+                    ojb.life = z.poplife
+                    ojb.damage = z.popdam
+                    ojb.collide = 1
+                    ojb.id = z.id + 1 + p
+
+                    angle += (Math.PI * 2) / z.poprays
+                    ojb.name = "Circle"
+                    player.activeArts.push(ojb)
+                  }
+                }
+
+
           guy.activeArts.splice(list.indexOf(JSON.parse(data).objectid), 1)
+
+
+
 
 
         } else if (JSON.parse(data).smackupbase >= 0) {
@@ -9083,6 +9226,13 @@
             // if ((t != k)) {
             players[t].collide(players[k])
             // }
+          }
+        }
+      }
+      for (let t = 0; t < players.length; t++) {
+        if (players[t].send != 1) {
+          for (let k = 0; k < players.length; k++) {
+            players[t].fakecollide(players[k])
           }
         }
       }
