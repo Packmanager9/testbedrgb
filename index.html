@@ -3431,6 +3431,8 @@
       }
     }
 
+    
+
     let gearItems = []
 
     for (let t = 0; t < 46; t++) {
@@ -4664,6 +4666,7 @@
                 json.bodid = this.activeArts[t].bodid
                 json.artid = this.activeArts[t].id
                 json.tip = this.activeArts[t].tip
+                json.song = this.activeArts[t].song
                 if (this.activeArts[t].shielded != 1) {
                   json.shield = this.activeArts[t].shield
                   this.activeArts[t].shielded = 1
@@ -5231,6 +5234,22 @@
         }
 
 
+      }
+      sing(){
+        
+        for (let t = this.activeArts.length - 1; t >= 0; t--) {
+          if(this.activeArts[t].song && this.activeArts[t].played != 1){
+            this.activeArts[t].played = 1
+            let aud = new Audio()
+            aud.src = `https://ditzbitz.com/`+this.activeArts[t].song
+            let packaud = {}
+            packaud.song = aud
+            packaud.id = this.id
+            packaud.go = 0
+            packaud.point = new Point(this.x, this.y)
+            songs.push(packaud)
+          }
+        }
       }
       collide(player) {
         if (player.id == this.id) {
@@ -7576,7 +7595,7 @@
           } else {
             self.mana -= manaCost
           }
-          let lifeLength = 60
+          let lifeLength = 60 
           let dx = new Circle(self.body.x, self.body.y, 150, "#FF00FF88")
           dx.life = lifeLength
           dx.update = 1
@@ -7585,6 +7604,7 @@
           dx.bod = 1
           dx.bodi = 1
           dx.bodid = self.id
+          dx.song = "psysnap.mp3"
           // dx.anchorToPlayer = 1
           dx.solar = 1
           dx.guyIndex = players.indexOf(self)
@@ -7602,6 +7622,7 @@
           let lifeLength = 100
           let d = new Circle(x, y, 10, "magenta")
           d.echo = 1
+          d.song = "psysnap.mp3"
           d.growth = 1
           d.life = lifeLength
           d.bodo = 1
@@ -8015,6 +8036,7 @@
                 box.name = (JSON.parse(data).name)
                 box.bodid = (JSON.parse(data).bodid)
                 box.solar = (JSON.parse(data).solar)
+                box.song = (JSON.parse(data).song)
                 box.tip = (JSON.parse(data).tip)
                 ////////////////////////////////console.log(box)
                 box.track = guy.body
@@ -8029,6 +8051,7 @@
                   box.root = new Circle(JSON.parse(JSON.parse(data).mouse).x, JSON.parse(JSON.parse(data).mouse).y)
                   ////////////////////////////////////console.log(box)
                 }
+
                 if (box.solar == 1) {
                   box.guyIndex = champids.indexOf(JSON.parse(data).champid)
                   //////console.log(box.guyIndex)
@@ -8087,6 +8110,7 @@
                 box.bodo = (JSON.parse(data).bodo)
                 box.name = (JSON.parse(data).name)
                 box.solar = (JSON.parse(data).solar)
+                box.song = (JSON.parse(data).song)
                 ////////////////////////////////console.log(box)
                 box.bodid = (JSON.parse(data).bodid)
                 box.tip = (JSON.parse(data).tip)
@@ -8753,8 +8777,24 @@
     let matchStart = 0
 
     let scaler = 1
+    let songs = []
+
 
     function main() {
+      for(let t = 0;t<songs.length;t++){
+        if(songs[t].go == 0){
+          let vol = 1
+          let g = players[champids.indexOf(songs[t].id)]
+          let link = new LineOP(g.body, players[0].body)
+          vol -= link.hypotenuse()/2700
+          if(vol < .05){
+            vol = .05
+          }
+          songs[t].go = 1
+          songs[t].song.volume = vol
+          songs[t].song.play()
+        }
+      }
       if (keysPressed["Escape"]) {
         teammaker = -1
         guymaker = -1
@@ -9240,6 +9280,10 @@
             players[t].fakecollide(players[k])
           }
         }
+      }
+
+      for (let t = 0; t < players.length; t++) {
+        players[t].sing()
       }
       let arenaField = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width * .5) - 360, "red")
       let arenaField2 = new Circle(wodmap.width * .5, wodmap.height * .5, (wodmap.width) - 360, "red")
