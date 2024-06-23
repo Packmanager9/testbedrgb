@@ -2178,6 +2178,7 @@
         this.radius = 30
         this.local = 1
         this.solar = 1
+        this.song = "slughorns.wav"
         this.id = Math.floor(Math.random() * 9000000)
       }
 
@@ -2362,6 +2363,7 @@
         this.solar = 1
         this.radius = 30
         this.local = 1
+        this.song = "slughorns.wav"
         this.moveAngle = 1
         this.id = Math.floor(Math.random() * 9000000)
       }
@@ -2613,6 +2615,7 @@
         this.color = color
         this.radius = 200
         this.local = 1
+        this.song = "psysnap.mp3"
         this.solar = 1
         this.moveAngle = 0
         this.id = Math.floor(Math.random() * 9000000)
@@ -2721,6 +2724,7 @@
         this.radius = 200
         this.local = 1
         this.solar = 1
+        this.song = "psysnap.mp3"
         this.moveAngle = 0
         this.id = Math.floor(Math.random() * 9000000)
       }
@@ -2805,6 +2809,7 @@
         this.radius = 200
         this.local = 1
         this.solar = 1
+        this.song = "slughorns.wav"
         this.moveAngle = 0
         this.id = Math.floor(Math.random() * 9000000)
       }
@@ -3019,6 +3024,7 @@
         this.radius = length
         this.local = 1
         this.solar = 1
+        this.song = "slughorns.wav"
         this.moveAngle = 1
         this.id = Math.floor(Math.random() * 9000000)
       }
@@ -3184,6 +3190,7 @@
         this.solar = 1
         this.radius = length
         this.local = 1
+        this.song = "meleehit.wav"
         this.id = Math.floor(Math.random() * 9000000)
       }
 
@@ -6124,6 +6131,13 @@
         champids.push(guy2z.id)
         champtimes.push(2000000000)
         self.cooldowns[0] = 180
+
+          
+        let shocher = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shocher.life = 3
+        shocher.song = "shoot.wav"
+        self.activeArts.push(shocher)
+
       }
       unitmeleeChamp(self, target) {
         let l = new LineOP(self.body, target.body)
@@ -6220,7 +6234,11 @@
         canvas_context.translate(-(players[0].body.x - 640), -(players[0].body.y - 360));
         translator.x = -(players[0].body.x - 640)
         translator.y = -(players[0].body.y - 360)
-
+        
+        let shocher = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shocher.life = 3
+        shocher.song = "rush.mp3"
+        self.activeArts.push(shocher)
 
         self.cooldowns[3] = 60
       }
@@ -6247,6 +6265,7 @@
           shocher.damage = 12
           shocher.update = 1
           shocher.pop = 1
+          shocher.song = "slugdrop.wav"
           shocher.popdam = 4
           shocher.poprays = 5
           shocher.poprate = 10
@@ -6347,6 +6366,11 @@
         }
 
         self.cooldowns[2] = 1 * 300
+
+        let shocher = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shocher.life = 3
+        shocher.song = "shield.wav"
+        self.activeArts.push(shocher)
       }
       psychosolar(self, x, y) {
         let manaCost = 100
@@ -6440,6 +6464,7 @@
         let shocher = new Circle(self.body.x, self.body.y, 25, "yellow", Math.cos(l.angle()) * -2 * 12, Math.sin(l.angle()) * -2 * 12)
         shocher.growth = 1
         // shocher.root = self.body
+        shocher.song = "bananayoyo.mp3"
         shocher.life = lifeLength
         shocher.slow = .5
         shocher.reverse = 1
@@ -6475,6 +6500,7 @@
         shocher.life = lifeLength
         shocher.slow = .5
         shocher.reverse = 1
+        shocher.song = "bananayoyo.mp3"
         shocher.collide = 0
         shocher.damage = 20
         shocher.update = 1
@@ -6507,6 +6533,10 @@
           d.echo = 1
           d.life = lifeLength
           d.growth = 1.001
+          if(t == 10){
+
+          d.song = "bananacurve.mp3"
+          }
           // d.root = TIP_engine
           d.maxDis = 3000
           d.update = 1
@@ -6564,6 +6594,9 @@
           d.popradius = 5
           d.popcolor = "yellow"
           d.poplife = 10
+          if(t == 3){
+          d.song = "bananacurve.mp3"
+          }
           // distance += 3-(t/30)
           angle += Math.PI / 2
           // if (t % 5 == 0) {
@@ -6600,6 +6633,9 @@
           d.collide = 1
           d.damage = .8
           d.pop = 1
+          if(d == 10){
+            d.song = "bananacurve.mp3"
+          }
           // d.sendEveryFrame = 1
           d.popdam = 3
           d.poprays = 4
@@ -6646,6 +6682,9 @@
           d.collide = 0
           d.damage = .1
           d.pop = 2
+          if(t == 2){
+            d.song = "bananacurve.mp3"
+          }
           // d.sendEveryFrame = 1
           d.popdam = 0
           d.poprays = 4
@@ -6687,6 +6726,10 @@
           d.growth = .99
           // d.root = TIP_engine
           d.maxDis = 3000
+          if(t == 10){
+
+          d.song = "bananacurve.mp3"
+          }
           d.update = 1
           d.slow = .5
           d.collide = 1
@@ -6728,6 +6771,7 @@
         shocher.damage = 155
         shocher.update = 1
         shocher.pop = 1
+        shocher.song = "shoot.wav"
         shocher.popdam = 15
         shocher.poprays = 9
         shocher.poprate = 10
@@ -6766,6 +6810,9 @@
           shocher.popradius = 5
           shocher.popcolor = "black"
           shocher.poplife = 10
+          if(t == 1){
+          shocher.song = "shoot.wav"
+          }
           shocher.name = "Circle"
           self.activeArts.push(shocher)
           self.cooldowns[0] = 70 * 2
@@ -6790,6 +6837,7 @@
         shocher.damage = 125
         shocher.update = 1
         shocher.pop = 1
+        shocher.song = "shoot.wav"
         shocher.popdam = 10
         shocher.poprays = 17
         shocher.poprate = 10
@@ -6822,6 +6870,7 @@
         d.update = 1
         // d.tip = 1
         d.name = "TongueSpike"
+        d.song = "shoot.wav"
         self.activeArts.push(d)
         self.cooldowns[1] = 40 * 3
       }
@@ -6842,6 +6891,10 @@
           d.echo = 1
           d.life = lifeLength
           d.growth = .989
+          if(t == 10){
+
+          d.song = "bananacurve.mp3"
+          }
           // d.root = TIP_engine
           d.maxDis = 3000
           d.update = 1
@@ -6871,6 +6924,7 @@
           shocher.life = lifeLength
           shocher.poison = 1
           shocher.damage = 1.45
+          shocher.song = "slugdrop.wav"
           shocher.slow = .85
           // shocher.sendEveryFrame = 1
           shocher.update = 1
@@ -6915,6 +6969,11 @@
         shocher2.update = 1
         self.activeArts.push(shocher2)
         self.cooldowns[2] = 40 * 5
+
+        let shoch2er = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shoch2er.life = 3
+        shoch2er.song = "rush.mp3"
+        self.activeArts.push(shoch2er)
       }
 
 
@@ -6951,6 +7010,11 @@
         shocher2.update = 1
         self.activeArts.push(shocher2)
         self.cooldowns[2] = 40 * 5
+
+        let shochesr = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shochesr.life = 3
+        shochesr.song = "rush.mp3"
+        self.activeArts.push(shochesr)
       }
 
       healthrushing(self) {
@@ -6967,6 +7031,10 @@
         self.boosts.push({ speedDown: 180, dropBy: speedBoost })
         self.drops.push({ dirLock: 180 })
         self.cooldowns[3] = 40 * 4
+        let shocher = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shocher.life = 3
+        shocher.song = "rush.mp3"
+        self.activeArts.push(shocher)
       }
       jetrushing(self) {
 
@@ -7003,6 +7071,11 @@
         shocher2.update = 1
         self.activeArts.push(shocher2)
         self.cooldowns[0] = 30 * 1
+        let sdddd = new Circle(self.body.x, self.body.y, 1,"transparent")
+        sdddd.life = 3
+        sdddd.song = "rush.mp3"
+        self.activeArts.push(sdddd)
+        
       }
       rushing(self) {
         let manaCost = 25
@@ -7017,6 +7090,13 @@
         self.boosts.push({ speedDown: 180, dropBy: speedBoost })
         self.drops.push({ dirLock: 180 })
         self.cooldowns[2] = 40 * 5
+
+        let shocher = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shocher.life = 3
+        shocher.song = "rush.mp3"
+        self.activeArts.push(shocher)
+
+
       }
 
       slugrushing(self) {
@@ -7032,6 +7112,11 @@
         self.boosts.push({ speedDown: 180, dropBy: speedBoost })
         self.drops.push({ dirLock: 180 })
         self.cooldowns[2] = 40 * 6
+        let shocher = new Circle(self.body.x, self.body.y, 1,"transparent")
+        shocher.life = 3
+        shocher.song = "rush.mp3"
+        self.activeArts.push(shocher)
+
       }
       sleeping(self) {
         let manaCost = 0
@@ -7081,6 +7166,7 @@
               shocher.update = 1
               shocher.knockShield = 1
               shocher.shield = 1
+              shocher.song = "shield.wav"
               players[t].activeArts.push(shocher)
               shocher.damage = 0
             }
@@ -7110,6 +7196,7 @@
               shocher.guyIndex = t
               shocher.bod = 1
               shocher.bodi = 1
+              shocher.song = "shield.wav"
               shocher.bodid = players[t].id
               players[t].activeArts.push(shocher)
               shocher.damage = 0
@@ -7149,9 +7236,10 @@
           shocher2.guyIndex = players.indexOf(self)
           shocher2.guyid = self.id
           shocher2.bodi = 1
+          shocher2.song = "psyshock.wav"
           shocher2.bodid = self.id
           self.activeArts.push(shocher2)
-          self.cooldowns[1] = 40 * 6
+          self.cooldowns[1] = 40 * 5
         } else {
           let manaCost = 60
           if (self.mana < manaCost) {
@@ -7183,12 +7271,13 @@
           shocher2.guyIndex = players.indexOf(self)
           shocher2.guyid = self.id
           shocher2.solar = 1
+          shocher2.song = "psyshock.wav"
           shocher2.bod = 1
           shocher2.bodi = 1
           shocher2.bodid = self.id
           // shocher2.anchorToPlayer = 1
           self.activeArts.push(shocher2)
-          self.cooldowns[1] = 40 * 6
+          self.cooldowns[1] = 40 * 5
         }
       }
       shockwaveP(self, x, y) {
@@ -7212,6 +7301,7 @@
         shocher.bodi = 1
         // shocher.anchorToPlayer = 1
         shocher.solar = 1
+          shocher.song = "psyshock.wav"
         shocher.bodid = self.id
         self.activeArts.push(shocher)
         self.cooldowns[3] = 40 * 1
@@ -7237,6 +7327,7 @@
         shocher.healshock = 1
         shocher.slow = .05
         shocher.bod = 1
+          shocher.song = "psyshock.wav"
         shocher.bodi = 1
         // shocher.anchorToPlayer = 1
         shocher.guyIndex = players.indexOf(self)
@@ -7264,6 +7355,7 @@
         d.local = 1
         d.root = TIP_engine
         d.follow = 1
+        d.song = "psysnap.mp3"
         d.update = 1
         d.damage = -2
         self.activeArts.push(d)
@@ -7365,6 +7457,7 @@
         d.life = lifeLength
         d.bodo = 1
         d.maxDis = 300
+        d.song = "psysnap.mp3"
         d.tipo = 1
         d.local = 1
         d.root = TIP_engine
@@ -7469,6 +7562,7 @@
         d.life = lifeLength
         d.line = 1
         d.growth = 1.03
+        d.song = "bananaspin.mp3"
         // d.moveAngle = 1
         d.root = self.body
         d.maxDis = 150
@@ -7495,6 +7589,7 @@
         d.life = lifeLength
         d.bodo = 1
         d.maxDis = 300
+        d.song = "psysnap.mp3"
         d.tipo = 1
         d.local = 1
         d.root = TIP_engine
