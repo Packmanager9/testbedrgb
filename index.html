@@ -7991,7 +7991,9 @@
 
           let guy = players[champids.indexOf(JSON.parse(data).playerid)]
 
-          let m = new Point(JSON.parse(data).x, JSON.parse(data).y)
+          if(guy){
+
+            let m = new Point(JSON.parse(data).x, JSON.parse(data).y)
           let list = []
           for (let s = 0; s < guy.activeArts.length; s++) {
             if (guy.activeArts[s]) { } else { continue }
@@ -8000,7 +8002,8 @@
 
           let z = guy.activeArts[list.indexOf(JSON.parse(data).objectid)]
 
-          if (z.pop == 1) {
+          if(z){
+            if (z.pop == 1) { 
             let angle = 0
             for (let p = 0; p < z.poprays; p++) {
               let ojb = new Circle(m.x, m.y, z.popradius, z.popcolor, Math.cos(angle) * z.poprate, Math.sin(angle) * z.poprate)
@@ -8014,9 +8017,11 @@
               guy.activeArts.push(ojb)
             }
           }
-
-
           guy.activeArts.splice(list.indexOf(JSON.parse(data).objectid), 1)
+          }
+          }
+
+
 
 
 
