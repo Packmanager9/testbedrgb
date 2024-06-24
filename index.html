@@ -2083,74 +2083,74 @@
           trapper = 1
         }
         if (wet == 1) {
-          for (let z = 0; z < 12; z++) {
+          for (let z = 0; z < 8; z++) {
 
             if (trapper == 0) {
 
               let pc1 = l1.crashPoint(circle)
               if (pc1.length > 0) {
                 let l = new LineOP(pc1[0], circle)
-                circle.x -= Math.cos(l.angle()) * 2
-                circle.y -= Math.sin(l.angle()) * 2
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
               }
               let pc2 = l2.crashPoint(circle)
               if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
-                circle.x -= Math.cos(l.angle()) * 2
-                circle.y -= Math.sin(l.angle()) * 2
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
               }
               let pc3 = f1.crashPoint(circle)
               if (pc3.length > 0) {
                 let l = new LineOP(pc3[0], circle)
-                circle.x -= Math.cos(l.angle()) * 2
-                circle.y -= Math.sin(l.angle()) * 2
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
               }
               let pc4 = f2.crashPoint(circle)
               if (pc4.length > 0) {
                 let l = new LineOP(pc4[0], circle)
-                circle.x -= Math.cos(l.angle()) * 2
-                circle.y -= Math.sin(l.angle()) * 2
+                circle.x -= Math.cos(l.angle()) * 3
+                circle.y -= Math.sin(l.angle()) * 3
               }
             } else {
               let pc1 = l1.crashPoint(circle)
               if (pc1.length > 0) {
                 let l = new LineOP(pc1[0], circle)
                 let a = l.angle()
-                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                circle.x -= Math.cos(a) * 2
-                circle.y -= Math.sin(a) * 2
-                //translator.x += Math.cos(a) * 2
-                //translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
               }
               let pc2 = l2.crashPoint(circle)
               if (pc2.length > 0) {
                 let l = new LineOP(pc2[0], circle)
                 let a = l.angle()
-                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                circle.x -= Math.cos(a) * 2
-                circle.y -= Math.sin(a) * 2
-                //translator.x += Math.cos(a) * 2
-                //translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
               }
               let pc3 = f1.crashPoint(circle)
               if (pc3.length > 0) {
                 let l = new LineOP(pc3[0], circle)
                 let a = l.angle()
-                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                circle.x -= Math.cos(a) * 2
-                circle.y -= Math.sin(a) * 2
-                //translator.x += Math.cos(a) * 2
-                //translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
               }
               let pc4 = f2.crashPoint(circle)
               if (pc4.length > 0) {
                 let l = new LineOP(pc4[0], circle)
                 let a = l.angle()
-                //canvas_context.translate(Math.cos(a) * 2, Math.sin(a) * 2)
-                circle.x -= Math.cos(a) * 2
-                circle.y -= Math.sin(a) * 2
-                //translator.x += Math.cos(a) * 2
-                //translator.y += Math.sin(a) * 2
+                //canvas_context.translate(Math.cos(a) * 3, Math.sin(a) * 3)
+                circle.x -= Math.cos(a) * 3
+                circle.y -= Math.sin(a) * 3
+                //translator.x += Math.cos(a) * 3
+                //translator.y += Math.sin(a) * 3
               }
 
             }
@@ -4090,7 +4090,7 @@
           this.mana = 500
         }
         if (type == 10) {
-          this.mana = 650
+          this.mana = 675
         }
         return this.mana
       }
@@ -4132,7 +4132,7 @@
           this.health = 575
         }
         if (type == 10) {
-          this.health = 420
+          this.health = 464
         }
         return this.health
       }
@@ -5954,7 +5954,7 @@
       }
 
 
-      power4(type) {
+      power4(type) { 
         if (type == -1) {
           return this.unitmelee
         }
