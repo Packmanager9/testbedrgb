@@ -5112,8 +5112,14 @@
             if (Math.abs(this.goal.x - this.body.x) + Math.abs(this.goal.y - this.body.y) > 2) {
               for (let t = 0; t < ((((this.speed + this.tempSpeed) * 2) * this.slowedByFloor) * this.gaerboosts.speed); t++) {
                 let as = (new LineOP(this.goal, this.body)).angle()
+                if(this.type == -1){
+
+                  this.body.x += Math.sign(this.goal.x - this.body.x) * .5 + ((Math.cos(as) / 2))
+                this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
+                }else{
                 this.body.x += Math.sign(this.goal.x - this.body.x) * .0 + ((Math.cos(as) / 1))
                 this.body.y += Math.sign(this.goal.y - this.body.y) * .0 + ((Math.sin(as) / 1))
+                }
                 if (this.selected == 1 && players.indexOf(this) == 0) {
                   // let as = (new LineOP(this.goal, this.body)).angle()
                   //canvas_context.translate(-((Math.sign(this.goal.x - this.body.x) * .5) + Math.cos(as) / 2), -((Math.sign(this.goal.y - this.body.y) * .5) + Math.sin(as) / 2))
@@ -5244,6 +5250,7 @@
       }
       sing() {
 
+
         for (let t = this.activeArts.length - 1; t >= 0; t--) {
           if (this.activeArts[t].song && this.activeArts[t].played != 1) {
             this.activeArts[t].played = 1
@@ -5258,7 +5265,7 @@
           }
         }
       }
-      collide(player) {
+      collide(player) { 
         if (player.id == this.id) {
           return
         }
@@ -5269,17 +5276,17 @@
           player.activeArts = []
         }
         let j = 0
+        let li = new LineOP(this.body, player.body)
         while (this.body.doesPerimeterTouch(player.body)) {
           j++
-          if (j > 100) {
+          if (j > 20) {
             break
           }
-          let li = new LineOP(this.body, player.body)
           let la = li.angle()
-          this.body.x += Math.cos(la)
-          this.body.y += Math.sin(la)
-          player.body.x -= Math.cos(la)
-          player.body.y -= Math.sin(la)
+          this.body.x += Math.cos(la)*5
+          this.body.y += Math.sin(la)*5
+          player.body.x -= Math.cos(la)*5
+          player.body.y -= Math.sin(la)*5
           if (player.body == players[0].body) {
 
             //canvas_context.translate(Math.cos(la), Math.sin(la))
@@ -5401,17 +5408,17 @@
           player.activeArts = []
         }
         let j = 0
+        let li = new LineOP(this.body, player.body)
         while (this.body.doesPerimeterTouch(player.body)) {
           j++
-          if (j > 100) {
+          if (j > 20) {
             break
           }
-          let li = new LineOP(this.body, player.body)
           let la = li.angle()
-          this.body.x += Math.cos(la)
-          this.body.y += Math.sin(la)
-          player.body.x -= Math.cos(la)
-          player.body.y -= Math.sin(la)
+          this.body.x += Math.cos(la)*5
+          this.body.y += Math.sin(la)*5
+          player.body.x -= Math.cos(la)*5
+          player.body.y -= Math.sin(la)*5
 
         }
         // if (player.team.top == this.team.top) {
@@ -8893,7 +8900,7 @@
               vol = .05
             }
             songs[t].go = 1
-            songs[t].song.volume = vol
+            songs[t].song.volume = vol/2
             songs[t].song.play()
           }
 
