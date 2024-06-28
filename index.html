@@ -6397,7 +6397,7 @@
         d.anchorToPlayer = 1
         d.maxDis = 100
         d.solar = 1
-        d.damage = 4
+        d.damage = 7 //4
         d.update = 1
         d.name = "PsychoSolar"
         self.activeArts.push(d)
@@ -6615,7 +6615,7 @@
         self.cooldowns[1] = 40 * 7
       }
 
-      jetzone(self, x, y) {
+      jetzone(self, x, y) { 
 
 
         let manaCost = 85
@@ -6638,13 +6638,13 @@
           d.update = 1
           d.slow = .1
           d.collide = 1
-          d.damage = .8
+          d.damage = 10
           d.pop = 1
-          if (d == 10) {
+          if (t == 10) {
             d.song = "bananacurve.mp3"
           }
           // d.sendEveryFrame = 1
-          d.popdam = 3
+          d.popdam = 5
           d.poprays = 4
           d.poprate = 5
           d.popradius = 10
