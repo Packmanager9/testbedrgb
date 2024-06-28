@@ -20,6 +20,7 @@
         t += 9
       }
     }
+    let autobalance = 0
     let gotoflag = 0
     let worlddor = {}
     let toolpoint = {}
@@ -1359,9 +1360,9 @@
             if (team0.isPointInside(TIP_engine)) {
               teammaker = 0
             }
-            if (team1.isPointInside(TIP_engine)) {
-              teammaker = 1
-            }
+            // if (team1.isPointInside(TIP_engine)) {
+            //   teammaker = 1
+            // }
           }
         }
 
@@ -5112,13 +5113,13 @@
             if (Math.abs(this.goal.x - this.body.x) + Math.abs(this.goal.y - this.body.y) > 2) {
               for (let t = 0; t < ((((this.speed + this.tempSpeed) * 2) * this.slowedByFloor) * this.gaerboosts.speed); t++) {
                 let as = (new LineOP(this.goal, this.body)).angle()
-                if(this.type == -1){
+                if (this.type == -1) {
 
                   this.body.x += Math.sign(this.goal.x - this.body.x) * .5 + ((Math.cos(as) / 2))
-                this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
-                }else{
-                this.body.x += Math.sign(this.goal.x - this.body.x) * .0 + ((Math.cos(as) / 1))
-                this.body.y += Math.sign(this.goal.y - this.body.y) * .0 + ((Math.sin(as) / 1))
+                  this.body.y += Math.sign(this.goal.y - this.body.y) * .5 + ((Math.sin(as) / 2))
+                } else {
+                  this.body.x += Math.sign(this.goal.x - this.body.x) * .0 + ((Math.cos(as) / 1))
+                  this.body.y += Math.sign(this.goal.y - this.body.y) * .0 + ((Math.sin(as) / 1))
                 }
                 if (this.selected == 1 && players.indexOf(this) == 0) {
                   // let as = (new LineOP(this.goal, this.body)).angle()
@@ -5265,7 +5266,7 @@
           }
         }
       }
-      collide(player) { 
+      collide(player) {
         if (player.id == this.id) {
           return
         }
@@ -5283,10 +5284,10 @@
             break
           }
           let la = li.angle()
-          this.body.x += Math.cos(la)*5
-          this.body.y += Math.sin(la)*5
-          player.body.x -= Math.cos(la)*5
-          player.body.y -= Math.sin(la)*5
+          this.body.x += Math.cos(la) * 5
+          this.body.y += Math.sin(la) * 5
+          player.body.x -= Math.cos(la) * 5
+          player.body.y -= Math.sin(la) * 5
           if (player.body == players[0].body) {
 
             //canvas_context.translate(Math.cos(la), Math.sin(la))
@@ -5415,10 +5416,10 @@
             break
           }
           let la = li.angle()
-          this.body.x += Math.cos(la)*5
-          this.body.y += Math.sin(la)*5
-          player.body.x -= Math.cos(la)*5
-          player.body.y -= Math.sin(la)*5
+          this.body.x += Math.cos(la) * 5
+          this.body.y += Math.sin(la) * 5
+          player.body.x -= Math.cos(la) * 5
+          player.body.y -= Math.sin(la) * 5
 
         }
         // if (player.team.top == this.team.top) {
@@ -5600,6 +5601,7 @@
                     let json = {}
                     json.smackupbase = teams.indexOf(target)
                     json.dam = 10
+                    json.affiliation = this.team.top
                     if (json.smackupbase == 0) {
                       ////////////////console.log("t")
                     } else {
@@ -5961,7 +5963,7 @@
       }
 
 
-      power4(type) { 
+      power4(type) {
         if (type == -1) {
           return this.unitmelee
         }
@@ -6615,7 +6617,7 @@
         self.cooldowns[1] = 40 * 7
       }
 
-      jetzone(self, x, y) { 
+      jetzone(self, x, y) {
 
 
         let manaCost = 85
@@ -7986,14 +7988,21 @@
           }
         }
         if (JSON.parse(data).roomData == 1 || JSON.parse(data).roomQuery == 1) {
-          return
+
         } else {
+          if (JSON.parse(data).autobalance >= 0) {
+            autobalance = 1
+            console.log("hit")
+            return
+          }
           matchStart = 1
         }
+
+
+
         //////////////////////////////////////////////////////////console.log(data)
         // if (!(JSON.parse(data).flies > 0)) {
         //////////////////////////////////////////////////////////console.log("hit")
-
         if (JSON.parse(data).spliceflag >= 0) {
 
           let guy = players[champids.indexOf(JSON.parse(data).playerid)]
@@ -8036,10 +8045,14 @@
 
         } else if (JSON.parse(data).smackupbase >= 0) {
 
+          let top = JSON.parse(data).affiliation
           teams[0].health -= 10
           if (teams[0].health <= 0) {
             worldstop = 1
-            youLost = 1
+            if (teams[0].top != top) {
+              youLost = 1
+
+            }
           }
 
         } else if (JSON.parse(data).rewardid >= 0) {
@@ -8620,7 +8633,7 @@
         json.connecting = 1
         logBinarySize(JSON.stringify(json))
         ws.send(JSON.stringify(json))
-      }, 2000)
+      }, 3000)
       // })
 
     }
@@ -8857,6 +8870,15 @@
         walls[t].track.y *= 2
         walls[t].radius *= 2
       }
+
+
+      let json = {}
+      json.team = teammaker
+      json.teamflag = 1
+      logBinarySize(JSON.stringify(json))
+      ws.send(JSON.stringify(json))
+
+
     }
 
     let respawn = 0
@@ -8887,7 +8909,166 @@
     let songs = []
 
 
+    function balanceWorld(teammakerDrop) {
+      teammakerDrop = (teammakerz-1)*-1
+      teammakerz = (teammakerz-1)*-1
+      topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "#00ff00") }
+      botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
+
+      storeUI1 = new StoreUI(topTeam)
+      storeUI2 = new StoreUI(botTeam)
+
+
+
+      wet = 0
+      spawner = 2
+      if (Math.random() < teammakerDrop) {
+        spawner = 1
+        wet = 1
+      }
+
+
+
+      // topTeam.health = 100
+      // botTeam.health = 100
+      botTeam.reward = genericReward
+      // topTeam.maxhealth = topTeam.health
+      // botTeam.maxhealth = botTeam.health
+      topTeam.reward = genericReward
+
+      teams = [topTeam, botTeam]
+      if (wet == 1) {
+        teams = [teams[1], teams[0]]
+      }
+
+
+      missileaneous = new Champ(guymaker, teams[0])
+      players[0].body.x= missileaneous.body.x
+      players[0].body.y= missileaneous.body.y
+      players[0].send = 1
+      players[0].team = missileaneous.team
+
+      if (wet == 1) {
+        players[0].body.x += 850 * 2
+        players[0].body.y += 1050 * 2
+        //canvas_context.translate(-850 * 2, -1050 * 2)
+        //translator.x -= 850 * 2
+        //translator.y -= 1050 * 2
+        // missileaneous.team.top = 0
+        // missileaneous.team.bot = 1
+        // missileaneous.team.top = 1
+        // missileaneous.team.bot = 0
+      }
+      // champtimes = []
+      // champids = []
+      // sluggernaut = new Champ(1, topTeam)
+      // psybean = new Champ(0, topTeam)
+      // pomao = new Champ(2, topTeam)
+      // guy = new Champ(-1, topTeam)
+      // guy2 = new Champ(-1, botTeam)
+      // guy2.body.x = 1920 * 2
+      // guy2.body.y = 1970 * 2
+      // players = [missileaneous]
+      // champids.push(missileaneous.id)
+      // champtimes.push(2000000000)
+
+      // // champids.push(guy.id)
+      // // champids.push(guy2.id)
+      // walls = []
+      // xWallRight1 = new WallSpike(new Point(1358, 858), 200, 0, "red")
+      // xWallLeft1 = new WallSpike(new Point(1358, 858), 200, Math.PI, "red")
+      // walls.push(xWallRight1)
+      // walls.push(xWallLeft1)
+      // xWallRight2 = new WallSpike(new Point(816, 1340), 200, 0, "red")
+      // xWallLeft2 = new WallSpike(new Point(816, 1340), 200, Math.PI, "red")
+      // walls.push(xWallRight2)
+      // walls.push(xWallLeft2)
+      // xWallRight3 = new WallSpike(new Point(1832, 1388), 200, 0, "red")
+      // xWallLeft3 = new WallSpike(new Point(1832, 1388), 200, Math.PI, "red")
+      // walls.push(xWallRight3)
+      // walls.push(xWallLeft3)
+      // xWallRight4 = new WallSpike(new Point(1288, 1872), 200, 0, "red")
+      // xWallLeft4 = new WallSpike(new Point(1288, 1872), 200, Math.PI, "red")
+      // walls.push(xWallRight4)
+      // walls.push(xWallLeft4)
+
+
+      // let zWallTop1 = new WallSpike(new Point(1372, 348), 215 * 1.75, Math.PI + (Math.PI * .5), "pink")
+      // walls.push(zWallTop1)
+      // let zWallTop2 = new WallSpike(new Point(1884, 384), 215 * 1.75, Math.PI + (Math.PI * .5), "magenta")
+      // walls.push(zWallTop2)
+      // let zWallTop3 = new WallSpike(new Point(874, 332), 215 * 1.75, Math.PI + (Math.PI * .5), "gray")
+      // walls.push(zWallTop3)
+
+
+      // let yWallBottom1 = new WallSpike(new Point(337, 800), 215 * 1.75, Math.PI + .075, "green")
+      // walls.push(yWallBottom1)
+      // let yWallBottom2 = new WallSpike(new Point(306, 1308), 215 * 1.75, Math.PI + .075, "yellow")
+      // walls.push(yWallBottom2)
+      // let yWallBottom3 = new WallSpike(new Point(288, 1812), 215 * 1.75, Math.PI + .015, "purple")
+      // walls.push(yWallBottom3)
+
+
+
+      // let wWallRight1 = new WallSpike(new Point(2364, 908), 215 * 1.75, 0 + .015, "red")
+      // walls.push(wWallRight1)
+      // let wWallRight2 = new WallSpike(new Point(2344, 1422), 215 * 1.75, 0 + .075, "orange")
+      // walls.push(wWallRight2)
+      // let wWallRight3 = new WallSpike(new Point(2304, 1938), 215 * 1.75, 0 + .075, "white")
+      // walls.push(wWallRight3)
+
+
+      // let qWallRight1 = new WallSpike(new Point(760, 2350), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "chartreuse")
+      // walls.push(qWallRight1)
+      // let qWallRight2 = new WallSpike(new Point(1270, 2370), 215 * 1.75, Math.PI - (Math.PI * .5) + .075, "cyan")
+      // walls.push(qWallRight2)
+      // let qWallRight3 = new WallSpike(new Point(1770, 2410), 215 * 1.75, Math.PI - (Math.PI * .52) + .075, "blue")
+      // walls.push(qWallRight3)
+
+      // for (t = 0; t < walls.length; t++) {
+      //   walls[t].track.x *= 2
+      //   walls[t].track.y *= 2
+      //   walls[t].radius *= 2
+      // }
+
+
+      // let json = {}
+      // json.team = teammaker
+      // json.teamflag = 1
+      // logBinarySize(JSON.stringify(json))
+      // ws.send(JSON.stringify(json))
+
+
+    }
+
+
     function main() {
+      if(autobalance == 1){
+        balanceWorld("")
+        autobalance = 0
+        console.log("s")
+      }
+
+      let hasseeh = {}
+
+      for (let t = players.length - 1; t >= 0; t--) {
+        if (!players[t]) {
+          players.splice(t, 1)
+          champids.splice(t, 1)
+          champtimes.splice(t, 1)
+        }else{
+          if(hasseeh[players[t].id] == 1){
+          players.splice(t, 1)
+          champids.splice(t, 1)
+          champtimes.splice(t, 1)
+          }else{
+            hasseeh[players[t].id]  = 1
+          }
+        }
+      }
+
+
+
       for (let t = 0; t < songs.length; t++) {
         if (songs[t].go == 0) {
           let vol = 1
@@ -8900,7 +9081,7 @@
               vol = .05
             }
             songs[t].go = 1
-            songs[t].song.volume = vol/2
+            songs[t].song.volume = vol / 2
             songs[t].song.play()
           }
 
@@ -8966,7 +9147,7 @@
         //translator.y = 0
         if (guymaker >= 0) {
           team0.draw()
-          team1.draw()
+          // team1.draw()
         }
         // lobbyUp.draw()
         // lobbyDown.draw()
@@ -9085,6 +9266,19 @@
           canvas_context.fillText("Melee - Melee on command", 750, 300)
         }
 
+
+        // canvas_context.font = "20px comic sans ms"
+        //   canvas_context.fillText("Please", 480, 500)
+        //   canvas_context.font = "18px comic sans ms"
+        //   canvas_context.fillText("Abilities:", 480, 520)
+        //   canvas_context.fillText("Rocket Rush - Speed up and leave dust", 480, 540)
+        //   canvas_context.fillText("Defining Ring - A fight zone", 480, 560)
+        //   canvas_context.fillText("Boom Rush - Speed up and leave a slick", 480, 580)
+        //   canvas_context.fillText("Melee - Melee on command", 480, 600)
+
+
+
+
         canvas_context.drawImage(i1, 0, 0, 64, 64, butguy1.x, butguy1.y, butguy1.width, butguy1.height)
         canvas_context.drawImage(i2, 0, 0, 64, 64, butguy2.x, butguy2.y, butguy2.width, butguy2.height)
         canvas_context.drawImage(i3, 0, 0, 64, 64, butguy3.x, butguy3.y, butguy3.width, butguy3.height)
@@ -9100,8 +9294,8 @@
         canvas_context.fillStyle = "black"
         canvas_context.font = "30px comic sans ms"
         if (guymaker >= 0) {
-          canvas_context.fillText("green team", 50, 50)
-          canvas_context.fillText("red team", 1280 - 450, 50)
+          canvas_context.fillText("Join Game", 50, 50)
+          // canvas_context.fillText("red team", 1280 - 450, 50)
         } else {
           canvas_context.fillStyle = "white"
           canvas_context.font = "30px comic sans ms"
@@ -9380,7 +9574,9 @@
           for (let k = 0; k < players.length; k++) {
             // if (players[k]) { } else { continue }
             // if ((t != k)) {
-            players[t].collide(players[k])
+            // if (players[k].send != 1) {
+              players[t].collide(players[k])
+            // }
             // }
           }
         }
@@ -9388,7 +9584,9 @@
       for (let t = 0; t < players.length; t++) {
         if (players[t].send != 1) {
           for (let k = 0; k < players.length; k++) {
-            players[t].fakecollide(players[k])
+            // if (players[k].send == 1) {
+              players[t].fakecollide(players[k])
+            // }
           }
         }
       }

@@ -167,6 +167,38 @@ class Game {
         this.players = []
         this.occupied = 0
     }
+    calculateBalance(){
+        let countTeam1 = 0
+        let countTeam2 = 0
+        for(let t= 0;t<this.players.length;t++){
+            if(this.players[t].team == 1){
+                countTeam1++
+            }else if(this.players[t].team == 0){
+                countTeam2++
+            }
+        }
+        if(countTeam1 > countTeam2){
+            for(let t= 0;t<this.players.length;t++){
+                if(this.players[t].team == 1){
+                    let json = {}
+                    this.players[t].team = 0
+                    json.autobalance = 1
+                    this.players[t].send(JSON.stringify(json))
+                    return
+                }
+            }
+        }else if(countTeam1 < countTeam2){
+            for(let t= 0;t<this.players.length;t++){
+                if(this.players[t].team == 0){
+                    let json = {}
+                    this.players[t].team = 1
+                    json.autobalance = 1
+                    this.players[t].send(JSON.stringify(json))
+                    return
+                }
+            }
+        }
+    }
     removePlayer(player) {
         this.players.splice(this.players.indexOf(player), 1)
         if (this.players.length == 0) {
@@ -264,6 +296,14 @@ wss.on("connection", ws => {
     ws.on("message", data => {
     
         // console.log(data)
+        if(JSON.parse(data).teamflag == 1){
+            ws.team = JSON.parse(data).team 
+            games[ws.assigned].calculateBalance()
+            // games[ws.assigned].players[games[ws.assigned].players.indexOf(ws)].team = 
+            return
+        }
+
+
 
         if(JSON.parse(data).roomQuery == 1){
 
