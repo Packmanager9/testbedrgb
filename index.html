@@ -9071,7 +9071,7 @@
 
       for (let t = songs.length-1; t>=0;t--) {
         if (songs[t].go >= 250) {
-          songs[t].splice(t,1)
+          songs.splice(t,1)
         }
       }
       for (let t = 0; t < songs.length; t++) {
