@@ -8912,11 +8912,11 @@
     function balanceWorld(teammakerDrop) {
       teammakerDrop = (teammakerz-1)*-1
       teammakerz = (teammakerz-1)*-1
-      topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "#00ff00") }
-      botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
+      // topTeam = { bot: 0, top: 1, players: [], body: new Circle(720 * 2, 720 * 2, 20, "#00ff00") }
+      // botTeam = { bot: 1, top: 0, players: [], body: new Circle(720 * 5.5, 720 * 5.5, 20, "red") }
 
-      storeUI1 = new StoreUI(topTeam)
-      storeUI2 = new StoreUI(botTeam)
+      // storeUI1 = new StoreUI(topTeam)
+      // storeUI2 = new StoreUI(botTeam)
 
 
 
@@ -8931,10 +8931,10 @@
 
       // topTeam.health = 100
       // botTeam.health = 100
-      botTeam.reward = genericReward
+      // botTeam.reward = genericReward
       // topTeam.maxhealth = topTeam.health
       // botTeam.maxhealth = botTeam.health
-      topTeam.reward = genericReward
+      // topTeam.reward = genericReward
 
       teams = [topTeam, botTeam]
       if (wet == 1) {
@@ -9069,6 +9069,11 @@
 
 
 
+      for (let t = songs.length-1; t>=0;t--) {
+        if (songs[t].go >= 250) {
+          songs[t].splice(t,1)
+        }
+      }
       for (let t = 0; t < songs.length; t++) {
         if (songs[t].go == 0) {
           let vol = 1
@@ -9082,9 +9087,11 @@
             }
             songs[t].go = 1
             songs[t].song.volume = vol / 2
-            songs[t].song.play()
+            songs[t].song.play() 
           }
 
+        }else{
+          songs[t].go+=1
         }
       }
       if (keysPressed["Escape"]) {
