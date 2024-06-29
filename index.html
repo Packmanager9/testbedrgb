@@ -3547,8 +3547,8 @@
               tool.lines.push("Damage: " + "0" + "%")
               tool.lines.push("Armor: " + "10" + "%")
               tool.lines.push("Speed: " + "5" + "%")
-              tool.lines.push("Healthregen: " + "100" + "%")
-              tool.lines.push("Manaregen: " + "100" + "%")
+              tool.lines.push("Healthregen: " + "75" + "%")
+              tool.lines.push("Manaregen: " + "75" + "%")
               return tool
             }
             // }
@@ -3575,8 +3575,8 @@
         }
         if (this.type == 0) {
           this.name = "Whumpump Tooth"
-          this.speed = 1.05
-          this.damage = 1.025
+          this.speed = 1.025
+          this.damage = 1.4
         }
         if (this.type == 1) {
           this.name = "Wrench Toast"
@@ -3592,10 +3592,10 @@
         }
         if (this.type == 3) {
           this.name = "Vitality Vestments"
-          this.healthregen = 2
+          this.healthregen = 1.75
           this.speed = 1.05
           this.armor = 1.1
-          this.manaregen = 2
+          this.manaregen = 1.75
         }
         // this.reset()
         this.balance()
@@ -4198,7 +4198,7 @@
           this.healthRegen = 1 / 100
         }
         if (type == 5) {
-          this.healthRegen = 13 / 100
+          this.healthRegen = 13 / 100 
         }
         if (type == 6) {
           this.healthRegen = 7 / 100
@@ -4279,7 +4279,7 @@
           this.speed = 2.5
         }
         if (type == 5) {
-          this.speed = 1.8
+          this.speed = 2.8 
         }
         if (type == 6) {
           this.speed = 4.2
@@ -7302,7 +7302,7 @@
         shocher.root = self.body
         shocher.life = lifeLength
         shocher.update = 1
-        shocher.damage = 25
+        shocher.damage = 22
         shocher.slow = .05
         shocher.bod = 1
         shocher.guyIndex = players.indexOf(self)
@@ -7313,7 +7313,7 @@
         shocher.song = "psyshock.wav"
         shocher.bodid = self.id
         self.activeArts.push(shocher)
-        self.cooldowns[3] = 40 * 1
+        self.cooldowns[3] = 40 * 3
       }
 
       manazone(self, x, y) {
@@ -7366,7 +7366,7 @@
         d.follow = 1
         d.song = "psysnap.mp3"
         d.update = 1
-        d.damage = -2
+        d.damage = -4
         self.activeArts.push(d)
         let dx = new Circle(self.body.x, self.body.y, 10, "#00ff00")
         dx.echo = 1
@@ -7377,7 +7377,7 @@
         dx.bodi = 1
         dx.bodid = self.id
         dx.local = 1
-        dx.damage = -2
+        dx.damage = -4
         dx.maxDis = 300
         dx.follow = 1
         // dx.anchorToPlayer = 1
@@ -7400,7 +7400,7 @@
         dxi.guyid = self.id
         // dxi.anchorToPlayer = 1
 
-        dxi.damage = -2
+        dxi.damage = -4
         dxi.growth = 1
         dxi.maxDis = 300
         dxi.follow = 1
@@ -7416,7 +7416,7 @@
         di.follow = 1
         di.bodo = 1
         di.maxDis = 300
-        di.damage = -2
+        di.damage = -4
         di.growth = 1
         self.activeArts.push(di)
         //////////////////////////////console.log(zp)
@@ -7430,7 +7430,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = -2
+          zp.damage = -4
           self.activeArts.push(zp)
           self.cooldowns[0] = 40 * 10
           //////////////////////////////console.log(zp)
@@ -7446,7 +7446,7 @@
         zp.tipo = 1
         zp.follow = 1
         zp.update = 1
-        zp.damage = -2
+        zp.damage = -4
         self.activeArts.push(zp)
         self.cooldowns[0] = 40 * 10
       }
@@ -7472,7 +7472,7 @@
         d.root = TIP_engine
         d.follow = 1
         d.update = 1
-        d.damage = -2
+        d.damage = -4
         self.activeArts.push(d)
         let dx = new Circle(self.body.x, self.body.y, 10, "#ff0000")
         dx.echo = 1
@@ -7483,7 +7483,7 @@
         dx.bodi = 1
         dx.bodid = self.id
         dx.local = 1
-        dx.damage = -2
+        dx.damage = -4
         dx.maxDis = 300
         dx.follow = 1
         // dx.anchorToPlayer = 1
@@ -7506,7 +7506,7 @@
         dxi.guyid = self.id
         // dxi.anchorToPlayer = 1
 
-        dxi.damage = -2
+        dxi.damage = -4
         dxi.growth = 1
         dxi.maxDis = 300
         dxi.follow = 1
@@ -7522,7 +7522,7 @@
         di.follow = 1
         di.bodo = 1
         di.maxDis = 300
-        di.damage = -2
+        di.damage = -4
         di.growth = 1
         self.activeArts.push(di)
         //////////////////////////////console.log(zp)
@@ -7536,7 +7536,7 @@
           zp.tipo = 1
           zp.follow = 1
           zp.update = 1
-          zp.damage = -2
+          zp.damage = -4
           self.activeArts.push(zp)
           //////////////////////////////console.log(zp)
           //////////////////////////////console.log(self.activeArts)
@@ -7551,7 +7551,7 @@
         zp.tipo = 1
         zp.follow = 1
         zp.update = 1
-        zp.damage = -2
+        zp.damage = -4
         self.activeArts.push(zp)
         self.cooldowns[3] = 40 * 7
       }
@@ -9078,7 +9078,6 @@
         if (songs[t].go == 0) {
           let vol = 1
           let g = players[champids.indexOf(songs[t].id)]
-
           if (g) {
             let link = new LineOP(g.body, players[0].body)
             vol -= link.hypotenuse() / 2700
@@ -9094,6 +9093,8 @@
           songs[t].go+=1
         }
       }
+
+      
       if (keysPressed["Escape"]) {
         teammaker = -1
         guymaker = -1
