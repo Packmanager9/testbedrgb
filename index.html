@@ -5255,6 +5255,7 @@
         for (let t = this.activeArts.length - 1; t >= 0; t--) {
           if (this.activeArts[t].song && this.activeArts[t].played != 1) {
             this.activeArts[t].played = 1
+            if(songs.length < 40){
             let aud = new Audio()
             aud.src = `https://ditzbitz.com/` + this.activeArts[t].song
             let packaud = {}
@@ -5263,6 +5264,7 @@
             packaud.go = 0
             packaud.point = new Point(this.x, this.y)
             songs.push(packaud)
+            }
           }
         }
       }
@@ -9070,7 +9072,7 @@
 
 
       for (let t = songs.length-1; t>=0;t--) {
-        if (songs[t].go >= 250) {
+        if (songs[t].go >= 100) {
           songs.splice(t,1)
         }
       }
