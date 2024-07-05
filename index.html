@@ -8013,7 +8013,7 @@
 
         chat.chats.push(JSON.parse(data).text)
         chat.alpha = 1
-        chat.ypointer += 18
+        chat.ypointer += 19
         // chat.c.translate(0, 9)
 
 
@@ -9101,7 +9101,7 @@
             json.message = 1
             json.text = players[0].id + " : "+this.say
             this.chats.push(players[0].id + " : "+ this.say)
-            this.ypointer += 18
+            this.ypointer += 19
             // chat.c.translate(0, 9)
             this.say = ''
             ws.send(JSON.stringify(json))
