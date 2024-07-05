@@ -9104,8 +9104,8 @@
           this.alpha = 1
           this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
-        // canvas_context.resetTransform()
-        // this.c.translate(0, this.ypointer-360)
+        this.c.resetTransform()
+        this.c.translate(0, this.ypointer-360)
         let p = this.ypointer
         this.chats.push("Typing: "+this.say)
         this.c.globalAlpha = this.alpha
@@ -9129,8 +9129,8 @@
 
         this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
-        // canvas_context.resetTransform()
-        // this.c.translate(0, this.ypointer-360)
+        canvas_context.resetTransform()
+        this.c.translate(0, this.ypointer-360)
         let p = this.ypointer
         this.c.globalAlpha = this.alpha
         for(let t =0;t<this.chats.length;t++){
