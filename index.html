@@ -9056,7 +9056,7 @@
       constructor(){
         this.ypointer = 360
         this.canvas = document.createElement('canvas');
-        this.c = canvas.getContext('2d');
+        this.c = this.canvas.getContext('2d');
         this.canvas.width = 720
         this.canvas.height = 14400
         this.chats = []
@@ -9122,9 +9122,9 @@
         if(this.alpha < .5){
           this.alpha = 0
         }
-        canvas_context.globalAlpha = this.alpha
-        canvas_context.drawImage(this.canvas,0,360)
-        canvas_context.globalAlpha = 1
+        // canvas_context.globalAlpha = this.alpha
+        canvas_context.drawImage(this.canvas,0,0)
+        // canvas_context.globalAlpha = 1
         }else{
 
         this.c.font = "18px comic sans ms"
@@ -9145,9 +9145,9 @@
         if(this.alpha < .5){
           this.alpha = 0
         }
-        canvas_context.globalAlpha = this.alpha
-        canvas_context.drawImage(this.canvas,0,360)
-        canvas_context.globalAlpha = 1
+        // canvas_context.globalAlpha = this.alpha
+        canvas_context.drawImage(this.canvas,0,0)
+        // canvas_context.globalAlpha = 1
         }
 
         canvas_context.globalAlpha = 1
