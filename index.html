@@ -9065,7 +9065,9 @@
         this.alpha = 1
         this.say = ''
         this.state = -1
-        document.appendChild(this.canvas)
+        // document.appendChild(this.canvas)
+        const para = document.createElement("p");
+para.appendChild(this.canvas);
       }
       inputListener(){
         if(keysPressed['Enter']){
