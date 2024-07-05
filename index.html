@@ -8011,7 +8011,7 @@
 
         chat.chats.push(JSON.parse(data).text)
         chat.alpha = 1
-        chat.ypointer -= 19
+        chat.ypointer -= 9
 
 
         }else  if (JSON.parse(data).spliceflag >= 0) {
@@ -9093,7 +9093,7 @@
             json.message = 1
             json.text = this.say
             this.chats.push(players[0].id + " : "+ this.say)
-            this.ypointer -= 19
+            this.ypointer -= 9
             this.say = ''
             ws.send(JSON.stringify(json))
           }
