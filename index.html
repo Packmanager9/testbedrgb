@@ -9091,7 +9091,7 @@
           if(this.state == -1){
             let json = {} 
             json.message = 1
-            json.text = this.say
+            json.text = players[0].id + " : "+this.say
             this.chats.push(players[0].id + " : "+ this.say)
             this.ypointer -= 9
             this.say = ''
@@ -9110,6 +9110,9 @@
         for(let t =0;t<this.chats.length;t++){
         this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
+        this.c.strokeStyle = "black"
+        this.c.lineWidth = 2
+        this.c.strokeText(this.chats[t], 10, p+(t * 19))
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.chats.splice(this.chats.length-1,1)
@@ -9130,6 +9133,9 @@
         for(let t =0;t<this.chats.length;t++){
         this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
+        this.c.strokeStyle = "black"
+        this.c.lineWidth = 2
+        this.c.strokeText(this.chats[t], 10, p+(t * 19))
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.alpha *= .99
