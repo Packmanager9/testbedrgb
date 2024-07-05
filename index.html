@@ -9065,6 +9065,12 @@
         this.state = -1
       }
       inputListener(){
+        if(keysPressed['Enter']){
+          keysPressed['Enter'] = false
+
+          this.state *= -1
+          return
+        }
         let keys = Object.keys(keysPressed)
         for(let t = 0;t<keys.length;t++){
           this.say +=keys[t]
@@ -9106,7 +9112,7 @@
         }
         canvas_context.globalAlpha = this.alpha
         canvas_context.drawImage(this.canvas,0,360)
-        canvas_context.globalAlpha = 0
+        canvas_context.globalAlpha = 1
         }else{
 
         this.c.font = "18px comic sans ms"
