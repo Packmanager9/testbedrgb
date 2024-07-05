@@ -9084,6 +9084,7 @@
         keysPressed = {}
       }
       draw(){
+        this.c.clearrect(720,14400)
         if(keysPressed['Enter']){
           keysPressed['Enter'] = false
 
@@ -9100,7 +9101,7 @@
         }
 
         if(this.state == 1){  
-          this.alpha = 1
+          // this.alpha = 1
           this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
         canvas_context.resetTransform()
@@ -9116,8 +9117,8 @@
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.chats.splice(this.chats.length-1,1)
-        this.alpha *= .99
-        if(this.alphs < .5){
+        this.alpha *= .98
+        if(this.alpha < .5){
           this.alpha = 0
         }
         canvas_context.globalAlpha = this.alpha
@@ -9138,8 +9139,8 @@
         this.c.strokeText(this.chats[t], 10, p+(t * 19))
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
-        this.alpha *= .99
-        if(this.alphs < .5){
+        this.alpha *= .98
+        if(this.alpha < .5){
           this.alpha = 0
         }
         canvas_context.globalAlpha = this.alpha
