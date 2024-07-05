@@ -9061,7 +9061,7 @@
         this.c = this.canvas.getContext('2d');
         this.canvas.width = 720
         this.canvas.height = 14400
-        this.chats = []
+        this.chats = ["Chat:"]
         this.alpha = 1
         this.say = ''
         this.state = -1
@@ -9124,7 +9124,7 @@
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.chats.splice(this.chats.length-1,1)
-        this.alpha *= .99
+        this.alpha *= .999
         if(this.alpha < .5){
           this.alpha = 0
         }
@@ -9144,11 +9144,11 @@
         this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
         this.c.strokeStyle = "black"
-        this.c.lineWidth = 20000000
+        this.c.lineWidth = 2
         this.c.strokeText(this.chats[t], 10, p+(t * 19))
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
-        this.alpha *= .99
+        this.alpha *= .999
         if(this.alpha < .5){
           this.alpha = 0
         }
