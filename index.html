@@ -9092,7 +9092,7 @@
             let json = {} 
             json.message = 1
             json.text = this.say
-            this.chats.push(players[0].id + "  "+ this.say)
+            this.chats.push(players[0].id + " : "+ this.say)
             this.ypointer += 19
             this.say = ''
             ws.send(JSON.stringlfy(json))
@@ -9106,7 +9106,7 @@
         canvas_context.resetTransform()
         this.c.translate(0, this.ypointer-360)
         let p = this.ypointer
-        this.chats.push(this.say)
+        this.chats.push("Typing: "+this.say)
         for(let t =0;t<this.chats.length;t++){
         this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
