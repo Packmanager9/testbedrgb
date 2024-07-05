@@ -8013,8 +8013,8 @@
 
         chat.chats.push(JSON.parse(data).text)
         chat.alpha = 1
-        chat.ypointer -= 9
-        chat.c.translate(0, 9)
+        chat.ypointer += 9
+        // chat.c.translate(0, 9)
 
 
 
@@ -9091,7 +9091,7 @@
         keysPressed = {}
       }
       draw(){
-        // this.c.clearRect(0,0,720,14400)
+        this.c.clearRect(0,0,720,14400)
         if(keysPressed['Enter']){
           keysPressed['Enter'] = false
 
@@ -9101,8 +9101,8 @@
             json.message = 1
             json.text = players[0].id + " : "+this.say
             this.chats.push(players[0].id + " : "+ this.say)
-            this.ypointer -= 9
-            chat.c.translate(0, 9)
+            this.ypointer += 9
+            // chat.c.translate(0, 9)
             this.say = ''
             ws.send(JSON.stringify(json))
           }
@@ -9126,12 +9126,12 @@
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.chats.splice(this.chats.length-1,1)
-        this.alpha *= .999
+        this.alpha *= .995
         if(this.alpha < .5){
           this.alpha = 0
         }
         // canvas_context.globalAlpha = this.alpha
-        canvas_context.drawImage(this.canvas,players[0].body.x-640, players[0].body.y-360)
+        canvas_context.drawImage(this.canvas,players[0].body.x-640, players[0].body.y-this.ypointer)
         // canvas_context.globalAlpha = 1
         }else{
 
@@ -9150,12 +9150,12 @@
         this.c.strokeText(this.chats[t], 10, p+(t * 19))
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
-        this.alpha *= .999
+        this.alpha *= .995
         if(this.alpha < .5){
           this.alpha = 0
         }
         // canvas_context.globalAlpha = this.alpha
-        canvas_context.drawImage(this.canvas,players[0].body.x-640, players[0].body.y-360)
+        canvas_context.drawImage(this.canvas,players[0].body.x-640, players[0].body.y-this.ypointer)
         // canvas_context.globalAlpha = 1
         }
 
