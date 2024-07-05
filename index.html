@@ -8011,7 +8011,7 @@
 
         chat.push(JSON.parse(data).text)
         chat.alpha = 1
-        chat.ypointer += 19
+        chat.ypointer -= 19
 
 
         }else  if (JSON.parse(data).spliceflag >= 0) {
@@ -9072,7 +9072,7 @@
         for(let t = 0;t<keys.length;t++){
           if(keys[t] == "Enter"){
 
-          }else if(keys[t] == "BackSpace"){
+          }else if(keys[t] == "Backspace"){
             this.say = this.say.split('')
             this.say.splice(this.say.length-1,1)
             this.say = this.say.join("")
@@ -9093,7 +9093,7 @@
             json.message = 1
             json.text = this.say
             this.chats.push(players[0].id + " : "+ this.say)
-            this.ypointer += 19
+            this.ypointer -= 19
             this.say = ''
             ws.send(JSON.stringlfy(json))
           }
