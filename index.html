@@ -9056,7 +9056,7 @@
 
     class Chat {
       constructor(){
-        this.ypointer = -360
+        this.ypointer = 360
         this.canvas = document.createElement('canvas');
         this.c = this.canvas.getContext('2d');
         this.canvas.width = 720
@@ -9144,7 +9144,7 @@
         this.c.font = "18px comic sans ms"
         this.c.fillStyle ="yellow"
         this.c.strokeStyle = "black"
-        this.c.lineWidth = 2
+        this.c.lineWidth = 20000000
         this.c.strokeText(this.chats[t], 10, p+(t * 19))
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
