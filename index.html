@@ -9073,7 +9073,16 @@
         }
         let keys = Object.keys(keysPressed)
         for(let t = 0;t<keys.length;t++){
-          this.say +=keys[t]
+          if(keys[t] == "Enter"){
+
+          }else if(keys[t] == "BackSpace"){
+            this.say = this.say.split('')
+            this.say.splice(this.say.length-1,1)
+            this.say = this.say.join("")
+          }else{
+
+            this.say +=keys[t]
+          }
         }
         keysPressed = {}
       }
@@ -9086,7 +9095,8 @@
             let json = {} 
             json.message = 1
             json.text = this.say
-            this.chats.push(this.say)
+            this.chats.push(players[0].id + "  "+ this.say)
+            this.ypointer += 19
             this.say = ''
             ws.send(JSON.stringlfy(json))
           }
@@ -9095,14 +9105,14 @@
         if(this.state == 1){  
           this.alpha = 1
           this.c.font = "18px comic sans ms"
-        this.c.fillStyle ="white"
+        this.c.fillStyle ="yellow"
         canvas_context.resetTransform()
         this.c.translate(0, this.ypointer-360)
         let p = this.ypointer
         this.chats.push(this.say)
         for(let t =0;t<this.chats.length;t++){
         this.c.font = "18px comic sans ms"
-        this.c.fillStyle ="white"
+        this.c.fillStyle ="yellow"
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.chats.splice(this.chats.length-1,1)
@@ -9116,13 +9126,13 @@
         }else{
 
         this.c.font = "18px comic sans ms"
-        this.c.fillStyle ="white"
+        this.c.fillStyle ="yellow"
         canvas_context.resetTransform()
         this.c.translate(0, this.ypointer-360)
         let p = this.ypointer
         for(let t =0;t<this.chats.length;t++){
         this.c.font = "18px comic sans ms"
-        this.c.fillStyle ="white"
+        this.c.fillStyle ="yellow"
         this.c.fillText(this.chats[t], 10, p+(t * 19))
         }
         this.alpha *= .99
