@@ -1229,6 +1229,8 @@
         // zoneX1.draw()
         // zoneY2.draw()
         // zoneZ3.draw()
+
+        chat.draw()
       }, 34)
       document.addEventListener('keydown', (event) => {
         keysPressed[event.key] = true;
@@ -8005,7 +8007,14 @@
         //////////////////////////////////////////////////////////console.log(data)
         // if (!(JSON.parse(data).flies > 0)) {
         //////////////////////////////////////////////////////////console.log("hit")
-        if (JSON.parse(data).spliceflag >= 0) {
+       if (JSON.parse(data).message >= 0) {
+
+        chat.push(JSON.parse(data).text)
+        chat.alpha = 1
+        chat.ypointer += 19
+
+
+        }else  if (JSON.parse(data).spliceflag >= 0) {
 
           let guy = players[champids.indexOf(JSON.parse(data).playerid)]
 
@@ -9043,8 +9052,92 @@
 
     }
 
+    class Chat {
+      constructor(){
+        this.ypointer = 360
+        this.canvas = document.createElement('canvas');
+        this.c = canvas.getContext('2d');
+        this.canvas.width = 720
+        this.canvas.height = 14400
+        this.chats = []
+        this.alpha = 1
+        this.say = ''
+        this.state = -1
+      }
+      inputListener(){
+        let keys = Object.keys(keysPressed)
+        for(let t = 0;t<keys.length;t++){
+          this.say +=keys[t]
+        }
+        keysPressed = {}
+      }
+      draw(){
+        if(keysPressed['Enter']){
+          keysPressed['Enter'] = false
+
+          this.state *= -1
+          if(this.state == -1){
+            let json = {} 
+            json.message = 1
+            json.text = this.say
+            this.chats.push(this.say)
+            this.say = ''
+            ws.send(JSON.stringlfy(json))
+          }
+        }
+
+        if(this.state == 1){  
+          this.alpha = 1
+          this.c.font = "18px comic sans ms"
+        this.c.fillStyle ="white"
+        canvas_context.resetTransform()
+        this.c.translate(0, this.ypointer-360)
+        let p = this.ypointer
+        this.chats.push(this.say)
+        for(let t =0;t<this.chats.length;t++){
+        this.c.font = "18px comic sans ms"
+        this.c.fillStyle ="white"
+        this.c.fillText(this.chats[t], 10, p+(t * 19))
+        }
+        this.chats.splice(this.chats.length-1,1)
+        this.alpha *= .99
+        if(this.alphs < .5){
+          this.alpha = 0
+        }
+        canvas_context.globalAlpha = this.alpha
+        canvas_context.drawImage(this.canvas,0,360)
+        canvas_context.globalAlpha = 0
+        }else{
+
+        this.c.font = "18px comic sans ms"
+        this.c.fillStyle ="white"
+        canvas_context.resetTransform()
+        this.c.translate(0, this.ypointer-360)
+        let p = this.ypointer
+        for(let t =0;t<this.chats.length;t++){
+        this.c.font = "18px comic sans ms"
+        this.c.fillStyle ="white"
+        this.c.fillText(this.chats[t], 10, p+(t * 19))
+        }
+        this.alpha *= .99
+        if(this.alphs < .5){
+          this.alpha = 0
+        }
+        canvas_context.globalAlpha = this.alpha
+        canvas_context.drawImage(this.canvas,0,360)
+        canvas_context.globalAlpha = 0
+        }
+
+
+      }
+    }
+
+    let chat = new Chat()
 
     function main() {
+      if(chat.state == 1){
+        chat.inputListener()
+      }
       if(autobalance == 1){
         balanceWorld("")
         autobalance = 0
