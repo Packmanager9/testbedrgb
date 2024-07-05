@@ -9056,7 +9056,7 @@
 
     class Chat {
       constructor(){
-        this.ypointer = 360
+        this.ypointer = -360
         this.canvas = document.createElement('canvas');
         this.c = this.canvas.getContext('2d');
         this.canvas.width = 720
@@ -9065,9 +9065,9 @@
         this.alpha = 1
         this.say = ''
         this.state = -1
-        // document.appendChild(this.canvas)
-        const para = document.createElement("p");
-para.appendChild(this.canvas);
+//         // document.appendChild(this.canvas)
+//         const para = document.createElement("p");
+// para.appendChild(this.canvas);
       }
       inputListener(){
         if(keysPressed['Enter']){
@@ -9158,7 +9158,7 @@ para.appendChild(this.canvas);
         }
 
         canvas_context.globalAlpha = 1
-        this.alpha *= .99
+        // this.alpha *= .99
 
       }
     }
